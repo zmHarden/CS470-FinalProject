@@ -1,0 +1,6 @@
+
+const BLOCK_SIZE = 32;
+const MAP_WIDTH = 16;
+const MAP_HEIGHT = 10;
+
+export {BLOCK_SIZE, MAP_WIDTH, MAP_HEIGHT};

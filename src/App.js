@@ -1,25 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
+import React, {Fragment} from "react";
+import {Box, Grid} from "@mui/material";
+import Map from "./Map";
+//import TerrainBlock from "./TerrainBlock";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Fragment>
+            <Box margin='auto'
+                 sx={{
+                     height: 640,
+                     width: 1024,
+                     display: "flex",
+                     flexDirection: "column",
+                     alignItems: "center",
+                 }}
+            >
+                <Map/>
+            </Box>
+        </Fragment>
+    )
 }
 
 export default App;

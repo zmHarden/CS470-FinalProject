@@ -9,10 +9,10 @@ import redFactory from './images/terrain/FactoryRed.png'
 import blueFactory from './images/terrain/FactoryBlue.png'
 
 const TerrainBlock = (props) => {
-    let src;
+    let terrainSrc;
     let defense = 0;
     if(props.type === 'Plain') {
-        src = plain;
+        terrainSrc = plain;
         defense = 1;
     }
     if(props.type === 'Water') src = water;

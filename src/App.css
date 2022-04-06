@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+.parent {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.mapImage {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.unitImage {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}

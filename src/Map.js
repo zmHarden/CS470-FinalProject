@@ -41,10 +41,10 @@ const Map = (props) => {
                 <Grid container columns={MAP_WIDTH}>
                     {
                         mapArray.map((row, rowIdx) => row.map((col, colIdx) =>
-                                <TerrainBlock key={colIdx}
-                                              type={col.Type}
-                                />
-                            ))
+                            <TerrainBlock key={colIdx}
+                                          type={col.Type}
+                            />
+                        ))
                     }
                 </Grid>
             </Box>

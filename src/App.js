@@ -7,7 +7,6 @@ import {MapSize} from "./mapEdit"; //Size of map used
 //import TerrainBlock from "./TerrainBlock";
 
 function App() {
-
     const unitArrayProto = [];
     let tempArray = [];
 

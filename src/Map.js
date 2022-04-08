@@ -20,10 +20,11 @@ const Map = (props) => {
     }
 
     //Type, defence, row, col?
-    const mapEdit = props.mapEdits;
+    const mapEdit = [...props.mapEdits];
+
     while(mapEdit.length > 0){
         let bloc = mapEdit.shift();
-        console.log(bloc);
+
         let type = bloc.Type;
         let defence = bloc.Defense;
         let row = bloc.Row;
@@ -32,9 +33,7 @@ const Map = (props) => {
         mapArray[row][col].Defense = defence;
     }
 
-    // mapArray[1][1].Type = 'blueHQ';
-    // mapArray[8][14].Type = 'redHQ';
-    console.log(mapArray)
+
     return (
         <Fragment>
             <Box sx={{width: width * BLOCK_SIZE, height: height * BLOCK_SIZE}}>

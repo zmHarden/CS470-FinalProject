@@ -17,26 +17,46 @@ function App() {
     const [turn, setTurn] = useState("Red");
 
     let getBlankUnit = () => {
-        return  {type:noUnit, owner:"", health:100, movementType:"", movespeed:0, exhausted:"yes", damageVals:[] };
+        return  {type:noUnit, target:"", owner:"", health:100, movementType:"", movespeed:0, exhausted:"yes", damageVals:[] };
     }
     let getTank = (owner) => {
         if(owner === "Red")
         {
-            return {type:redTank, owner:"Red", health:100, movementType:"Treads", movespeed:6, exhausted:"yes", damageVals:[] };
+            return {type:redTank, target:"tank", owner:"Red", health:100, movementType:"Treads", movespeed:6, exhausted:"yes",
+                damageVals:[
+                    {target: "soldier", damage: 75},
+                    {target: "tank", damage: 55}
+                ]
+            };
         }
         else
         {
-            return {type:"blueTank", owner:"Blue", health:100, movementType:"Treads", movespeed:6, exhausted:"yes", damageVals:[] };
+            return {type:"blueTank", target:"tank", owner:"Blue", health:100, movementType:"Treads", movespeed:6, exhausted:"yes",
+                damageVals:[
+                    {target: "soldier", damage: 75},
+                    {target: "tank", damage: 55}
+                ]
+            };
         }
     }
     let getSoldier = (owner) => {
         if(owner === "Red")
         {
-            return {type:"redSoldier", owner:"Red", health:100, movementType:"Foot", movespeed:3, exhausted:"yes", damageVals:[] };
+            return {type:"redSoldier", target:"soldier", owner:"Red", health:100, movementType:"Foot", movespeed:3, exhausted:"yes",
+                damageVals:[
+                    {target: "soldier", damage: 55},
+                    {target: "tank", damage: 5}
+                ]
+            };
         }
         else
         {
-            return {type:"blueSoldier", owner:"Blue", health:100, movementType:"Foot", movespeed:3, exhausted:"yes", damageVals:[] };
+            return {type:"blueSoldier", target:"soldier", owner:"Blue", health:100, movementType:"Foot", movespeed:3, exhausted:"yes",
+                damageVals:[
+                    {target: "soldier", damage: 55},
+                    {target: "tank", damage: 5}
+                ]
+            };
         }
     }
 
@@ -55,12 +75,12 @@ function App() {
 
     const [unitArray, setUnitArray] = useState(unitArrayProto);
 
-    const mapClick = (x,y) => {
+    const mapClick = (x,y, mapArray, setMapArray) => {
         console.log(x + ", " + y);
 
-        let tempUnitArray = unitArray.slice();
-        tempUnitArray[x][y] = getTank(turn);
-        setUnitArray(tempUnitArray);
+        let tempMapArray = mapArray.slice()
+        tempMapArray[x][y].type = blueSoldier;
+        setMapArray(tempMapArray);
     }
 
     const newTurn = () => {

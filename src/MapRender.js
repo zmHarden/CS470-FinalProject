@@ -12,8 +12,8 @@ const MapRender = (props) => {
         <Fragment>
             <Box sx={{width:BLOCK_SIZE, height:BLOCK_SIZE}}>
                 <div className="parent">
-                    <img className="mapImage" src={terrainSrc} alt={props.type} />
-                    <img className="unitImage" src={unitSrc} alt={props.type} />
+                    <img className="mapImage" src={terrainSrc} alt={"terrain"} />
+                    <img className="unitImage" src={unitSrc} alt={"unit"} />
                 </div>
             </Box>
         </Fragment>

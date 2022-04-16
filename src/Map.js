@@ -1,26 +1,23 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
 import {Box, Grid} from '@mui/material';
 import {BLOCK_SIZE} from "./constants";
 import MapRender from "./MapRender";
 import plain from './images/terrain/tile_grass_64.png'
 
 const Map = (props) => {
-    // const mapArray = Object.assign(Array(MAP_HEIGHT).fill(Array(MAP_WIDTH).fill({Type:'Plain', Defense: 1})));
-    const mapArray = [];
-    let tempArray = [];
-
     const height = props.MAP_HEIGHT
     const width = props.MAP_WIDTH
 
+    const mapArrayProto = [];
+
     for(let i = 0; i < height; i++){
+        let tempArray = [];
         for(let j = 0; j < width; j++){
-            tempArray.push({type: plain, defense: 1})
+            tempArray.push({type: plain, defense: 1});
         }
-        mapArray.push(tempArray)
-        tempArray = []
+        mapArrayProto.push(tempArray);
     }
 
-    //Type, defence, row, col?
     const mapEdit = [...props.mapEdits];
 
     while(mapEdit.length > 0){
@@ -30,9 +27,11 @@ const Map = (props) => {
         let defence = bloc.defense;
         let row = bloc.Row;
         let col = bloc.Column;
-        mapArray[row][col].type = type;
-        mapArray[row][col].defense = defence;
+        mapArrayProto[row][col].type = type;
+        mapArrayProto[row][col].defense = defence;
     }
+
+    const [mapArray, setMapArray] = useState(mapArrayProto);
 
     const onClickCallback = props.onClickCallback;
     const unitArray = props.unitsArray;
@@ -43,7 +42,7 @@ const Map = (props) => {
                 <Grid container columns={width}>
                     {
                         mapArray.map((row, rowIdx) => row.map((col, colIdx) =>
-                            <Grid onClick={() => onClickCallback(rowIdx,colIdx)} key={colIdx}>
+                            <Grid onClick={() => onClickCallback(rowIdx,colIdx,mapArray,setMapArray)} key={colIdx}>
                             <MapRender key={colIdx} type={mapArray[rowIdx][colIdx].type} unit={unitArray[rowIdx][colIdx].type}/>
                             </Grid>
                         ))

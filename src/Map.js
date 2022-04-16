@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {Box, Grid} from '@mui/material';
 import {BLOCK_SIZE} from "./constants";
-import TerrainBlock from "./TerrainBlock";
+import MapRender from "./MapRender";
 
 const Map = (props) => {
     // const mapArray = Object.assign(Array(MAP_HEIGHT).fill(Array(MAP_WIDTH).fill({Type:'Plain', Defense: 1})));
@@ -43,7 +43,7 @@ const Map = (props) => {
                     {
                         mapArray.map((row, rowIdx) => row.map((col, colIdx) =>
                             <Grid onClick={() => onClickCallback(rowIdx,colIdx)} key={colIdx}>
-                            <TerrainBlock key={colIdx} type={col.Type} unit={unitArray[rowIdx][colIdx].type}/>
+                            <MapRender key={colIdx} type={col.Type} unit={unitArray[rowIdx][colIdx].type}/>
                             </Grid>
                         ))
                     }

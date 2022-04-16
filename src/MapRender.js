@@ -12,7 +12,7 @@ import noUnit from './images/units/noUnit.png'
 import redTank from './images/units/tankRed.png'
 import blueTank from './images/units/tankBlue.png'
 
-const TerrainBlock = (props) => {
+const MapRender = (props) => {
     let terrainSrc;
     let defense = 0;
     let unitSrc;
@@ -65,4 +65,4 @@ const TerrainBlock = (props) => {
     )
 }
 
-export default TerrainBlock;
+export default MapRender;

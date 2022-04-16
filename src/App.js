@@ -6,22 +6,37 @@ import Map from "./Map";
 import MapEdit from "./mapEdit"; //Definitions on what tiles differ from the generic all-plains map
 import {MapSize} from "./mapEdit"; //Size of map used
 import BottomButtons from "./BottomButtons";
+import noUnit from './images/units/noUnit.png'
+import redTank from './images/units/tankRed.png'
+import blueTank from './images/units/tankBlue.png'
+import redSoldier from './images/units/soldierRed.png'
+import blueSoldier from './images/units/soldierBlue.png'
 
 function App() {
 
     const [turn, setTurn] = useState("Red");
 
     let getBlankUnit = () => {
-        return  {type:"noUnit", owner:"", health:100, movementType:"", movespeed:0, exhausted:"yes", damageVals:[] };
+        return  {type:noUnit, owner:"", health:100, movementType:"", movespeed:0, exhausted:"yes", damageVals:[] };
     }
     let getTank = (owner) => {
         if(owner === "Red")
         {
-            return {type:"redTank", owner:"Red", health:100, movementType:"Treads", movespeed:6, exhausted:"yes", damageVals:[] };
+            return {type:redTank, owner:"Red", health:100, movementType:"Treads", movespeed:6, exhausted:"yes", damageVals:[] };
         }
         else
         {
             return {type:"blueTank", owner:"Blue", health:100, movementType:"Treads", movespeed:6, exhausted:"yes", damageVals:[] };
+        }
+    }
+    let getSoldier = (owner) => {
+        if(owner === "Red")
+        {
+            return {type:"redSoldier", owner:"Red", health:100, movementType:"Foot", movespeed:3, exhausted:"yes", damageVals:[] };
+        }
+        else
+        {
+            return {type:"blueSoldier", owner:"Blue", health:100, movementType:"Foot", movespeed:3, exhausted:"yes", damageVals:[] };
         }
     }
 

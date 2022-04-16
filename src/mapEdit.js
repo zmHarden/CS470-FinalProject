@@ -1,39 +1,46 @@
+import plain from './images/terrain/tile_grass_64.png'
+import water from './images/terrain/water.png'
+import redHQ from './images/terrain/HQred.png'
+import blueHQ from './images/terrain/HQblue.png'
+import redFactory from './images/terrain/FactoryRed.png'
+import blueFactory from './images/terrain/FactoryBlue.png'
+
 const MapEdit = () => {
 
     return  [
         {
-            "Type": "redHQ",
-            "Defense": 4,
+            type: redHQ,
+            defense: 4,
             "Row": 0,
             "Column": 0
         },
         {
-            "Type": "redFactory",
-            "Defense": 3,
+            type: redFactory,
+            defense: 3,
             "Row": 1,
             "Column": 2
         },
         {
-            "Type": "redFactory",
-            "Defense": 3,
+            type: redFactory,
+            defense: 3,
             "Row": 2,
             "Column": 1
         },
         {
-            "Type": "blueFactory",
-            "Defense": 3,
+            type: blueFactory,
+            defense: 3,
             "Row": 7,
             "Column": 14
         },
         {
-            "Type": "blueFactory",
-            "Defense": 3,
+            type: blueFactory,
+            defense: 3,
             "Row": 8,
             "Column": 13
         },
         {
-            "Type": "blueHQ",
-            "Defense": 4,
+            type: blueHQ,
+            defense: 4,
             "Row": 9,
             "Column": 15
         }

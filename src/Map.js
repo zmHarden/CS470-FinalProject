@@ -33,6 +33,8 @@ const Map = (props) => {
         mapArray[row][col].Defense = defence;
     }
 
+    const onClickCallback = props.onClickCallback;
+    const unitArray = props.unitsArray;
 
     return (
         <Fragment>
@@ -40,9 +42,9 @@ const Map = (props) => {
                 <Grid container columns={width}>
                     {
                         mapArray.map((row, rowIdx) => row.map((col, colIdx) =>
-                            <TerrainBlock key={colIdx}
-                                          type={col.Type}
-                            />
+                            <Grid onClick={() => onClickCallback(rowIdx,colIdx)} key={colIdx}>
+                            <TerrainBlock key={colIdx} type={col.Type} unit={unitArray[rowIdx][colIdx].type}/>
+                            </Grid>
                         ))
                     }
                 </Grid>

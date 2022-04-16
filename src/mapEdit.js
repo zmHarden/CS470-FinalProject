@@ -1,6 +1,6 @@
 const MapEdit = () => {
 
-    const mapEditsArray = [
+    return  [
         {
             "Type": "redHQ",
             "Defense": 4,
@@ -38,8 +38,6 @@ const MapEdit = () => {
             "Column": 15
         }
     ]
-
-    return mapEditsArray;
 }
 
 const mapSize = [10,16]

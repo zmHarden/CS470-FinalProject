@@ -1,5 +1,5 @@
 
-const BLOCK_SIZE = 32;
+const BLOCK_SIZE = 64;
 const MAP_WIDTH = 16;
 const MAP_HEIGHT = 10;
 

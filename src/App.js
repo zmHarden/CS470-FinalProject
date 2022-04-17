@@ -108,6 +108,8 @@ function App() {
         console.log(x + ", " + y);
         if(unitArray[x][y].type === noUnit && !movingUnit)
             return
+        else if(unitArray[x][y].type !== noUnit && unitArray[x][y].owner !== turn)
+            return
 
         let tempMapArray = mapArray.slice()
         // tempMapArray[x][y].type = blueSoldier;

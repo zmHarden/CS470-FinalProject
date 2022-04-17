@@ -43,7 +43,7 @@ const Map = (props) => {
                     {
                         mapArray.map((row, rowIdx) => row.map((col, colIdx) =>
                             <Grid onClick={() => onClickCallback(rowIdx,colIdx,mapArray,setMapArray)} key={colIdx}>
-                            <MapRender key={colIdx} type={mapArray[rowIdx][colIdx].type} unit={unitArray[rowIdx][colIdx].type}/>
+                            <MapRender key={colIdx} type={mapArray[rowIdx][colIdx].type} unit={unitArray[rowIdx][colIdx].type} health={unitArray[rowIdx][colIdx].health}/>
                             </Grid>
                         ))
                     }

@@ -1,4 +1,3 @@
-import plain from './images/terrain/tile_grass_64.png'
 import water from './images/terrain/water.png'
 import redHQ from './images/terrain/HQred.png'
 import blueHQ from './images/terrain/HQblue.png'

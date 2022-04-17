@@ -55,7 +55,7 @@ function App() {
         }
         else
         {
-            return {type:"blueTank", target:"tank", owner:"Blue", health:100, movementType:"Treads", movespeed:6, exhausted:"yes",
+            return {type:blueTank, target:"tank", owner:"Blue", health:100, movementType:"Treads", movespeed:6, exhausted:"yes",
                 damageVals:[
                     {target: "soldier", damage: 75},
                     {target: "tank", damage: 55}
@@ -66,7 +66,7 @@ function App() {
     let getSoldier = (owner) => {
         if(owner === "Red")
         {
-            return {type:"redSoldier", target:"soldier", owner:"Red", health:100, movementType:"Foot", movespeed:3, exhausted:"yes",
+            return {type:redSoldier, target:"soldier", owner:"Red", health:100, movementType:"Foot", movespeed:3, exhausted:"yes",
                 damageVals:[
                     {target: "soldier", damage: 55},
                     {target: "tank", damage: 5}
@@ -75,7 +75,7 @@ function App() {
         }
         else
         {
-            return {type:"blueSoldier", target:"soldier", owner:"Blue", health:100, movementType:"Foot", movespeed:3, exhausted:"yes",
+            return {type:blueSoldier, target:"soldier", owner:"Blue", health:100, movementType:"Foot", movespeed:3, exhausted:"yes",
                 damageVals:[
                     {target: "soldier", damage: 55},
                     {target: "tank", damage: 5}
@@ -232,7 +232,9 @@ function App() {
                 {
                     if(tempUnitArray[i][j].owner === "Red")
                     {
+                        console.log(tempUnitArray[i][j].exhausted)
                         tempUnitArray[i][j].exhausted = "no";
+                        console.log(tempUnitArray[i][j].exhausted)
                     }
                 }
             }

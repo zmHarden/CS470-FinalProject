@@ -97,6 +97,8 @@ function App() {
 
     unitArrayProto[1][2] = getTank(turn);
     unitArrayProto[1][2].exhausted = "no";
+    unitArrayProto[8][13] = getTank("Blue");
+    unitArrayProto[8][13].exhausted = "yes";
 
     const [unitArray, setUnitArray] = useState(unitArrayProto);
 

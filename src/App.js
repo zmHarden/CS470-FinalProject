@@ -39,7 +39,8 @@ let moveConfirmation = false;
 function App() {
 
     const [turn, setTurn] = useState("Red");
-
+    const [disableButtons, setDisableButtons] = useState(true)
+    
     let getBlankUnit = () => {
         return  {type:noUnit, target:"", owner:"", health:100, movementType:"", movespeed:0, exhausted:"yes", damageVals:[] };
     }

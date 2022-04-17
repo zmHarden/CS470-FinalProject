@@ -13,7 +13,7 @@ const Map = (props) => {
     for(let i = 0; i < height; i++){
         let tempArray = [];
         for(let j = 0; j < width; j++){
-            tempArray.push({type: plain, defense: 1});
+            tempArray.push({type: plain, defense: 1, moveCost: 2, movable: false});
         }
         mapArrayProto.push(tempArray);
     }

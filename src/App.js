@@ -29,7 +29,6 @@ import highBlueFactory from './images/terrain/HighFactoryBlue.png'
 
 import pathing from './pathing.js'
 
-// Some global variables I had to add to make pathing work through different functions
 let unitOrigin = {x: 0, y: 0}
 let unitMove = {x: 0, y: 0}
 let movingUnit = false;
@@ -40,7 +39,7 @@ function App() {
 
     const [turn, setTurn] = useState("Red");
     const [disableButtons, setDisableButtons] = useState(true)
-    
+
     let getBlankUnit = () => {
         return  {type:noUnit, target:"", owner:"", health:100, movementType:"", movespeed:0, exhausted:"yes", damageVals:[] };
     }
@@ -97,6 +96,7 @@ function App() {
     }
 
     unitArrayProto[1][2] = getTank(turn);
+    unitArrayProto[1][2].exhausted = "no";
 
     const [unitArray, setUnitArray] = useState(unitArrayProto);
 
@@ -192,13 +192,12 @@ function App() {
             }
         }
     }
-    
+
     const confirmMove = () => {
         setDisableButtons(true); 
         unitArray[unitMove.x][unitMove.y].exhausted = "yes"
         moveConfirmation = false;
     }
-    
     const cancelMove = () => {
         setDisableButtons(true); 
         unitArray[unitOrigin.x][unitOrigin.y] = unitArray[unitMove.x][unitMove.y];
@@ -256,7 +255,7 @@ function App() {
                 <TopMessage whosTurn={turn}/>
                 <Map mapEdits={MapEdit()}  MAP_HEIGHT={MapSize[0]} MAP_WIDTH={MapSize[1]} unitsArray={unitArray} onClickCallback={mapClick}/>
                 <BottomButtons onClickCallback={newTurn}/>
-                    
+            
                 <button 
                     disabled={disableButtons}
                     style={{cursor: (disableButtons === false ? 'pointer' : '')}}
@@ -272,7 +271,7 @@ function App() {
                 >
                 Cancel Move
                 </button>
-                    
+            
             </Box>
         </Fragment>
     )

@@ -12,6 +12,30 @@ import blueTank from './images/units/tankBlue.png'
 import redSoldier from './images/units/soldierRed.png'
 import blueSoldier from './images/units/soldierBlue.png'
 
+import plain from './images/terrain/tile_grass_64.png'
+import highPlain from './images/terrain/tile_grass_highlight.png'
+
+import redFactory from './images/terrain/FactoryRed.png'
+import highRedFactory from './images/terrain/FactoryRedHighlight.png'
+
+import redHQ from './images/terrain/HQred.png'
+import highRedHQ from './images/terrain/HQredHighlight.png'
+
+import blueHQ from './images/terrain/HQblue.png'
+import highBlueHQ from './images/terrain/HighHQblue.png'
+
+import blueFactory from './images/terrain/FactoryBlue.png'
+import highBlueFactory from './images/terrain/HighFactoryBlue.png'
+
+import pathing from './pathing.js'
+
+// Some global variables I had to add to make pathing work through different functions
+let unitOrigin = {x: 0, y: 0}
+let unitMove = {x: 0, y: 0}
+let movingUnit = false;
+let moveB = []
+let moveConfirmation = false;
+
 function App() {
 
     const [turn, setTurn] = useState("Red");
@@ -76,11 +100,110 @@ function App() {
     const [unitArray, setUnitArray] = useState(unitArrayProto);
 
     const mapClick = (x,y, mapArray, setMapArray) => {
+        if(moveConfirmation)
+            return
+
+        let hasMoved = false;
         console.log(x + ", " + y);
+        if(unitArray[x][y].type === noUnit && !movingUnit)
+            return
 
         let tempMapArray = mapArray.slice()
-        tempMapArray[x][y].type = blueSoldier;
-        setMapArray(tempMapArray);
+        // tempMapArray[x][y].type = blueSoldier;
+        // setMapArray(tempMapArray);
+        if(!movingUnit){
+            if(unitArray[x][y].exhausted === "no" && unitArray[x][y].owner === turn){
+                moveB = pathing(unitArray, mapArray, x, y)
+                console.log("------------------------------")
+                for(let i in moveB){
+                    let curR = moveB[i].row;
+                    let curC = moveB[i].col;
+                    // console.log(moveB[i].row, moveB[i].col)
+                    // console.log(mapArray[curR][curC].type)
+                    if(mapArray[curR][curC].type === plain)
+                        tempMapArray[curR][curC].type = highPlain; 
+                    
+                    else if(mapArray[curR][curC].type === redFactory)
+                        tempMapArray[curR][curC].type = highRedFactory; 
+                    
+                    else if(mapArray[curR][curC].type === redHQ)
+                        tempMapArray[curR][curC].type = highRedHQ; 
+
+                    else if(mapArray[curR][curC].type === blueHQ)
+                        tempMapArray[curR][curC].type = highBlueHQ; 
+
+                    else if(mapArray[curR][curC].type === blueFactory)
+                        tempMapArray[curR][curC].type = highBlueFactory; 
+
+                    tempMapArray[curR][curC].movable = true;
+                }
+                setMapArray(tempMapArray)
+            }
+            movingUnit = true;
+            unitOrigin.x = x;
+            unitOrigin.y = y;
+            return
+        }
+        else{
+            if(mapArray[x][y].movable === false)
+                return
+            hasMoved = true;
+            console.log(unitOrigin)
+            if(x !== unitOrigin.x || y !== unitOrigin.y){
+                unitArray[x][y] = unitArray[unitOrigin.x][unitOrigin.y]
+                unitArray[unitOrigin.x][unitOrigin.y] = getBlankUnit();
+                setUnitArray(unitArray.slice())
+
+                unitMove.x = x;
+                unitMove.y = y;
+            }
+            else{
+                hasMoved = false;
+                setUnitArray(unitArray.slice())
+            }
+            
+            movingUnit = false;
+            for(let i in moveB){
+                let curR = moveB[i].row;
+                    let curC = moveB[i].col;
+                    // console.log(moveB[i].row, moveB[i].col)
+                    // console.log(mapArray[curR][curC].type)
+                    if(mapArray[curR][curC].type === highPlain)
+                        tempMapArray[curR][curC].type = plain; 
+                
+                    else if(mapArray[curR][curC].type === highRedFactory)
+                        tempMapArray[curR][curC].type = redFactory; 
+                    
+                    else if(mapArray[curR][curC].type === highRedHQ)
+                        tempMapArray[curR][curC].type = redHQ; 
+                    
+                    else if(mapArray[curR][curC].type === highBlueHQ)
+                        tempMapArray[curR][curC].type = blueHQ; 
+                    
+                    else if(mapArray[curR][curC].type === highBlueFactory)
+                        tempMapArray[curR][curC].type = blueFactory; 
+                    
+                    tempMapArray[curR][curC].movable = false;
+            }
+            if(hasMoved){
+                moveConfirmation = true;
+                setDisableButtons(false)
+            }
+        }
+    }
+    
+    const confirmMove = () => {
+        setDisableButtons(true); 
+        unitArray[unitMove.x][unitMove.y].exhausted = "yes"
+        moveConfirmation = false;
+    }
+    
+    const cancelMove = () => {
+        setDisableButtons(true); 
+        unitArray[unitOrigin.x][unitOrigin.y] = unitArray[unitMove.x][unitMove.y];
+        unitArray[unitMove.x][unitMove.y] = getBlankUnit();
+        setUnitArray(unitArray.slice())
+        moveConfirmation = false;
     }
 
     const newTurn = () => {
@@ -107,7 +230,7 @@ function App() {
             {
                 for( let j in tempUnitArray[i])
                 {
-                    if(tempUnitArray[i][j].owner === "Blue")
+                    if(tempUnitArray[i][j].owner === "Red")
                     {
                         tempUnitArray[i][j].exhausted = "no";
                     }
@@ -132,6 +255,23 @@ function App() {
                 <TopMessage whosTurn={turn}/>
                 <Map mapEdits={MapEdit()}  MAP_HEIGHT={MapSize[0]} MAP_WIDTH={MapSize[1]} unitsArray={unitArray} onClickCallback={mapClick}/>
                 <BottomButtons onClickCallback={newTurn}/>
+                    
+                <button 
+                    disabled={disableButtons}
+                    style={{cursor: (disableButtons === false ? 'pointer' : '')}}
+                    onClick={confirmMove}
+                >
+                Confirm Move
+                </button>
+
+                <button 
+                    disabled={disableButtons}
+                    style={{cursor: (disableButtons === false ? 'pointer' : '')}}
+                    onClick={cancelMove}
+                >
+                Cancel Move
+                </button>
+                    
             </Box>
         </Fragment>
     )

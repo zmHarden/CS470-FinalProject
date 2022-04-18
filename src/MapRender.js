@@ -5,7 +5,7 @@ import './App.css';
 import noUnit from './images/units/noUnit.png'
 
 const MapRender = (props) => {
-    let terrainSrc = props.type;
+    let terrainSrc = props.terrain;
     let unitSrc = props.unit;
 
     let health = "";

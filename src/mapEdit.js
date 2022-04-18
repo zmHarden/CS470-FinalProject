@@ -1,45 +1,35 @@
-import water from './images/terrain/water.png'
-import redHQ from './images/terrain/HQred.png'
-import blueHQ from './images/terrain/HQblue.png'
-import redFactory from './images/terrain/FactoryRed.png'
-import blueFactory from './images/terrain/FactoryBlue.png'
+import TerrainTypes from "./TerrainTypes";
 
 const MapEdit = () => {
 
     return  [
         {
-            type: redHQ,
-            defense: 4,
+            ...TerrainTypes.redHQ,
             "Row": 0,
             "Column": 0
         },
         {
-            type: redFactory,
-            defense: 3,
+            ...TerrainTypes.redFactory,
             "Row": 1,
             "Column": 2
         },
         {
-            type: redFactory,
-            defense: 3,
+            ...TerrainTypes.neutralFactory,
             "Row": 2,
             "Column": 1
         },
         {
-            type: blueFactory,
-            defense: 3,
+            ...TerrainTypes.neutralFactory,
             "Row": 7,
             "Column": 14
         },
         {
-            type: blueFactory,
-            defense: 3,
+            ...TerrainTypes.blueFactory,
             "Row": 8,
             "Column": 13
         },
         {
-            type: blueHQ,
-            defense: 4,
+            ...TerrainTypes.blueHQ,
             "Row": 9,
             "Column": 15
         }

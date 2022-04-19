@@ -1,6 +1,6 @@
 import './App.css';
 import React, {Fragment, useState} from "react";
-import {Box, Grid} from "@mui/material";
+import {Box, Button, Grid} from "@mui/material";
 import TopMessage from "./TopMessage";
 import Map from "./Map";
 import MapEdit from "./mapEdit"; //Definitions on what tiles differ from the generic all-plains map
@@ -9,7 +9,6 @@ import BottomButtons from "./BottomButtons";
 import TerrainTypes from "./TerrainTypes";
 import UnitTypes from "./UnitTypes";
 import pathing from './pathing.js'
-import {red} from "@mui/material/colors";
 
 let unitOrigin = {x: 0, y: 0}
 let unitMove = {x: 0, y: 0}
@@ -17,8 +16,8 @@ let movingUnit = false;
 let moveB = []
 let moveConfirmation = false;
 
-const redPlayer = {funds: 1000, properties: 1};
-const bluePlayer = {funds: 0, properties: 1};
+const redPlayer = {funds: 2000, properties: 2};
+const bluePlayer = {funds: 0, properties: 2};
 
 function App() {
 
@@ -27,6 +26,12 @@ function App() {
     //const [redPlayer, setRedPlayer] = useState(newPlayer());
     //const [bluePlayer, setBluePlayer] = useState(newPlayer());
     const [disableButtons, setDisableButtons] = useState(true)
+    const [canFire, setCanFire] = useState(false)
+    const [isFiring, setIsFiring] = useState(false)
+    const [canCapture, setCanCapture] = useState(false)
+
+    let calcDamProto = [-1, -1, -1, -1, 0]; //Fifth value is defence vs strikeback damage
+    const [calcDam, setCalcDam] = useState(calcDamProto);
 
     let getBlankUnit = () => {return  {...UnitTypes.noUnit};}
     let getTank = (owner) => {
@@ -49,7 +54,7 @@ function App() {
         unitArrayProto.push(tempArray);
     }
 
-    unitArrayProto[1][2] = getTank(turn);
+    unitArrayProto[1][2] = getTank("Red");
     unitArrayProto[1][2].exhausted = false;
     unitArrayProto[8][13] = getTank("Blue");
     unitArrayProto[8][13].exhausted = true;
@@ -85,8 +90,8 @@ function App() {
     };
 
     const mapClick = (x,y, mapArray, setMapArray) => {
-        console.log(`Red funds: ${redPlayer.funds}, Blue funds: ${bluePlayer.funds}`)
-        //console.log(mapArray[x][y].owner);
+
+
         if(mapArray[x][y].owner === turn && unitArray[x][y].type === "noUnit" && !moveConfirmation){
             console.log(`click on ${turn} Factory`)
             if(curPlayer.funds >= 7000) {
@@ -100,15 +105,56 @@ function App() {
             }
         }
 
-        if(moveConfirmation)
-            return
-
         let hasMoved = false;
         console.log(x + ", " + y);
         if(unitArray[x][y].type === "noUnit" && !movingUnit)
             return
-        else if(unitArray[x][y].type !== "noUnit" && unitArray[x][y].owner !== turn)
+        else if(unitArray[x][y].type !== "noUnit" && unitArray[x][y].owner !== turn) // This is where the check for combat happens
+        {
+            if(unitArray[x][y].damage !== -1)
+            {
+                let tempUnitArray = unitArray.slice();
+                tempUnitArray[x][y].health = tempUnitArray[x][y].health-tempUnitArray[x][y].damage
+
+                if(calcDam[0] !== -1)
+                {
+                    unitArray[unitMove.x-1][unitMove.y].damage = -1;
+                }
+                if(calcDam[1] !== -1)
+                {
+                    unitArray[unitMove.x+1][unitMove.y].damage = -1;
+                }
+                if(calcDam[2] !== -1)
+                {
+                    unitArray[unitMove.x][unitMove.y-1].damage = -1;
+                }
+                if(calcDam[3] !== -1)
+                {
+                    unitArray[unitMove.x][unitMove.y+1].damage = -1;
+                }
+
+
+                if (tempUnitArray[x][y].health <= 0)
+                {
+                    tempUnitArray[x][y] = getBlankUnit();
+                }
+                else
+                {
+                    tempUnitArray[unitMove.x][unitMove.y].health = tempUnitArray[unitMove.x][unitMove.y].health -
+                        Math.ceil(tempUnitArray[x][y].damageVals[tempUnitArray[unitMove.x][unitMove.y].target].damage *
+                        Math.max(0, ((10-calcDam[4])/10)) *
+                        tempUnitArray[x][y].health/100);
+                }
+                setUnitArray(tempUnitArray);
+
+                setIsFiring(false);
+            }
             return
+        }
+
+        if(moveConfirmation)
+            return
+
 
         let tempMapArray = mapArray.slice()
         // tempMapArray[x][y].type = blueSoldier;
@@ -117,6 +163,7 @@ function App() {
             //console.log(!unitArray[x][y].exhausted)
             //console.log(unitArray[x][y].owner === turn)
             if(!unitArray[x][y].exhausted && unitArray[x][y].owner === turn){
+
                 moveB = pathing(unitArray, mapArray, x, y)
                 console.log("------------------------------")
                 for(let i in moveB){
@@ -198,6 +245,47 @@ function App() {
             if(hasMoved){
                 moveConfirmation = true;
                 setDisableButtons(false)
+
+                let tempDam = calcDam.slice();
+
+                if(unitMove.x >= 1 && unitArray[unitMove.x-1][unitMove.y].type !== "noUnit" && unitArray[unitMove.x-1][unitMove.y].owner !== turn)
+                {
+                    tempDam[0] =
+                        Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x-1][unitMove.y].target].damage *
+                        Math.max(0, ((10-mapArray[unitMove.x-1][unitMove.y].defense)/10)) *
+                        unitArray[unitMove.x][unitMove.y].health/100);
+                    setCanFire(true)
+                }
+                if(unitMove.x < MapSize[0]-1 && unitArray[unitMove.x+1][unitMove.y].type !== "noUnit" && unitArray[unitMove.x+1][unitMove.y].owner !== turn)
+                {
+                    tempDam[1] =
+                        Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x+1][unitMove.y].target].damage *
+                        Math.max(0, ((10-mapArray[unitMove.x+1][unitMove.y].defense)/10)) *
+                        unitArray[unitMove.x][unitMove.y].health/100);
+                    setCanFire(true)
+                }
+                if(unitMove.y >= 1 && unitArray[unitMove.x][unitMove.y-1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y-1].owner !== turn)
+                {
+                    tempDam[2] =
+                        Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x][unitMove.y-1].target].damage *
+                        Math.max(0, ((10-mapArray[unitMove.x][unitMove.y-1].defense)/10)) *
+                        unitArray[unitMove.x][unitMove.y].health/100);
+                    setCanFire(true)
+                }
+                if(unitMove.y < MapSize[1]-1 && unitArray[unitMove.x][unitMove.y+1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y+1].owner !== turn)
+                {
+                    tempDam[3] =
+                        Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x][unitMove.y+1].target].damage *
+                        Math.max(0, ((10-mapArray[unitMove.x][unitMove.y+1].defense)/10)) *
+                        unitArray[unitMove.x][unitMove.y].health/100);
+                    setCanFire(true)
+                }
+                if(canFire)
+                {
+                    tempDam[4] = mapArray[unitMove.x][unitMove.y].defense;
+                }
+
+                setCalcDam(tempDam);
             }
         }
     }
@@ -214,6 +302,37 @@ function App() {
         setUnitArray(unitArray.slice())
         moveConfirmation = false;
     }
+    const fireAndMove = () => {
+
+        let tempUnitArray = unitArray.slice();
+
+        if(unitMove.x >= 1 && unitArray[unitMove.x-1][unitMove.y].type !== "noUnit" && unitArray[unitMove.x-1][unitMove.y].owner !== turn)
+        {
+            tempUnitArray[unitMove.x-1][unitMove.y].damage = calcDam[0]
+        }
+        if(unitMove.x < MapSize[0]-1 && unitArray[unitMove.x+1][unitMove.y].type !== "noUnit" && unitArray[unitMove.x+1][unitMove.y].owner !== turn)
+        {
+            tempUnitArray[unitMove.x+1][unitMove.y].damage = calcDam[1]
+        }
+        if(unitMove.y >= 1 && unitArray[unitMove.x][unitMove.y-1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y-1].owner !== turn)
+        {
+            tempUnitArray[unitMove.x][unitMove.y-1].damage = [calcDam[2]]
+        }
+        if(unitMove.y < MapSize[1]-1 && unitArray[unitMove.x][unitMove.y+1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y+1].owner !== turn)
+        {
+            tempUnitArray[unitMove.x][unitMove.y+1].damage = calcDam[3]
+        }
+
+        setUnitArray(tempUnitArray);
+
+        setCanFire(false);
+        setIsFiring(true);
+        confirmMove();
+    }
+    const captureAndMove = () => {
+
+        confirmMove();
+    }
 
     const newTurn = () => {
         let tempUnitArray = unitArray.slice();
@@ -227,7 +346,7 @@ function App() {
             //setBluePlayer(newBluePlayer);
             setCurPlayer(bluePlayer);
             bluePlayer.funds = updateFunds("Blue", "New Turn");
-            console.log(`Blue funds: ${bluePlayer.funds}`);
+
             for( let i in tempUnitArray)
             {
                 for( let j in tempUnitArray[i])
@@ -246,16 +365,14 @@ function App() {
             //setRedPlayer(newRedPlayer);
             setCurPlayer(redPlayer);
             redPlayer.funds = updateFunds("Red", "New Turn");
-            console.log(`Red funds: ${redPlayer.funds}`);
+
             for( let i in tempUnitArray)
             {
                 for( let j in tempUnitArray[i])
                 {
                     if(tempUnitArray[i][j].owner === "Red")
                     {
-                        console.log(tempUnitArray[i][j].exhausted)
                         tempUnitArray[i][j].exhausted = false;
-                        console.log(tempUnitArray[i][j].exhausted)
                     }
                 }
             }
@@ -275,9 +392,18 @@ function App() {
                      alignItems: "center",
                  }}
             >
-                <TopMessage whosTurn={turn}/>
+                <TopMessage whosTurn={turn} redPlayer={redPlayer} bluePlayer={bluePlayer}/>
                 <Map mapEdits={MapEdit()}  MAP_HEIGHT={MapSize[0]} MAP_WIDTH={MapSize[1]} unitsArray={unitArray} onClickCallback={mapClick}/>
-                <BottomButtons onClickCallback={newTurn}/>
+                ㅤ{/* <-- Blank Character button for spacing */}
+                {/*<BottomButtons onClickCallback={newTurn}/>*/}
+
+                <button
+                    disabled={!disableButtons || isFiring }
+                    style={{cursor: (disableButtons === true ? 'pointer' : '')}}
+                    onClick={newTurn}
+                >
+                    End Turn
+                </button>
 
                 <button
                     disabled={disableButtons}
@@ -293,6 +419,22 @@ function App() {
                     onClick={cancelMove}
                 >
                 Cancel Move
+                </button>
+
+                <button
+                    disabled={!canFire}
+                    style={{cursor: (canFire === true ? 'pointer' : '')}}
+                    onClick={fireAndMove}
+                >
+                    Fire
+                </button>
+
+                <button
+                    disabled={!canCapture}
+                    style={{cursor: (canCapture === true ? 'pointer' : '')}}
+                    onClick={captureAndMove}
+                >
+                    Capture
                 </button>
 
             </Box>

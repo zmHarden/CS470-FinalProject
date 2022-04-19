@@ -3,7 +3,6 @@ import {Box, Grid} from '@mui/material';
 import {BLOCK_SIZE} from "./constants";
 import MapRender from "./MapRender";
 import TerrainTypes from "./TerrainTypes";
-import plain from './images/terrain/tile_grass_64.png'
 
 const Map = (props) => {
     const height = props.MAP_HEIGHT
@@ -45,7 +44,13 @@ const Map = (props) => {
                     {
                         mapArray.map((row, rowIdx) => row.map((col, colIdx) =>
                             <Grid onClick={() => onClickCallback(rowIdx,colIdx,mapArray,setMapArray)} key={colIdx}>
-                            <MapRender key={colIdx} terrain={mapArray[rowIdx][colIdx].img} unit={unitArray[rowIdx][colIdx].img} health={unitArray[rowIdx][colIdx].health}/>
+                            <MapRender
+                                key={colIdx}
+                                terrain={mapArray[rowIdx][colIdx].img}
+                                unit={unitArray[rowIdx][colIdx].img}
+                                health={unitArray[rowIdx][colIdx].health}
+                                damage={unitArray[rowIdx][colIdx].damage}
+                            />
                             </Grid>
                         ))
                     }
@@ -56,3 +61,4 @@ const Map = (props) => {
 }
 
 export default Map;
+

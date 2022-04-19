@@ -9,6 +9,7 @@ const UnitTypes = {
         img: noUnit,
         type: "noUnit",
         target: "",
+        damage: -1,
         owner: "",
         health: 100,
         movementType: "",
@@ -19,7 +20,8 @@ const UnitTypes = {
     redSoldier: {
         img: redSoldier,
         type: "redSoldier",
-        target: "soldier",
+        target: 0,
+        damage: -1,
         owner: "Red",
         health: 100,
         cost: 1000,
@@ -34,7 +36,8 @@ const UnitTypes = {
     redTank: {
         img: redTank,
         type: "redTank",
-        target: "tank",
+        target: 1,
+        damage: -1,
         owner: "Red",
         health: 100,
         cost: 7000,
@@ -49,7 +52,8 @@ const UnitTypes = {
     blueSoldier: {
         img: blueSoldier,
         type: "blueSoldier",
-        target: "soldier",
+        target: 0,
+        damage: -1,
         owner: "Blue",
         health: 100,
         cost: 1000,
@@ -64,7 +68,8 @@ const UnitTypes = {
     blueTank: {
         img: blueTank,
         type: "blueTank",
-        target: "tank",
+        target: 1,
+        damage: -1,
         owner: "Blue",
         health: 100,
         cost: 7000,

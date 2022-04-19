@@ -21,14 +21,14 @@ const TerrainTypes = {
         img: plain,
         type: "plain",
         defense:1,
-        moveCost: 2,
+        moveCost: 1,
         movable: false,
     },
     highPlain:{
         img: highPlain,
         type: "highPlain",
         defense:1,
-        moveCost: 2,
+        moveCost: 1,
         movable: false,
     },
 
@@ -37,7 +37,7 @@ const TerrainTypes = {
         type: "redHQ",
         defense: 4,
         health: 200,
-        moveCost: 2,
+        moveCost: 1,
         movable: false,
     },
     highRedHQ:{
@@ -45,7 +45,7 @@ const TerrainTypes = {
         type: "highRedHQ",
         defense: 4,
         health: 200,
-        moveCost: 2,
+        moveCost: 1,
         movable: false,
     },
 
@@ -54,7 +54,7 @@ const TerrainTypes = {
         type: "blueHQ",
         defense: 4,
         health: 200,
-        moveCost: 2,
+        moveCost: 1,
         movable: false,
     },
     highBlueHQ:{
@@ -62,7 +62,7 @@ const TerrainTypes = {
         type: "highBlueHQ",
         defense: 4,
         health: 200,
-        moveCost: 2,
+        moveCost: 1,
         movable: false,
     },
 
@@ -72,7 +72,7 @@ const TerrainTypes = {
         defense: 3,
         health: 200,
         owner: "Red",
-        moveCost: 2,
+        moveCost: 1,
         movable: false,
     },
     highRedFactory:{
@@ -81,7 +81,7 @@ const TerrainTypes = {
         defense: 3,
         health: 200,
         owner: "Red",
-        moveCost: 2,
+        moveCost: 1,
         movable: false,
     },
 
@@ -91,7 +91,7 @@ const TerrainTypes = {
         defense: 3,
         health: 200,
         owner: "Blue",
-        moveCost: 2,
+        moveCost: 1,
         movable: false,
     },
     highBlueFactory:{
@@ -100,7 +100,7 @@ const TerrainTypes = {
         defense: 3,
         health: 200,
         owner: "Blue",
-        moveCost: 2,
+        moveCost: 1,
         movable: false,
     },
 
@@ -110,7 +110,7 @@ const TerrainTypes = {
         defense: 3,
         health: 200,
         owner: "",
-        moveCost: 2,
+        moveCost: 1,
         movable: false,
     },
     highNeutralFactory:{
@@ -119,7 +119,7 @@ const TerrainTypes = {
         defense: 3,
         health: 200,
         owner: "",
-        moveCost: 2,
+        moveCost: 1,
         movable: false,
     },
 };

@@ -292,11 +292,13 @@ function App() {
 
     const confirmMove = () => {
         setDisableButtons(true);
+        setCanFire(false);
         unitArray[unitMove.x][unitMove.y].exhausted = true;
         moveConfirmation = false;
     }
     const cancelMove = () => {
         setDisableButtons(true);
+        setCanFire(false);
         unitArray[unitOrigin.x][unitOrigin.y] = unitArray[unitMove.x][unitMove.y];
         unitArray[unitMove.x][unitMove.y] = getBlankUnit();
         setUnitArray(unitArray.slice())

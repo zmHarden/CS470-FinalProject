@@ -91,8 +91,12 @@ function App() {
 
     const mapClick = (x,y, mapArray, setMapArray) => {
 
+        console.log(`exhausted: ${unitArray[x][y].exhausted}`)
+        console.log(`movingUnit: ${movingUnit}`)
+        console.log(`moveConfirmation: ${moveConfirmation}`)
+        console.log(`isFiring: ${isFiring}`)
 
-        if(mapArray[x][y].owner === turn && unitArray[x][y].type === "noUnit" && !moveConfirmation){
+        if(mapArray[x][y].owner === turn && unitArray[x][y].type === "noUnit" && !movingUnit && !moveConfirmation && !isFiring){
             console.log(`click on ${turn} Factory`)
             if(curPlayer.funds >= 7000) {
                 unitArray[x][y] = getTank(turn);
@@ -103,6 +107,7 @@ function App() {
                 setUnitArray(unitArray.slice());
                 curPlayer.funds = updateFunds(turn, "Soldier");
             }
+            return
         }
 
         let hasMoved = false;
@@ -168,8 +173,8 @@ function App() {
         if(!movingUnit){
             //console.log(!unitArray[x][y].exhausted)
             //console.log(unitArray[x][y].owner === turn)
-            if(!unitArray[x][y].exhausted && unitArray[x][y].owner === turn){
-
+            if(!unitArray[x][y].exhausted && unitArray[x][y].owner === turn && !isFiring){
+                setMovingUnit(true);
                 moveB = pathing(unitArray, mapArray, x, y)
                 console.log("------------------------------")
                 for(let i in moveB){
@@ -199,7 +204,7 @@ function App() {
                 }
                 setMapArray(tempMapArray)
             }
-            setMovingUnit(true);
+            //setMovingUnit(true);
             unitOrigin.x = x;
             unitOrigin.y = y;
             return

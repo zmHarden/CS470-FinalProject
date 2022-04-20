@@ -12,7 +12,6 @@ import pathing from './pathing.js'
 
 let unitOrigin = {x: 0, y: 0}
 let unitMove = {x: 0, y: 0}
-let movingUnit = false;
 let moveB = []
 let moveConfirmation = false;
 
@@ -23,6 +22,7 @@ function App() {
 
     const [turn, setTurn] = useState("Red");
     const [curPlayer, setCurPlayer] = useState(redPlayer);
+    const [movingUnit, setMovingUnit] = useState(false);
     //const [redPlayer, setRedPlayer] = useState(newPlayer());
     //const [bluePlayer, setBluePlayer] = useState(newPlayer());
     const [disableButtons, setDisableButtons] = useState(true)
@@ -114,25 +114,29 @@ function App() {
             if(unitArray[x][y].damage !== -1)
             {
                 let tempUnitArray = unitArray.slice();
+                let tempCalcDam = calcDam.slice();
                 tempUnitArray[x][y].health = tempUnitArray[x][y].health-tempUnitArray[x][y].damage
 
                 if(calcDam[0] !== -1)
                 {
-                    unitArray[unitMove.x-1][unitMove.y].damage = -1;
+                    tempUnitArray[unitMove.x-1][unitMove.y].damage = -1;
+                    tempCalcDam[0] = -1;
                 }
                 if(calcDam[1] !== -1)
                 {
-                    unitArray[unitMove.x+1][unitMove.y].damage = -1;
+                    tempUnitArray[unitMove.x+1][unitMove.y].damage = -1;
+                    tempCalcDam[1] = -1;
                 }
                 if(calcDam[2] !== -1)
                 {
-                    unitArray[unitMove.x][unitMove.y-1].damage = -1;
+                    tempUnitArray[unitMove.x][unitMove.y-1].damage = -1;
+                    tempCalcDam[2] = -1;
                 }
                 if(calcDam[3] !== -1)
                 {
-                    unitArray[unitMove.x][unitMove.y+1].damage = -1;
+                    tempUnitArray[unitMove.x][unitMove.y+1].damage = -1;
+                    tempCalcDam[3] = -1;
                 }
-
 
                 if (tempUnitArray[x][y].health <= 0)
                 {
@@ -144,8 +148,10 @@ function App() {
                         Math.ceil(tempUnitArray[x][y].damageVals[tempUnitArray[unitMove.x][unitMove.y].target].damage *
                         Math.max(0, ((10-calcDam[4])/10)) *
                         tempUnitArray[x][y].health/100);
+                    tempCalcDam[4] = 0;
                 }
                 setUnitArray(tempUnitArray);
+                setCalcDam(tempCalcDam);
 
                 setIsFiring(false);
             }
@@ -193,7 +199,7 @@ function App() {
                 }
                 setMapArray(tempMapArray)
             }
-            movingUnit = true;
+            setMovingUnit(true);
             unitOrigin.x = x;
             unitOrigin.y = y;
             return
@@ -216,7 +222,7 @@ function App() {
                 setUnitArray(unitArray.slice())
             }
 
-            movingUnit = false;
+            setMovingUnit(false);
             for(let i in moveB){
                 let curR = moveB[i].row;
                     let curC = moveB[i].col;
@@ -338,7 +344,7 @@ function App() {
 
     const newTurn = () => {
         let tempUnitArray = unitArray.slice();
-        movingUnit = false;
+        setMovingUnit(false);
         //console.log(`Red funds: ${redPlayer.funds}, Blue funds ${bluePlayer.funds}`)
 
         if(turn === "Red")
@@ -400,7 +406,7 @@ function App() {
                 {/*<BottomButtons onClickCallback={newTurn}/>*/}
 
                 <button
-                    disabled={!disableButtons || isFiring }
+                    disabled={!disableButtons || isFiring || movingUnit}
                     style={{cursor: (disableButtons === true ? 'pointer' : '')}}
                     onClick={newTurn}
                 >

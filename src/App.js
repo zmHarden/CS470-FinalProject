@@ -154,6 +154,11 @@ function App() {
                         Math.max(0, ((10-calcDam[4])/10)) *
                         tempUnitArray[x][y].health/100);
                     tempCalcDam[4] = 0;
+
+                    if (tempUnitArray[unitMove.x][unitMove.y].health <= 0)
+                    {
+                        tempUnitArray[unitMove.x][unitMove.y] = getBlankUnit();
+                    }
                 }
                 setUnitArray(tempUnitArray);
                 setCalcDam(tempCalcDam);

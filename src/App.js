@@ -18,7 +18,7 @@ let moveConfirmation = false;
 const redPlayer = {funds: 2000, properties: 2};
 const bluePlayer = {funds: 0, properties: 2};
 
-function App() {
+function App(props) {
 
     const [turn, setTurn] = useState("Red");
     const [curPlayer, setCurPlayer] = useState(redPlayer);

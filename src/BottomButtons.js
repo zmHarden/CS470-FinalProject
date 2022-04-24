@@ -3,24 +3,49 @@ import Typography from '@mui/material/Typography';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 
-const BottomButton = (prop) => {
-    const onClickCallback = prop.onClickCallback;
+const BottomButton = (props) => {
 
     return (
         <Fragment >
-            <Box
-                sx={{
-                    width: 100,
-                    height: 64,
-                    border: 1,
-                    borderColor: 'black',
-                }}
-                onClick={() => onClickCallback()}
+            <button
+                disabled={!(props.disableButtons) || props.isFiring || props.movingUnit}
+                style={{cursor: (props.disableButtons === true ? 'pointer' : '')}}
+                onClick={props.newTurn}
             >
-                <Typography align="center">
-                    End Turn
-                </Typography>
-            </Box>
+                End Turn
+            </button>
+
+            <button
+                disabled={props.disableButtons}
+                style={{cursor: (props.disableButtons === false ? 'pointer' : '')}}
+                onClick={props.confirmMove}
+            >
+                Confirm Move
+            </button>
+
+            <button
+                disabled={props.disableButtons}
+                style={{cursor: (props.disableButtons === false ? 'pointer' : '')}}
+                onClick={props.cancelMove}
+            >
+                Cancel Move
+            </button>
+
+            <button
+                disabled={!(props.canFire)}
+                style={{cursor: (props.canFire === true ? 'pointer' : '')}}
+                onClick={props.fireAndMove}
+            >
+                Fire
+            </button>
+
+            <button
+                disabled={!(props.canCapture)}
+                style={{cursor: (props.canCapture === true ? 'pointer' : '')}}
+                onClick={props.captureAndMove}
+            >
+                Capture
+            </button>
         </Fragment>
     )
 }

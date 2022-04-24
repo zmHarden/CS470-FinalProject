@@ -23,6 +23,7 @@ const TerrainTypes = {
         defense:1,
         moveCost: 1,
         movable: false,
+        capturable: false
     },
     highPlain:{
         img: highPlain,
@@ -30,6 +31,7 @@ const TerrainTypes = {
         defense:1,
         moveCost: 1,
         movable: false,
+        capturable: false
     },
 
     redHQ:{
@@ -37,16 +39,20 @@ const TerrainTypes = {
         type: "redHQ",
         defense: 4,
         health: 200,
+        owner: "Red",
         moveCost: 1,
         movable: false,
+        capturable: true
     },
     highRedHQ:{
         img: highRedHQ,
         type: "highRedHQ",
         defense: 4,
         health: 200,
+        owner: "Red",
         moveCost: 1,
         movable: false,
+        capturable: true
     },
 
     blueHQ:{
@@ -54,16 +60,20 @@ const TerrainTypes = {
         type: "blueHQ",
         defense: 4,
         health: 200,
+        owner: "Blue",
         moveCost: 1,
         movable: false,
+        capturable: true
     },
     highBlueHQ:{
         img: highBlueHQ,
         type: "highBlueHQ",
         defense: 4,
         health: 200,
+        owner: "Blue",
         moveCost: 1,
         movable: false,
+        capturable: true
     },
 
     redFactory:{
@@ -74,6 +84,7 @@ const TerrainTypes = {
         owner: "Red",
         moveCost: 1,
         movable: false,
+        capturable: true
     },
     highRedFactory:{
         img: highRedFactory,
@@ -83,6 +94,7 @@ const TerrainTypes = {
         owner: "Red",
         moveCost: 1,
         movable: false,
+        capturable: true
     },
 
     blueFactory:{
@@ -93,6 +105,7 @@ const TerrainTypes = {
         owner: "Blue",
         moveCost: 1,
         movable: false,
+        capturable: true
     },
     highBlueFactory:{
         img: highBlueFactory,
@@ -102,6 +115,7 @@ const TerrainTypes = {
         owner: "Blue",
         moveCost: 1,
         movable: false,
+        capturable: true
     },
 
     neutralFactory:{
@@ -112,6 +126,7 @@ const TerrainTypes = {
         owner: "",
         moveCost: 1,
         movable: false,
+        capturable: true
     },
     highNeutralFactory:{
         img: highNeutralFactory,
@@ -121,6 +136,7 @@ const TerrainTypes = {
         owner: "",
         moveCost: 1,
         movable: false,
+        capturable: true
     },
 };
 

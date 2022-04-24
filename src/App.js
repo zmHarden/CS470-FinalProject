@@ -9,6 +9,7 @@ import BottomButtons from "./BottomButtons";
 import TerrainTypes from "./TerrainTypes";
 import UnitTypes from "./UnitTypes";
 import pathing from './pathing.js'
+import noUnit from "./images/units/noUnit.png";
 
 let unitOrigin = {x: 0, y: 0}
 let unitMove = {x: 0, y: 0}
@@ -23,8 +24,6 @@ function App() {
     const [turn, setTurn] = useState("Red");
     const [curPlayer, setCurPlayer] = useState(redPlayer);
     const [movingUnit, setMovingUnit] = useState(false);
-    //const [redPlayer, setRedPlayer] = useState(newPlayer());
-    //const [bluePlayer, setBluePlayer] = useState(newPlayer());
     const [disableButtons, setDisableButtons] = useState(true)
     const [canFire, setCanFire] = useState(false)
     const [isFiring, setIsFiring] = useState(false)
@@ -57,7 +56,6 @@ function App() {
     unitArrayProto[1][2] = getTank("Red");
     unitArrayProto[1][2].exhausted = false;
     unitArrayProto[8][13] = getTank("Blue");
-    unitArrayProto[8][13].exhausted = true;
 
     const [unitArray, setUnitArray] = useState(unitArrayProto);
 
@@ -185,6 +183,7 @@ function App() {
                 for(let i in moveB){
                     let curR = moveB[i].row;
                     let curC = moveB[i].col;
+                    let captureHealth = mapArray[curR][curC].health;
                     // console.log(moveB[i].row, moveB[i].col)
                     // console.log(mapArray[curR][curC].type)
                     if(mapArray[curR][curC].type === "plain")
@@ -205,6 +204,7 @@ function App() {
                     else if(mapArray[curR][curC].type === "neutralFactory")
                         tempMapArray[curR][curC] = TerrainTypes.highNeutralFactory;
 
+                    tempMapArray[curR][curC].health = captureHealth;
                     tempMapArray[curR][curC].movable = true;
                 }
                 setMapArray(tempMapArray)
@@ -238,6 +238,8 @@ function App() {
                     let curC = moveB[i].col;
                     // console.log(moveB[i].row, moveB[i].col)
                     // console.log(mapArray[curR][curC].type)
+
+                    let captureHealth = mapArray[curR][curC].health;
                     if(mapArray[curR][curC].type === "highPlain")
                         tempMapArray[curR][curC] = TerrainTypes.plain;
 
@@ -256,6 +258,7 @@ function App() {
                     else if(mapArray[curR][curC].type === "highNeutralFactory")
                         tempMapArray[curR][curC] = TerrainTypes.neutralFactory;
 
+                    tempMapArray[curR][curC].health = captureHealth;
                     tempMapArray[curR][curC].movable = false;
             }
             if(hasMoved){
@@ -302,6 +305,11 @@ function App() {
                 }
 
                 setCalcDam(tempDam);
+
+                if(mapArray[unitMove.x][unitMove.y].capturable === true && mapArray[unitMove.x][unitMove.y].owner !== turn && unitArray[unitMove.x][unitMove.y].movementType === "Foot")
+                {
+                    setCanCapture(true);
+                }
             }
         }
     }
@@ -347,8 +355,10 @@ function App() {
         setIsFiring(true);
         confirmMove();
     }
+
     const captureAndMove = () => {
 
+        setCanCapture(false);
         confirmMove();
     }
 
@@ -412,48 +422,11 @@ function App() {
             >
                 <TopMessage whosTurn={turn} redPlayer={redPlayer} bluePlayer={bluePlayer}/>
                 <Map mapEdits={MapEdit()}  MAP_HEIGHT={MapSize[0]} MAP_WIDTH={MapSize[1]} unitsArray={unitArray} onClickCallback={mapClick}/>
-                ㅤ{/* <-- Blank Character button for spacing */}
-                {/*<BottomButtons onClickCallback={newTurn}/>*/}
-
-                <button
-                    disabled={!disableButtons || isFiring || movingUnit}
-                    style={{cursor: (disableButtons === true ? 'pointer' : '')}}
-                    onClick={newTurn}
-                >
-                    End Turn
-                </button>
-
-                <button
-                    disabled={disableButtons}
-                    style={{cursor: (disableButtons === false ? 'pointer' : '')}}
-                    onClick={confirmMove}
-                >
-                Confirm Move
-                </button>
-
-                <button
-                    disabled={disableButtons}
-                    style={{cursor: (disableButtons === false ? 'pointer' : '')}}
-                    onClick={cancelMove}
-                >
-                Cancel Move
-                </button>
-
-                <button
-                    disabled={!canFire}
-                    style={{cursor: (canFire === true ? 'pointer' : '')}}
-                    onClick={fireAndMove}
-                >
-                    Fire
-                </button>
-
-                <button
-                    disabled={!canCapture}
-                    style={{cursor: (canCapture === true ? 'pointer' : '')}}
-                    onClick={captureAndMove}
-                >
-                    Capture
-                </button>
+                ㅤ{/* <-- Blank Character for spacing/formatting */}
+                <BottomButtons
+                    newTurn={newTurn} confirmMove={confirmMove} cancelMove={cancelMove} fireAndMove={fireAndMove} captureAndMove={captureAndMove}
+                    disableButtons={disableButtons} isFiring={isFiring} movingUnit={movingUnit} canFire={canFire} canCapture={canCapture}
+                />
 
             </Box>
         </Fragment>

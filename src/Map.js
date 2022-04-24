@@ -5,6 +5,7 @@ import MapRender from "./MapRender";
 import TerrainTypes from "./TerrainTypes";
 
 const Map = (props) => {
+
     const height = props.MAP_HEIGHT
     const width = props.MAP_WIDTH
 

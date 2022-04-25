@@ -27,11 +27,11 @@ const MapRender = (props) => {
     }
 
     let capturePercent;
-    /*if(props.captureDamage)
+    if(props.captureDamage !== 200)
     {
         capturing = captureFlag;
-        capturePercent = props.captureDamage;
-    }*/
+        capturePercent = props.captureDamage + "/200";
+    }
 
     /*const [highlight, setHighlight] = useState("noHighlight")
     if(unitSrc !== noUnit) //Temp condition for testing.

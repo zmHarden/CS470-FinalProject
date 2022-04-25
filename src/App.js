@@ -1,6 +1,6 @@
 import './App.css';
 import React, {Fragment, useState} from "react";
-import {Box, Button, Grid} from "@mui/material";
+import {Box} from "@mui/material";
 import TopMessage from "./TopMessage";
 import Map from "./Map";
 import MapEdit from "./mapEdit"; //Definitions on what tiles differ from the generic all-plains map
@@ -16,8 +16,8 @@ let unitMove = {x: 0, y: 0}
 let moveB = []
 let moveConfirmation = false;
 
-const redPlayer = {funds: 2000, properties: 2};
-const bluePlayer = {funds: 0, properties: 2};
+const redPlayer = {funds: 2000, properties: 2, units: 0};
+const bluePlayer = {funds: 0, properties: 2, units: 0};
 
 function App(props) {
 
@@ -28,18 +28,38 @@ function App(props) {
     const [canFire, setCanFire] = useState(false)
     const [isFiring, setIsFiring] = useState(false)
     const [canCapture, setCanCapture] = useState(false)
+    const [day, setDay] = useState(1)
 
-    let calcDamProto = [-1, -1, -1, -1, 0]; //Fifth value is defence vs strikeback damage
+    const mapArrayProto = [];
+    const height = MapSize[0]
+    const width = MapSize[1]
+
+    for(let i = 0; i < height; i++){
+        let tempArray = [];
+        for(let j = 0; j < width; j++){
+            tempArray.push({...TerrainTypes.plain})
+        }
+        mapArrayProto.push(tempArray);
+    }
+    const mapEdit = [...MapEdit()];
+
+    while(mapEdit.length > 0){
+        let bloc = mapEdit.shift();
+        mapArrayProto[bloc.Row][bloc.Column] = {...bloc};
+    }
+    const [mapArray, setMapArray] = useState(mapArrayProto);
+
+    let calcDamProto = [-1, -1, -1, -1];
     const [calcDam, setCalcDam] = useState(calcDamProto);
 
     let getBlankUnit = () => {return  {...UnitTypes.noUnit};}
     let getTank = (owner) => {
-        if(owner === "Red") return {...UnitTypes.redTank};
-        else return {...UnitTypes.blueTank};
+        if(owner === "Red") {redPlayer.units++; return {...UnitTypes.redTank}}
+        else {bluePlayer.units++; return {...UnitTypes.blueTank}}
     }
     let getSoldier = (owner) => {
-        if(owner === "Red") return {...UnitTypes.redSoldier};
-        else return {...UnitTypes.blueSoldier};
+        if(owner === "Red") {redPlayer.units++; return {...UnitTypes.redSoldier}}
+        else { bluePlayer.units++; return {...UnitTypes.blueSoldier}};
     }
 
     const unitArrayProto = [];
@@ -53,9 +73,17 @@ function App(props) {
         unitArrayProto.push(tempArray);
     }
 
-    unitArrayProto[1][2] = getTank("Red");
-    unitArrayProto[1][2].exhausted = false;
-    unitArrayProto[8][13] = getTank("Blue");
+    if(day === 1)
+    {
+        unitArrayProto[1][2] = getTank("Red");
+        unitArrayProto[1][2].exhausted = false;
+        unitArrayProto[8][13] = getTank("Blue");
+        if(redPlayer.units === 2)
+        {
+            redPlayer.units--;
+            bluePlayer.units--;
+        }
+    }
 
     const [unitArray, setUnitArray] = useState(unitArrayProto);
 
@@ -87,7 +115,7 @@ function App(props) {
         return newFunds
     };
 
-    const mapClick = (x,y, mapArray, setMapArray) => {
+    const mapClick = (x,y) => {
 
         console.log(`exhausted: ${unitArray[x][y].exhausted}`)
         console.log(`movingUnit: ${movingUnit}`)
@@ -144,18 +172,37 @@ function App(props) {
                 if (tempUnitArray[x][y].health <= 0)
                 {
                     tempUnitArray[x][y] = getBlankUnit();
+                    if(turn === "Red")
+                    {
+                        bluePlayer.units--;
+                        if(bluePlayer.units === 0) {console.log("Red Victory!")}
+                    }
+                    else
+                    {
+                        redPlayer.units--;
+                        if(redPlayer.units === 0) {console.log("Blue Victory!")}
+                    }
                 }
                 else
                 {
                     tempUnitArray[unitMove.x][unitMove.y].health = tempUnitArray[unitMove.x][unitMove.y].health -
                         Math.ceil(tempUnitArray[x][y].damageVals[tempUnitArray[unitMove.x][unitMove.y].target].damage *
-                        Math.max(0, ((10-calcDam[4])/10)) *
+                        Math.max(0, ((10-mapArray[unitMove.x][unitMove.y].defense)/10)) *
                         tempUnitArray[x][y].health/100);
-                    tempCalcDam[4] = 0;
 
                     if (tempUnitArray[unitMove.x][unitMove.y].health <= 0)
                     {
                         tempUnitArray[unitMove.x][unitMove.y] = getBlankUnit();
+                        if(turn === "Red")
+                        {
+                            redPlayer.units--;
+                            if(redPlayer.units === 0) {console.log("Blue Victory!")}
+                        }
+                        else
+                        {
+                            bluePlayer.units--;
+                            if(bluePlayer.units === 0) {console.log("Red Victory!")}
+                        }
                     }
                 }
                 setUnitArray(tempUnitArray);
@@ -299,10 +346,6 @@ function App(props) {
                         unitArray[unitMove.x][unitMove.y].health/100);
                     setCanFire(true)
                 }
-                if(canFire)
-                {
-                    tempDam[4] = mapArray[unitMove.x][unitMove.y].defense;
-                }
 
                 setCalcDam(tempDam);
 
@@ -357,6 +400,42 @@ function App(props) {
     }
 
     const captureAndMove = () => {
+        let tempMapArray = mapArray.slice();
+
+        tempMapArray[unitMove.x][unitMove.y].health = tempMapArray[unitMove.x][unitMove.y].health - unitArray[unitMove.x][unitMove.y].health;
+
+        if(tempMapArray[unitMove.x][unitMove.y].health <= 0)
+        {
+            if(turn === "Red")
+            {
+                if(tempMapArray[unitMove.x][unitMove.y].building === "factory")
+                {
+                    tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.redFactory;
+                }
+                else if(tempMapArray[unitMove.x][unitMove.y].building === "HQ")
+                {
+                    tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.redHQ;
+                    console.log("Red Victory!")
+                }
+                bluePlayer.properties--;
+                redPlayer.properties++;
+            }
+            else
+            {
+                if(tempMapArray[unitMove.x][unitMove.y].building === "factory")
+                {
+                    tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.blueFactory;
+                }
+                else if(tempMapArray[unitMove.x][unitMove.y].building === "HQ")
+                {
+                    tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.blueHQ;
+                    console.log("Blue Victory!")
+                }
+                redPlayer.properties--;
+                bluePlayer.properties++;
+            }
+        }
+        setMapArray(tempMapArray);
 
         setCanCapture(false);
         confirmMove();
@@ -407,6 +486,13 @@ function App(props) {
         }
 
         setUnitArray(tempUnitArray);
+        if(turn === "Blue")
+        {
+            let tempDay = day + 1;
+            setDay(tempDay);
+        }
+        console.log("Day: " + day);
+        console.log(turn + " current units: " + curPlayer.units);
     }
 
     return (
@@ -421,7 +507,7 @@ function App(props) {
                  }}
             >
                 <TopMessage whosTurn={turn} redPlayer={redPlayer} bluePlayer={bluePlayer}/>
-                <Map mapEdits={MapEdit()}  MAP_HEIGHT={MapSize[0]} MAP_WIDTH={MapSize[1]} unitsArray={unitArray} onClickCallback={mapClick}/>
+                <Map MAP_HEIGHT={height} MAP_WIDTH={width} unitsArray={unitArray} onClickCallback={mapClick} mapArray={mapArray}/>
                 ㅤ{/* <-- Blank Character for spacing/formatting */}
                 <BottomButtons
                     newTurn={newTurn} confirmMove={confirmMove} cancelMove={cancelMove} fireAndMove={fireAndMove} captureAndMove={captureAndMove}

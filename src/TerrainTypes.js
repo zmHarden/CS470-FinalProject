@@ -21,6 +21,7 @@ const TerrainTypes = {
         img: plain,
         type: "plain",
         defense:1,
+        health: 200,
         moveCost: 1,
         movable: false,
         capturable: false
@@ -29,6 +30,7 @@ const TerrainTypes = {
         img: highPlain,
         type: "highPlain",
         defense:1,
+        health: 200,
         moveCost: 1,
         movable: false,
         capturable: false
@@ -37,6 +39,7 @@ const TerrainTypes = {
     redHQ:{
         img: redHQ,
         type: "redHQ",
+        building: "HQ",
         defense: 4,
         health: 200,
         owner: "Red",
@@ -47,6 +50,7 @@ const TerrainTypes = {
     highRedHQ:{
         img: highRedHQ,
         type: "highRedHQ",
+        building: "HQ",
         defense: 4,
         health: 200,
         owner: "Red",
@@ -58,6 +62,7 @@ const TerrainTypes = {
     blueHQ:{
         img: blueHQ,
         type: "blueHQ",
+        building: "HQ",
         defense: 4,
         health: 200,
         owner: "Blue",
@@ -68,6 +73,7 @@ const TerrainTypes = {
     highBlueHQ:{
         img: highBlueHQ,
         type: "highBlueHQ",
+        building: "HQ",
         defense: 4,
         health: 200,
         owner: "Blue",
@@ -79,6 +85,7 @@ const TerrainTypes = {
     redFactory:{
         img: redFactory,
         type: "redFactory",
+        building: "factory",
         defense: 3,
         health: 200,
         owner: "Red",
@@ -89,6 +96,7 @@ const TerrainTypes = {
     highRedFactory:{
         img: highRedFactory,
         type: "highRedFactory",
+        building: "factory",
         defense: 3,
         health: 200,
         owner: "Red",
@@ -100,6 +108,7 @@ const TerrainTypes = {
     blueFactory:{
         img: blueFactory,
         type: "blueFactory",
+        building: "factory",
         defense: 3,
         health: 200,
         owner: "Blue",
@@ -110,6 +119,7 @@ const TerrainTypes = {
     highBlueFactory:{
         img: highBlueFactory,
         type: "highBlueFactory",
+        building: "factory",
         defense: 3,
         health: 200,
         owner: "Blue",
@@ -121,6 +131,7 @@ const TerrainTypes = {
     neutralFactory:{
         img: neutralFactory,
         type: "neutralFactory",
+        building: "factory",
         defense: 3,
         health: 200,
         owner: "",
@@ -131,6 +142,7 @@ const TerrainTypes = {
     highNeutralFactory:{
         img: highNeutralFactory,
         type: "highNeutralFactory",
+        building: "factory",
         defense: 3,
         health: 200,
         owner: "",

@@ -136,7 +136,7 @@ function App(props) {
             return
         }
 
-        let hasMoved = false;
+        // let hasMoved = false;
         console.log(x + ", " + y);
         if(unitArray[x][y].type === "noUnit" && !movingUnit)
             return
@@ -264,20 +264,21 @@ function App(props) {
         else{
             if(mapArray[x][y].movable === false)
                 return
-            hasMoved = true;
+            // hasMoved = true;
             console.log(unitOrigin)
-            if(x !== unitOrigin.x || y !== unitOrigin.y){
-                unitArray[x][y] = unitArray[unitOrigin.x][unitOrigin.y]
+            unitArray[x][y] = unitArray[unitOrigin.x][unitOrigin.y]
+            if(x !== unitOrigin.x || y !== unitOrigin.y)
                 unitArray[unitOrigin.x][unitOrigin.y] = getBlankUnit();
-                setUnitArray(unitArray.slice())
+            
+            setUnitArray(unitArray.slice())
 
-                unitMove.x = x;
-                unitMove.y = y;
-            }
-            else{
-                hasMoved = false;
-                setUnitArray(unitArray.slice())
-            }
+            unitMove.x = x;
+            unitMove.y = y;
+            // }
+            // else{
+            //     hasMoved = false;
+            //     setUnitArray(unitArray.slice())
+            // }
 
             setMovingUnit(false);
             for(let i in moveB){
@@ -308,52 +309,52 @@ function App(props) {
                     tempMapArray[curR][curC].health = captureHealth;
                     tempMapArray[curR][curC].movable = false;
             }
-            if(hasMoved){
-                moveConfirmation = true;
-                setDisableButtons(false)
+            // if(hasMoved){
+            moveConfirmation = true;
+            setDisableButtons(false)
 
-                let tempDam = calcDam.slice();
+            let tempDam = calcDam.slice();
 
-                if(unitMove.x >= 1 && unitArray[unitMove.x-1][unitMove.y].type !== "noUnit" && unitArray[unitMove.x-1][unitMove.y].owner !== turn)
-                {
-                    tempDam[0] =
-                        Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x-1][unitMove.y].target].damage *
-                        Math.max(0, ((10-mapArray[unitMove.x-1][unitMove.y].defense)/10)) *
-                        unitArray[unitMove.x][unitMove.y].health/100);
-                    setCanFire(true)
-                }
-                if(unitMove.x < MapSize[0]-1 && unitArray[unitMove.x+1][unitMove.y].type !== "noUnit" && unitArray[unitMove.x+1][unitMove.y].owner !== turn)
-                {
-                    tempDam[1] =
-                        Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x+1][unitMove.y].target].damage *
-                        Math.max(0, ((10-mapArray[unitMove.x+1][unitMove.y].defense)/10)) *
-                        unitArray[unitMove.x][unitMove.y].health/100);
-                    setCanFire(true)
-                }
-                if(unitMove.y >= 1 && unitArray[unitMove.x][unitMove.y-1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y-1].owner !== turn)
-                {
-                    tempDam[2] =
-                        Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x][unitMove.y-1].target].damage *
-                        Math.max(0, ((10-mapArray[unitMove.x][unitMove.y-1].defense)/10)) *
-                        unitArray[unitMove.x][unitMove.y].health/100);
-                    setCanFire(true)
-                }
-                if(unitMove.y < MapSize[1]-1 && unitArray[unitMove.x][unitMove.y+1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y+1].owner !== turn)
-                {
-                    tempDam[3] =
-                        Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x][unitMove.y+1].target].damage *
-                        Math.max(0, ((10-mapArray[unitMove.x][unitMove.y+1].defense)/10)) *
-                        unitArray[unitMove.x][unitMove.y].health/100);
-                    setCanFire(true)
-                }
-
-                setCalcDam(tempDam);
-
-                if(mapArray[unitMove.x][unitMove.y].capturable === true && mapArray[unitMove.x][unitMove.y].owner !== turn && unitArray[unitMove.x][unitMove.y].movementType === "Foot")
-                {
-                    setCanCapture(true);
-                }
+            if(unitMove.x >= 1 && unitArray[unitMove.x-1][unitMove.y].type !== "noUnit" && unitArray[unitMove.x-1][unitMove.y].owner !== turn)
+            {
+                tempDam[0] =
+                    Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x-1][unitMove.y].target].damage *
+                    Math.max(0, ((10-mapArray[unitMove.x-1][unitMove.y].defense)/10)) *
+                    unitArray[unitMove.x][unitMove.y].health/100);
+                setCanFire(true)
             }
+            if(unitMove.x < MapSize[0]-1 && unitArray[unitMove.x+1][unitMove.y].type !== "noUnit" && unitArray[unitMove.x+1][unitMove.y].owner !== turn)
+            {
+                tempDam[1] =
+                    Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x+1][unitMove.y].target].damage *
+                    Math.max(0, ((10-mapArray[unitMove.x+1][unitMove.y].defense)/10)) *
+                    unitArray[unitMove.x][unitMove.y].health/100);
+                setCanFire(true)
+            }
+            if(unitMove.y >= 1 && unitArray[unitMove.x][unitMove.y-1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y-1].owner !== turn)
+            {
+                tempDam[2] =
+                    Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x][unitMove.y-1].target].damage *
+                    Math.max(0, ((10-mapArray[unitMove.x][unitMove.y-1].defense)/10)) *
+                    unitArray[unitMove.x][unitMove.y].health/100);
+                setCanFire(true)
+            }
+            if(unitMove.y < MapSize[1]-1 && unitArray[unitMove.x][unitMove.y+1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y+1].owner !== turn)
+            {
+                tempDam[3] =
+                    Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x][unitMove.y+1].target].damage *
+                    Math.max(0, ((10-mapArray[unitMove.x][unitMove.y+1].defense)/10)) *
+                    unitArray[unitMove.x][unitMove.y].health/100);
+                setCanFire(true)
+            }
+
+            setCalcDam(tempDam);
+
+            if(mapArray[unitMove.x][unitMove.y].capturable === true && mapArray[unitMove.x][unitMove.y].owner !== turn && unitArray[unitMove.x][unitMove.y].movementType === "Foot")
+            {
+                setCanCapture(true);
+            }
+            // }
         }
     }
 
@@ -366,8 +367,10 @@ function App(props) {
     const cancelMove = () => {
         setDisableButtons(true);
         setCanFire(false);
-        unitArray[unitOrigin.x][unitOrigin.y] = unitArray[unitMove.x][unitMove.y];
+        let arrayTemp = unitArray[unitMove.x][unitMove.y]
+        // unitArray[unitOrigin.x][unitOrigin.y] = unitArray[unitMove.x][unitMove.y];
         unitArray[unitMove.x][unitMove.y] = getBlankUnit();
+        unitArray[unitOrigin.x][unitOrigin.y] = arrayTemp
         setUnitArray(unitArray.slice())
         moveConfirmation = false;
     }

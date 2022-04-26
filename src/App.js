@@ -171,6 +171,9 @@ function App(props) {
 
                 if (tempUnitArray[x][y].health <= 0)
                 {
+                    let tempMapArray = mapArray.slice();
+                    tempMapArray[x][y].health = 200;
+                    setMapArray(tempMapArray);
                     tempUnitArray[x][y] = getBlankUnit();
                     if(turn === "Red")
                     {
@@ -230,28 +233,7 @@ function App(props) {
                 for(let i in moveB){
                     let curR = moveB[i].row;
                     let curC = moveB[i].col;
-                    let captureHealth = mapArray[curR][curC].health;
-                    // console.log(moveB[i].row, moveB[i].col)
-                    // console.log(mapArray[curR][curC].type)
-                    if(mapArray[curR][curC].type === "plain")
-                        tempMapArray[curR][curC] = TerrainTypes.highPlain;
-
-                    else if(mapArray[curR][curC].type === "redFactory")
-                        tempMapArray[curR][curC] = TerrainTypes.highRedFactory;
-
-                    else if(mapArray[curR][curC].type === "redHQ")
-                        tempMapArray[curR][curC] = TerrainTypes.highRedHQ;
-
-                    else if(mapArray[curR][curC].type === "blueHQ")
-                        tempMapArray[curR][curC] = TerrainTypes.highBlueHQ;
-
-                    else if(mapArray[curR][curC].type === "blueFactory")
-                        tempMapArray[curR][curC] = TerrainTypes.highBlueFactory;
-
-                    else if(mapArray[curR][curC].type === "neutralFactory")
-                        tempMapArray[curR][curC] = TerrainTypes.highNeutralFactory;
-
-                    tempMapArray[curR][curC].health = captureHealth;
+                    tempMapArray[curR][curC].highlight = "withHighlight";
                     tempMapArray[curR][curC].movable = true;
                 }
                 setMapArray(tempMapArray)
@@ -262,7 +244,7 @@ function App(props) {
             return
         }
         else{
-            if(mapArray[x][y].movable === false)
+            if(mapArray[x][y].movable === false || (unitArray[x][y].owner === turn && ((x !== unitOrigin.x) || (y !== unitOrigin.y)) ) )
                 return
             // hasMoved = true;
             console.log(unitOrigin)
@@ -284,31 +266,10 @@ function App(props) {
             for(let i in moveB){
                 let curR = moveB[i].row;
                     let curC = moveB[i].col;
-                    // console.log(moveB[i].row, moveB[i].col)
-                    // console.log(mapArray[curR][curC].type)
-
-                    let captureHealth = mapArray[curR][curC].health;
-                    if(mapArray[curR][curC].type === "highPlain")
-                        tempMapArray[curR][curC] = TerrainTypes.plain;
-
-                    else if(mapArray[curR][curC].type === "highRedFactory")
-                        tempMapArray[curR][curC] = TerrainTypes.redFactory;
-
-                    else if(mapArray[curR][curC].type === "highRedHQ")
-                        tempMapArray[curR][curC] = TerrainTypes.redHQ;
-
-                    else if(mapArray[curR][curC].type === "highBlueHQ")
-                        tempMapArray[curR][curC] = TerrainTypes.blueHQ;
-
-                    else if(mapArray[curR][curC].type === "highBlueFactory")
-                        tempMapArray[curR][curC] = TerrainTypes.blueFactory;
-
-                    else if(mapArray[curR][curC].type === "highNeutralFactory")
-                        tempMapArray[curR][curC] = TerrainTypes.neutralFactory;
-
-                    tempMapArray[curR][curC].health = captureHealth;
+                    tempMapArray[curR][curC].highlight = "noHighlight";
                     tempMapArray[curR][curC].movable = false;
             }
+            setMapArray(tempMapArray);
             // if(hasMoved){
             moveConfirmation = true;
             setDisableButtons(false)

@@ -8,6 +8,7 @@ import target from './images/misc/target.png'
 import captureFlag from './images/misc/captureFlag.png'
 
 const MapRender = (props) => {
+    let highlight = props.highlight;
     let terrainSrc = props.terrain;
     let unitSrc = props.unit;
     let isTarget = noTarget;
@@ -30,21 +31,17 @@ const MapRender = (props) => {
     if(props.captureDamage !== 200)
     {
         capturing = captureFlag;
-        capturePercent = props.captureDamage + "/200";
+        capturePercent = props.captureDamage + "ㅤ /200";
     }
-
-    /*const [highlight, setHighlight] = useState("noHighlight")
-    if(unitSrc !== noUnit) //Temp condition for testing.
-    {
-        setHighlight("withHighlight");
-    }*/
 
     return (
 
         <Fragment>
             <Box sx={{width:BLOCK_SIZE, height:BLOCK_SIZE}}>
-                <div className="noHighlight">
+                <div className={highlight}>
                     <img className="mapImage" src={terrainSrc} alt={"terrain"} />
+                </div>
+                <div className="noHighlight">
                     <img className="unitImage" src={unitSrc} alt={"unit"} />
                     <img className="unitImage" src={capturing} alt={"Capture Flag"} />
                     <img className="unitImage" src={isTarget} alt={"target reticule"} />

@@ -56,7 +56,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(66, 209, 215, 0.25);
+  background: rgb(255, 255, 255, 0.2);
   transition: all .3s linear;
 }
 /*.parent:hover:after {
@@ -71,8 +71,8 @@
 
 .unitImage {
   position: absolute;
-  top: 0;
-  left: 0;
+  bottom: 4px;
+  left: 0px;
 }
 
 .healthText {
@@ -84,7 +84,7 @@
 }
 .damageText {
   position: absolute;
-  top: 10px;
+  bottom: 40px;
   right: 10px;
   color: yellow;
   text-shadow: red 1px 1px 1px, red 1px -1px 1px, red -1px 1px 1px, red -1px -1px 1px;
@@ -92,7 +92,7 @@
 
 .captureText {
   position: absolute;
-  top: 0;
+  bottom: 25px;
   left: 0;
   color: black;
   text-shadow: #ffcf86 1px 1px 1px, #ffcf86 1px -1px 1px, #ffcf86 -1px 1px 1px, #ffcf86 -1px -1px 1px;

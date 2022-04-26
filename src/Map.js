@@ -26,6 +26,7 @@ const Map = (props) => {
                                 health={unitArray[rowIdx][colIdx].health}
                                 damage={unitArray[rowIdx][colIdx].damage}
                                 captureDamage={mapArray[rowIdx][colIdx].health}
+                                highlight={mapArray[rowIdx][colIdx].highlight}
                             />
                             </Grid>
                         ))

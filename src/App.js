@@ -234,7 +234,8 @@ function App(props) {
                     let curR = moveB[i].row;
                     let curC = moveB[i].col;
                     tempMapArray[curR][curC].highlight = "withHighlight";
-                    tempMapArray[curR][curC].movable = true;
+                    if(unitArray[curR][curC].type === "noUnit") 
+                        tempMapArray[curR][curC].movable = true;
                 }
                 setMapArray(tempMapArray)
             }
@@ -244,7 +245,7 @@ function App(props) {
             return
         }
         else{
-            if(mapArray[x][y].movable === false || (unitArray[x][y].owner === turn && ((x !== unitOrigin.x) || (y !== unitOrigin.y)) ) )
+            if(mapArray[x][y].movable === false && ((x !== unitOrigin.x) || (y !== unitOrigin.y)) )
                 return
             // hasMoved = true;
             console.log(unitOrigin)

@@ -314,7 +314,7 @@ function App(props) {
 
             setCalcDam(tempDam);
 
-            if(mapArray[unitMove.x][unitMove.y].capturable === true && mapArray[unitMove.x][unitMove.y].owner !== turn && unitArray[unitMove.x][unitMove.y].movementType === "Foot")
+            if(mapArray[unitMove.x][unitMove.y].capturable === true && mapArray[unitMove.x][unitMove.y].owner !== turn && unitArray[unitMove.x][unitMove.y].movementType === "foot")
             {
                 setCanCapture(true);
             }
@@ -323,6 +323,12 @@ function App(props) {
     }
 
     const confirmMove = () => {
+        if(unitOrigin.x !== unitMove.x || unitOrigin.y !== unitMove.y)
+        {
+            let tempMapArray = mapArray.slice();
+            tempMapArray[unitOrigin.x][unitOrigin.y].health = 200;
+            setMapArray(tempMapArray);
+        }
         setDisableButtons(true);
         setCanFire(false);
         setCanCapture(false);

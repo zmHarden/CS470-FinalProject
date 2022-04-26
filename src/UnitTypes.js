@@ -25,7 +25,7 @@ const UnitTypes = {
         owner: "Red",
         health: 100,
         cost: 1000,
-        movementType: "Foot",
+        movementType: "foot",
         movespeed: 3,
         exhausted: true,
         damageVals: [
@@ -41,7 +41,7 @@ const UnitTypes = {
         owner: "Red",
         health: 100,
         cost: 7000,
-        movementType: "Treads",
+        movementType: "treads",
         movespeed: 6,
         exhausted: true,
         damageVals: [
@@ -57,7 +57,7 @@ const UnitTypes = {
         owner: "Blue",
         health: 100,
         cost: 1000,
-        movementType: "Foot",
+        movementType: "foot",
         movespeed: 3,
         exhausted: true,
         damageVals: [
@@ -73,7 +73,7 @@ const UnitTypes = {
         owner: "Blue",
         health: 100,
         cost: 7000,
-        movementType: "Treads",
+        movementType: "treads",
         movespeed: 6,
         exhausted: true,
         damageVals: [

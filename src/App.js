@@ -325,6 +325,7 @@ function App(props) {
     const confirmMove = () => {
         setDisableButtons(true);
         setCanFire(false);
+        setCanCapture(false);
         unitArray[unitMove.x][unitMove.y].exhausted = true;
         moveConfirmation = false;
     }
@@ -379,6 +380,10 @@ function App(props) {
                 {
                     tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.redFactory;
                 }
+                else if(tempMapArray[unitMove.x][unitMove.y].building === "city")
+                {
+                    tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.redCity;
+                }
                 else if(tempMapArray[unitMove.x][unitMove.y].building === "HQ")
                 {
                     tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.redHQ;
@@ -393,6 +398,10 @@ function App(props) {
                 {
                     tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.blueFactory;
                 }
+                else if(tempMapArray[unitMove.x][unitMove.y].building === "city")
+                {
+                    tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.blueCity;
+                }
                 else if(tempMapArray[unitMove.x][unitMove.y].building === "HQ")
                 {
                     tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.blueHQ;
@@ -404,7 +413,6 @@ function App(props) {
         }
         setMapArray(tempMapArray);
 
-        setCanCapture(false);
         confirmMove();
     }
 

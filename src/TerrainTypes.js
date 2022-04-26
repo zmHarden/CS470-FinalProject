@@ -99,13 +99,13 @@ const TerrainTypes = {
         highlight: "noHighlight"
     },
 
-    RedCity:{
+    redCity:{
         img: redCity,
         type: "redCity",
-        building: "City",
+        building: "city",
         defense: 3,
         health: 200,
-        owner: "",
+        owner: "Red",
         moveCost: 1,
         movable: false,
         capturable: true,
@@ -115,10 +115,10 @@ const TerrainTypes = {
     blueCity:{
         img: blueCity,
         type: "blueCity",
-        building: "City",
+        building: "city",
         defense: 3,
         health: 200,
-        owner: "",
+        owner: "Blue",
         moveCost: 1,
         movable: false,
         capturable: true,
@@ -128,7 +128,7 @@ const TerrainTypes = {
     neutralCity:{
         img: neutralCity,
         type: "neutralCity",
-        building: "City",
+        building: "city",
         defense: 3,
         health: 200,
         owner: "",

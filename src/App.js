@@ -59,7 +59,7 @@ function App(props) {
     }
     let getSoldier = (owner) => {
         if(owner === "Red") {redPlayer.units++; return {...UnitTypes.redSoldier}}
-        else { bluePlayer.units++; return {...UnitTypes.blueSoldier}};
+        else { bluePlayer.units++; return {...UnitTypes.blueSoldier}}
     }
 
     const unitArrayProto = [];
@@ -73,16 +73,18 @@ function App(props) {
         unitArrayProto.push(tempArray);
     }
 
-    if(day === 1)
+    const [deployed, setDeployed] = useState(false);
+    if(!deployed)
     {
         unitArrayProto[1][2] = getTank("Red");
         unitArrayProto[1][2].exhausted = false;
         unitArrayProto[8][13] = getTank("Blue");
-        if(redPlayer.units === 2)
+        if(redPlayer.units === 2) //Protection from React's Strict Mode "Double running"
         {
             redPlayer.units--;
             bluePlayer.units--;
         }
+        setDeployed(true);
     }
 
     const [unitArray, setUnitArray] = useState(unitArrayProto);

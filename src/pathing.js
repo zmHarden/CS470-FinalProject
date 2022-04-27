@@ -35,9 +35,9 @@ function pathing(unitArray, mapArray, row, col){
     // console.log("mapArray\n", mapArray)
     // console.log(MAP_HEIGHT)
     // console.log(unitArray[row][col].movespeed)
-    console.log(mapArray[row][col].moveCost)
+    console.log(mapArray[row][col].moveCost[unitArray[row][col].movementType])
     console.log(`Move distance = ${unitArray[row][col].movespeed}`)
-    let moveArray = recPath(unitArray[row][col].movespeed + mapArray[row][col].moveCost, unitArray, mapArray, unitArray[row][col].owner, row, col)
+    let moveArray = recPath(unitArray[row][col].movespeed + mapArray[row][col].moveCost[unitArray[row][col].movementType], unitArray, mapArray, unitArray[row][col].owner, row, col, unitArray[row][col].movementType)
     console.log("moveArray\n", moveArray)
     console.log(`Moving unit of: ${unitArray[row][col].owner}`)
     return moveArray
@@ -52,13 +52,13 @@ function pathing(unitArray, mapArray, row, col){
 // Can't do this because intersecting path variants
 
 
-function recPath(curMoves, unitArray, mapArray, curColor, r, c){
+function recPath(curMoves, unitArray, mapArray, curColor, r, c, moveType){
     let retArray = []
     let finArray = []
     // finArray.push({row: r, col: c})
     // console.log(r, c)
     // console.log("Map Array @ recPath:\n", mapArray)
-    let cost = mapArray[r][c].moveCost;
+    let cost = mapArray[r][c].moveCost[moveType];
     
     // if(posArray[r][c].visited === "no"){
     //     posArray[r][c].visited = "yes"
@@ -85,7 +85,7 @@ function recPath(curMoves, unitArray, mapArray, curColor, r, c){
         if(unitArray[r + 1][c].type !== "noUnit" && unitArray[r + 1][c].owner !== curColor)
             retArray = undefined
         else
-            retArray = recPath(curMoves - cost, unitArray, mapArray, curColor, r + 1, c);
+            retArray = recPath(curMoves - cost, unitArray, mapArray, curColor, r + 1, c, moveType);
         if(retArray !== undefined){
             finArray = finArray.concat(retArray);
             retArray = [];
@@ -96,7 +96,7 @@ function recPath(curMoves, unitArray, mapArray, curColor, r, c){
         if(unitArray[r - 1][c].type !== "noUnit" && unitArray[r - 1][c].owner !== curColor)
             retArray = undefined
         else
-            retArray = recPath(curMoves - cost, unitArray, mapArray, curColor, r - 1, c);
+            retArray = recPath(curMoves - cost, unitArray, mapArray, curColor, r - 1, c, moveType);
         if(retArray !== undefined){
             finArray = finArray.concat(retArray);
             retArray = [];
@@ -108,7 +108,7 @@ function recPath(curMoves, unitArray, mapArray, curColor, r, c){
         if(unitArray[r][c + 1].type !== "noUnit" && unitArray[r][c + 1].owner !== curColor)
             retArray = undefined
         else
-            retArray = recPath(curMoves - cost, unitArray, mapArray, curColor, r, c + 1);
+            retArray = recPath(curMoves - cost, unitArray, mapArray, curColor, r, c + 1, moveType);
         if(retArray !== undefined){
             finArray = finArray.concat(retArray);
             retArray = [];
@@ -119,7 +119,7 @@ function recPath(curMoves, unitArray, mapArray, curColor, r, c){
         if(unitArray[r][c - 1].type !== "noUnit" && unitArray[r][c - 1].owner !== curColor)
             retArray = undefined
         else
-            retArray = recPath(curMoves - cost, unitArray, mapArray, curColor, r, c - 1);
+            retArray = recPath(curMoves - cost, unitArray, mapArray, curColor, r, c - 1, moveType);
         if(retArray !== undefined){
             finArray = finArray.concat(retArray);
             retArray = [];

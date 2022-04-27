@@ -8,19 +8,17 @@ const UnitTypes = {
     noUnit: {
         img: noUnit,
         type: "noUnit",
-        target: "",
         damage: -1,
         owner: "",
         health: 100,
         movementType: "",
         movespeed: 0,
         exhausted: true,
-        damageVals: []
+        damageVals: {}
     },
     redSoldier: {
         img: redSoldier,
-        type: "redSoldier",
-        target: 0,
+        type: "soldier",
         damage: -1,
         owner: "Red",
         health: 100,
@@ -28,15 +26,14 @@ const UnitTypes = {
         movementType: "foot",
         movespeed: 3,
         exhausted: true,
-        damageVals: [
-            {target: "soldier", damage: 55},
-            {target: "tank", damage: 5}
-        ]
+        damageVals: {
+            soldier: 55,
+            tank: 5
+        },
     },
     redTank: {
         img: redTank,
-        type: "redTank",
-        target: 1,
+        type: "tank",
         damage: -1,
         owner: "Red",
         health: 100,
@@ -44,15 +41,14 @@ const UnitTypes = {
         movementType: "treads",
         movespeed: 6,
         exhausted: true,
-        damageVals: [
-            {target: "soldier", damage: 75},
-            {target: "tank", damage: 55}
-        ]
+        damageVals: {
+            soldier: 75,
+            tank: 55
+        },
     },
     blueSoldier: {
         img: blueSoldier,
-        type: "blueSoldier",
-        target: 0,
+        type: "soldier",
         damage: -1,
         owner: "Blue",
         health: 100,
@@ -60,15 +56,14 @@ const UnitTypes = {
         movementType: "foot",
         movespeed: 3,
         exhausted: true,
-        damageVals: [
-            {target: "soldier", damage: 55},
-            {target: "tank", damage: 5}
-        ]
+        damageVals: {
+            soldier: 55,
+            tank: 5
+        },
     },
     blueTank: {
         img: blueTank,
-        type: "blueTank",
-        target: 1,
+        type: "tank",
         damage: -1,
         owner: "Blue",
         health: 100,
@@ -76,10 +71,10 @@ const UnitTypes = {
         movementType: "treads",
         movespeed: 6,
         exhausted: true,
-        damageVals: [
-            {target: "soldier", damage: 75},
-            {target: "tank", damage: 55}
-        ]
+        damageVals: {
+            soldier: 75,
+            tank: 55
+        },
     },
 };
 

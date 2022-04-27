@@ -191,7 +191,7 @@ function App(props) {
                 else
                 {
                     tempUnitArray[unitMove.x][unitMove.y].health = tempUnitArray[unitMove.x][unitMove.y].health -
-                        Math.ceil(tempUnitArray[x][y].damageVals[tempUnitArray[unitMove.x][unitMove.y].target].damage *
+                        Math.ceil(tempUnitArray[x][y].damageVals[tempUnitArray[unitMove.x][unitMove.y].type] *
                         Math.max(0, ((10-mapArray[unitMove.x][unitMove.y].defense)/10)) *
                         tempUnitArray[x][y].health/100);
 
@@ -282,7 +282,7 @@ function App(props) {
             if(unitMove.x >= 1 && unitArray[unitMove.x-1][unitMove.y].type !== "noUnit" && unitArray[unitMove.x-1][unitMove.y].owner !== turn)
             {
                 tempDam[0] =
-                    Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x-1][unitMove.y].target].damage *
+                    Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x-1][unitMove.y].type] *
                     Math.max(0, ((10-mapArray[unitMove.x-1][unitMove.y].defense)/10)) *
                     unitArray[unitMove.x][unitMove.y].health/100);
                 setCanFire(true)
@@ -290,7 +290,7 @@ function App(props) {
             if(unitMove.x < MapSize[0]-1 && unitArray[unitMove.x+1][unitMove.y].type !== "noUnit" && unitArray[unitMove.x+1][unitMove.y].owner !== turn)
             {
                 tempDam[1] =
-                    Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x+1][unitMove.y].target].damage *
+                    Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x+1][unitMove.y].type] *
                     Math.max(0, ((10-mapArray[unitMove.x+1][unitMove.y].defense)/10)) *
                     unitArray[unitMove.x][unitMove.y].health/100);
                 setCanFire(true)
@@ -298,7 +298,7 @@ function App(props) {
             if(unitMove.y >= 1 && unitArray[unitMove.x][unitMove.y-1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y-1].owner !== turn)
             {
                 tempDam[2] =
-                    Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x][unitMove.y-1].target].damage *
+                    Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x][unitMove.y-1].type] *
                     Math.max(0, ((10-mapArray[unitMove.x][unitMove.y-1].defense)/10)) *
                     unitArray[unitMove.x][unitMove.y].health/100);
                 setCanFire(true)
@@ -306,7 +306,7 @@ function App(props) {
             if(unitMove.y < MapSize[1]-1 && unitArray[unitMove.x][unitMove.y+1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y+1].owner !== turn)
             {
                 tempDam[3] =
-                    Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x][unitMove.y+1].target].damage *
+                    Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x][unitMove.y+1].type] *
                     Math.max(0, ((10-mapArray[unitMove.x][unitMove.y+1].defense)/10)) *
                     unitArray[unitMove.x][unitMove.y].health/100);
                 setCanFire(true)
@@ -475,6 +475,16 @@ function App(props) {
         console.log("Day: " + day);
         console.log(turn + " current units: " + curPlayer.units);
     }
+
+
+    let b = {
+        first: "l",
+        set: {
+            second: "m",
+            third: "n"
+        }
+    }
+    console.log(b.set["second"]);
 
     return (
         <Fragment>

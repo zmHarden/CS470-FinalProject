@@ -28,7 +28,10 @@ const TerrainTypes = {
         type: "plain",
         defense:1,
         health: 200,
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: false,
         highlight: "noHighlight"
@@ -41,7 +44,10 @@ const TerrainTypes = {
         defense: 4,
         health: 200,
         owner: "Red",
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: true,
         highlight: "noHighlight"
@@ -54,7 +60,10 @@ const TerrainTypes = {
         defense: 4,
         health: 200,
         owner: "Blue",
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: true,
         highlight: "noHighlight"
@@ -67,7 +76,10 @@ const TerrainTypes = {
         defense: 3,
         health: 200,
         owner: "Red",
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: true,
         highlight: "noHighlight"
@@ -80,7 +92,10 @@ const TerrainTypes = {
         defense: 3,
         health: 200,
         owner: "Blue",
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: true,
         highlight: "noHighlight"
@@ -93,7 +108,10 @@ const TerrainTypes = {
         defense: 3,
         health: 200,
         owner: "",
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: true,
         highlight: "noHighlight"
@@ -106,7 +124,10 @@ const TerrainTypes = {
         defense: 3,
         health: 200,
         owner: "Red",
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: true,
         highlight: "noHighlight"
@@ -119,7 +140,10 @@ const TerrainTypes = {
         defense: 3,
         health: 200,
         owner: "Blue",
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: true,
         highlight: "noHighlight"
@@ -132,7 +156,10 @@ const TerrainTypes = {
         defense: 3,
         health: 200,
         owner: "",
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: true,
         highlight: "noHighlight"
@@ -144,7 +171,10 @@ const TerrainTypes = {
         type: "woods",
         defense: 2,
         health: 200,
-        moveCost: 2,
+        moveCost: {
+            foot: 1,
+            treads: 2
+        },
         movable: false,
         capturable: false,
         highlight: "noHighlight"
@@ -155,7 +185,10 @@ const TerrainTypes = {
         type: "mountain",
         defense: 4,
         health: 200,
-        moveCost: 2,
+        moveCost: {
+            foot: 2,
+            treads: 99
+        },
         movable: false,
         capturable: false,
         highlight: "noHighlight"
@@ -166,7 +199,10 @@ const TerrainTypes = {
         type: "road",
         defense: 0,
         health: 200,
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: false,
         highlight: "noHighlight"
@@ -176,7 +212,10 @@ const TerrainTypes = {
         type: "road",
         defense: 0,
         health: 200,
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: false,
         highlight: "noHighlight"
@@ -186,7 +225,10 @@ const TerrainTypes = {
         type: "road",
         defense: 0,
         health: 200,
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: false,
         highlight: "noHighlight"
@@ -196,7 +238,10 @@ const TerrainTypes = {
         type: "road",
         defense: 0,
         health: 200,
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: false,
         highlight: "noHighlight"
@@ -206,7 +251,10 @@ const TerrainTypes = {
         type: "road",
         defense: 0,
         health: 200,
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: false,
         highlight: "noHighlight"
@@ -216,7 +264,10 @@ const TerrainTypes = {
         type: "road",
         defense: 0,
         health: 200,
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: false,
         highlight: "noHighlight"
@@ -226,7 +277,10 @@ const TerrainTypes = {
         type: "road",
         defense: 0,
         health: 200,
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: false,
         highlight: "noHighlight"
@@ -236,7 +290,10 @@ const TerrainTypes = {
         type: "road",
         defense: 0,
         health: 200,
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: false,
         highlight: "noHighlight"
@@ -246,7 +303,10 @@ const TerrainTypes = {
         type: "road",
         defense: 0,
         health: 200,
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: false,
         highlight: "noHighlight"
@@ -256,7 +316,10 @@ const TerrainTypes = {
         type: "road",
         defense: 0,
         health: 200,
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: false,
         highlight: "noHighlight"
@@ -266,7 +329,10 @@ const TerrainTypes = {
         type: "road",
         defense: 0,
         health: 200,
-        moveCost: 1,
+        moveCost: {
+            foot: 1,
+            treads: 1
+        },
         movable: false,
         capturable: false,
         highlight: "noHighlight"

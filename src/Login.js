@@ -16,12 +16,14 @@ export default function Login(props) {
     const [verifyUser1, setVerifyUser1] = useState(false);
     const [authFailed1, setAuthFailed1] = useState(false);
     const [authSuccess1, setAuthSuccess1] = useState(false);
+    const [guestLogin1, setGuestLogin1] = useState(false);
 
     const [userInput2, setUserInput2] = useState('');
     const [pwInput2, setPWInput2] = useState('');
     const [verifyUser2, setVerifyUser2] = useState(false);
     const [authFailed2, setAuthFailed2] = useState(false);
     const [authSuccess2, setAuthSuccess2] = useState(false);
+    const [guestLogin2, setGuestLogin2] = useState(false);
 
     const handleInputChange1 = event => {
         console.log("handleInputChange1 called.");
@@ -83,44 +85,104 @@ export default function Login(props) {
         }
     };
 
-    const getButton1 = (success) => {
-        if(success){
+    const getButton1 = () => {
+        if(authSuccess1){
             return (
-                <Button
-                    color="success"
-                    variant="outlined"
-                    size="medium"
-                    onClick={() => {setVerifyUser1(true)}}
-                >Success</Button>
+                <Fragment>
+                    <Button
+                        color="success"
+                        variant="outlined"
+                        size="medium"
+                        onClick={() => {setVerifyUser1(true)}}
+                    >Login</Button>
+                    <Button
+                        disabled={true}
+                        variant="outlined"
+                        size="medium"
+                    >Guest</Button>
+                </Fragment>
+            );
+        }else if(guestLogin1){
+            return (
+                <Fragment>
+                    <Button
+                        disabled={true}
+                        variant="outlined"
+                        size="medium"
+                        onClick={() => {setVerifyUser1(true)}}
+                    >Login</Button>
+                    <Button
+                        color="success"
+                        variant="outlined"
+                        size="medium"
+                    >Guest</Button>
+                </Fragment>
             );
         }else{
             return (
-                <Button
-                    variant="outlined"
-                    size="medium"
-                    onClick={() => {setVerifyUser1(true)}}
-                >Login</Button>
+                <Fragment>
+                    <Button
+                        variant="outlined"
+                        size="medium"
+                        onClick={() => {setVerifyUser1(true)}}
+                    >Login</Button>
+                    <Button
+                        variant="outlined"
+                        size="medium"
+                        onClick={() => {setGuestLogin1(true)}}
+                    >Guest</Button>
+                </Fragment>
             );
         }
     }
 
-    const getButton2 = (success) => {
-        if(success){
+    const getButton2 = () => {
+        if(authSuccess2){
             return (
-                <Button
-                    color="success"
-                    variant="outlined"
-                    size="medium"
-                    onClick={() => {setVerifyUser2(true)}}
-                >Success</Button>
+                <Fragment>
+                    <Button
+                        color="success"
+                        variant="outlined"
+                        size="medium"
+                        onClick={() => {setVerifyUser2(true)}}
+                    >Login</Button>
+                    <Button
+                        disabled={true}
+                        variant="outlined"
+                        size="medium"
+                    >Guest</Button>
+                </Fragment>
+            );
+        }else if(guestLogin2){
+            return (
+                <Fragment>
+                    <Button
+                        disabled={true}
+                        variant="outlined"
+                        size="medium"
+                        onClick={() => {setVerifyUser2(true)}}
+                    >Login</Button>
+                    <Button
+                        color="success"
+                        variant="outlined"
+                        size="medium"
+                    >Guest</Button>
+                </Fragment>
             );
         }else{
             return (
-                <Button
-                    variant="outlined"
-                    size="medium"
-                    onClick={() => {setVerifyUser2(true)}}
-                >Login</Button>
+                <Fragment>
+                    <Button
+                        variant="outlined"
+                        size="medium"
+                        onClick={() => {setVerifyUser2(true)}}
+                    >Login</Button>
+                    <Button
+                        variant="outlined"
+                        size="medium"
+                        onClick={() => {setGuestLogin2(true)}}
+                    >Guest</Button>
+                </Fragment>
             );
         }
     }
@@ -129,6 +191,8 @@ export default function Login(props) {
         console.log('in useEffect');
 
         //if(!verifyUser1 && !verifyUser2) return;
+        if(guestLogin1) props.setUser1('Guest');
+        if(guestLogin2) props.setUser2('Guest');
 
         if(verifyUser1) {
             if (userInput1.length > 0 || pwInput1.length > 0) {
@@ -191,7 +255,8 @@ export default function Login(props) {
                 setAuthSuccess2(false);
             }
         }
-    }, [verifyUser1, props.setUser1, userInput1, pwInput1, verifyUser2, props.setUser2, userInput2, pwInput2]);
+    }, [verifyUser1, props.setUser1, userInput1, pwInput1, guestLogin1,
+        verifyUser2, props.setUser2, userInput2, pwInput2, guestLogin2]);
 
 
     return (
@@ -205,7 +270,6 @@ export default function Login(props) {
 
                             <TextField
                                 error={authFailed1}
-                                id="outlined-error-helper-text"
                                 label="Username"
                                 placeholder=""
                                 value={userInput1}
@@ -218,7 +282,6 @@ export default function Login(props) {
 
                             <TextField
                                 error={authFailed1}
-                                id="outlined-error-helper-text"
                                 label="Password"
                                 type="password"
                                 placeholder=""
@@ -229,7 +292,7 @@ export default function Login(props) {
                         </Box>
 
                         <Box display="flex" justifyContent="center" alignItems="center" width="100%" mt={2}>
-                            {getButton1(authSuccess1)}
+                            {getButton1()}
                         </Box>
                     </Box>
 
@@ -239,7 +302,6 @@ export default function Login(props) {
 
                             <TextField
                                 error={authFailed2}
-                                id="outlined-error-helper-text"
                                 label="Username"
                                 placeholder=""
                                 value={userInput2}
@@ -252,7 +314,6 @@ export default function Login(props) {
 
                             <TextField
                                 error={authFailed2}
-                                id="outlined-error-helper-text"
                                 label="Password"
                                 type="password"
                                 placeholder=""
@@ -263,7 +324,7 @@ export default function Login(props) {
                         </Box>
 
                         <Box display="flex" justifyContent="center" alignItems="center" width="100%" mt={2}>
-                            {getButton2(authSuccess2)}
+                            {getButton2()}
                         </Box>
                     </Box>
                 </Grid>

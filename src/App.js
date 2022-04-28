@@ -1,6 +1,6 @@
 import './App.css';
-import React, {Fragment, useState} from "react";
-import {Box} from "@mui/material";
+import React, {Fragment, useEffect, useRef, useState} from "react";
+import {Box, Button, Popover, Typography} from "@mui/material";
 import TopMessage from "./TopMessage";
 import Map from "./Map";
 import MapEdit from "./mapEdit"; //Definitions on what tiles differ from the generic all-plains map
@@ -21,6 +21,7 @@ const bluePlayer = {funds: 0, properties: 2, units: 0};
 
 function App(props) {
 
+    const [victory, setVictory] = useState("");
     const [turn, setTurn] = useState("Red");
     const [curPlayer, setCurPlayer] = useState(redPlayer);
     const [movingUnit, setMovingUnit] = useState(false);
@@ -28,6 +29,11 @@ function App(props) {
     const [canFire, setCanFire] = useState(false)
     const [isFiring, setIsFiring] = useState(false)
     const [canCapture, setCanCapture] = useState(false)
+    const [open, setOpen] = useState(false);
+    const [popPosition, setPopPosition] = useState([0, 0]); //X,Y for position on map relative to screen
+    const [clickedPosition, setClickedPosition] = useState([0, 0]); //X,Y for position on map relative to grid
+    const [mouseEvent, setMouseEvent] = useState(null);
+    const [popup, setPopup] = useState(null);
     const [day, setDay] = useState(1)
 
     const mapArrayProto = [];
@@ -73,33 +79,7 @@ function App(props) {
         unitArrayProto.push(tempArray);
     }
 
-    const [deployed, setDeployed] = useState(false);
-    if(!deployed)
-    {
-        unitArrayProto[1][2] = getTank("Red");
-        unitArrayProto[1][2].exhausted = false;
-        unitArrayProto[8][13] = getTank("Blue");
-        if(redPlayer.units === 2) //Protection from React's Strict Mode "Double running"
-        {
-            redPlayer.units--;
-            bluePlayer.units--;
-        }
-        setDeployed(true);
-    }
-
     const [unitArray, setUnitArray] = useState(unitArrayProto);
-
-    const unitMenu = (funds) => {
-        const units = [];
-        if (funds >= 1000) units.push("Soldier");
-        if (funds >= 7000) units.push("Tank");
-
-        return (
-            <Fragment>
-
-            </Fragment>
-        )
-    };
 
     const updateFunds = (turn, transaction) => {
         let player = redPlayer;
@@ -108,16 +88,16 @@ function App(props) {
 
         if(transaction === "New Turn"){
             newFunds = player.funds + player.properties * 1000;
-        } else if (transaction === "Soldier"){
+        } else if (transaction === "soldier"){
             newFunds = player.funds - 1000;
-        } else if (transaction === "Tank"){
+        } else if (transaction === "tank"){
             newFunds = player.funds - 7000;
         }
 
         return newFunds
     };
 
-    const mapClick = (x,y) => {
+    const mapClick = (x,y, event) => {
 
         console.log(`exhausted: ${unitArray[x][y].exhausted}`)
         console.log(`movingUnit: ${movingUnit}`)
@@ -125,16 +105,10 @@ function App(props) {
         console.log(`isFiring: ${isFiring}`)
 
         if(mapArray[x][y].owner === turn && unitArray[x][y].type === "noUnit" && !movingUnit && !moveConfirmation && !isFiring){
-            console.log(`click on ${turn} Factory`)
-            if(curPlayer.funds >= 7000) {
-                unitArray[x][y] = getTank(turn);
-                setUnitArray(unitArray.slice());
-                curPlayer.funds = updateFunds(turn, "Tank");
-            } else if (curPlayer.funds >= 1000) {
-                unitArray[x][y] = getSoldier(turn);
-                setUnitArray(unitArray.slice());
-                curPlayer.funds = updateFunds(turn, "Soldier");
-            }
+            setMouseEvent(event);
+            //console.log("x, y: " + x + ", " + y)
+            setClickedPosition([x, y] );
+            //console.log("clickedPos: " + clickedPosition[0] + ", " + clickedPosition[1])
             return
         }
 
@@ -180,12 +154,12 @@ function App(props) {
                     if(turn === "Red")
                     {
                         bluePlayer.units--;
-                        if(bluePlayer.units === 0) {console.log("Red Victory!")}
+                        if(bluePlayer.units === 0) {setVictory("Red")/*Red Victory*/}
                     }
                     else
                     {
                         redPlayer.units--;
-                        if(redPlayer.units === 0) {console.log("Blue Victory!")}
+                        if(redPlayer.units === 0) {setVictory("Blue")/*Blue Victory*/}
                     }
                 }
                 else
@@ -201,12 +175,12 @@ function App(props) {
                         if(turn === "Red")
                         {
                             redPlayer.units--;
-                            if(redPlayer.units === 0) {console.log("Blue Victory!")}
+                            if(redPlayer.units === 0) {setVictory("Blue")/*Blue Victory*/}
                         }
                         else
                         {
                             bluePlayer.units--;
-                            if(bluePlayer.units === 0) {console.log("Red Victory!")}
+                            if(bluePlayer.units === 0) {setVictory("Red")/*Red Victory*/}
                         }
                     }
                 }
@@ -382,6 +356,11 @@ function App(props) {
         {
             if(turn === "Red")
             {
+                if(tempMapArray[unitMove.x][unitMove.y].owner === "Blue")
+                {
+                    bluePlayer.properties--;
+                }
+
                 if(tempMapArray[unitMove.x][unitMove.y].building === "factory")
                 {
                     tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.redFactory;
@@ -393,13 +372,17 @@ function App(props) {
                 else if(tempMapArray[unitMove.x][unitMove.y].building === "HQ")
                 {
                     tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.redHQ;
-                    console.log("Red Victory!")
+                    setVictory("Red")
                 }
-                bluePlayer.properties--;
                 redPlayer.properties++;
             }
             else
             {
+                if(tempMapArray[unitMove.x][unitMove.y].owner === "Red")
+                {
+                    redPlayer.properties--;
+                }
+
                 if(tempMapArray[unitMove.x][unitMove.y].building === "factory")
                 {
                     tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.blueFactory;
@@ -411,9 +394,8 @@ function App(props) {
                 else if(tempMapArray[unitMove.x][unitMove.y].building === "HQ")
                 {
                     tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.blueHQ;
-                    console.log("Blue Victory!")
+                    setVictory("Blue")
                 }
-                redPlayer.properties--;
                 bluePlayer.properties++;
             }
         }
@@ -476,38 +458,144 @@ function App(props) {
         console.log(turn + " current units: " + curPlayer.units);
     }
 
+    const openPopupMenu = (event) => {
+        setOpen(true)
+        setPopPosition([event.clientX, event.clientY])
+    };
 
-    let b = {
-        first: "l",
-        set: {
-            second: "m",
-            third: "n"
+    const closePopupMenu = () => {
+            setOpen(false);
+    };
+
+    let popupPurchase = (unit, x, y) => {
+        console.log(x + ", " + y);
+        let tempUnitArray = unitArray.slice();
+
+        if(unit === "tank") {
+            tempUnitArray[x][y] = getTank(turn);
+        } else if (unit === "soldier") {
+            tempUnitArray[x][y] = getSoldier(turn);
         }
-    }
-    console.log(b.set["second"]);
 
-    return (
+        curPlayer.funds = updateFunds(turn, unit);
+        setUnitArray(tempUnitArray);
+
+        closePopupMenu();
+    };
+
+    function useFirstRender() {
+        const firstRender = useRef(true);
+
+        useEffect(() => {
+            firstRender.current = false;
+        }, []);
+
+        return firstRender.current;
+    }
+    const firstRender = useFirstRender();
+
+    useEffect(() => {
+        if(!firstRender)
+        {
+            setPopup(factoryMenu);
+            openPopupMenu(mouseEvent); //Popup menu start
+        }
+    }, [clickedPosition]);
+
+    const id = open ? 'Popover menu' : undefined;
+
+    let factoryMenu =
         <Fragment>
             <Box margin='auto'
-                 sx={{
-                     height: 640,
-                     width: 1024,
-                     display: "flex",
-                     flexDirection: "column",
-                     alignItems: "center",
-                 }}
-            >
-                <TopMessage whosTurn={turn} redPlayer={redPlayer} bluePlayer={bluePlayer}/>
-                <Map MAP_HEIGHT={height} MAP_WIDTH={width} unitsArray={unitArray} onClickCallback={mapClick} mapArray={mapArray}/>
-                ㅤ{/* <-- Blank Character for spacing/formatting */}
-                <BottomButtons
-                    newTurn={newTurn} confirmMove={confirmMove} cancelMove={cancelMove} fireAndMove={fireAndMove} captureAndMove={captureAndMove}
-                    disableButtons={disableButtons} isFiring={isFiring} movingUnit={movingUnit} canFire={canFire} canCapture={canCapture}
-                />
-
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                }}>
+                <button
+                    disabled={(curPlayer.funds < 1000)}
+                    style={{cursor: ((curPlayer.funds >= 1000) ? 'pointer' : '')}}
+                    onClick={() => popupPurchase("soldier", clickedPosition[0], clickedPosition[1])}
+                >
+                    Infantry: 1000
+                </button>
+                <button
+                    disabled={(curPlayer.funds < 7000)}
+                    style={{cursor: ((curPlayer.funds >= 7000) ? 'pointer' : '')}}
+                    onClick={() => popupPurchase("tank", clickedPosition[0], clickedPosition[1])}
+                >
+                    Tank: 7000
+                </button>
+                <button
+                    disabled={false}
+                    style={{cursor: ('pointer')}}
+                    onClick={closePopupMenu}
+                >
+                    Cancel
+                </button>
             </Box>
         </Fragment>
-    )
+
+    if(victory === "")
+    {
+        return (
+            <Fragment>
+                <Box margin='auto'
+                     sx={{
+                         height: 640,
+                         width: 1024,
+                         display: "flex",
+                         flexDirection: "column",
+                         alignItems: "center",
+                     }}
+                >
+                    <TopMessage whosTurn={turn} redPlayer={redPlayer} bluePlayer={bluePlayer}/>
+                    <Box >
+                        <Popover
+                            id={id}
+                            open={open}
+                            anchorReference="anchorPosition"
+                            anchorPosition={{ top: popPosition[1], left: popPosition[0] }}
+                            anchorOrigin={{
+                                vertical: 'center',
+                                horizontal: 'left',
+                            }}
+                            transformOrigin={{
+                                vertical: 'center',
+                                horizontal: 'left',
+                            }}
+                        >
+                            {popup}
+                        </Popover>
+                        <Map MAP_HEIGHT={height} MAP_WIDTH={width} unitsArray={unitArray} onClickCallback={mapClick} mapArray={mapArray}/>
+                    </Box>
+                    ㅤ{/* <-- Blank Character for spacing/formatting */}
+                    <BottomButtons
+                        newTurn={newTurn} confirmMove={confirmMove} cancelMove={cancelMove} fireAndMove={fireAndMove} captureAndMove={captureAndMove}
+                        disableButtons={disableButtons} isFiring={isFiring} movingUnit={movingUnit} canFire={canFire} canCapture={canCapture}
+                    />
+
+                </Box>
+            </Fragment>
+        )
+    }
+    else
+    {
+            return(
+                <Fragment>
+                    <Box margin='auto'
+                         sx={{
+                             display: "flex",
+                             flexDirection: "column",
+                             alignItems: "center",
+                         }}
+                    >
+                        <Typography> {victory} Victory! </Typography>
+                    </Box>
+                </Fragment>
+            )
+    }
+
 }
 
 export default App;

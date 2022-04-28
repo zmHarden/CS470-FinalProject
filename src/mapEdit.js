@@ -104,6 +104,11 @@ const MapEdit = () => {
             "Column": 8
         },
         {
+            ...TerrainTypes.blueHQ,
+            "Row": 4,
+            "Column": 13
+        },
+        {
             ...TerrainTypes.redHQ,
             "Row": 5,
             "Column": 2
@@ -122,11 +127,6 @@ const MapEdit = () => {
             ...TerrainTypes.roadVerticalWest,
             "Row": 5,
             "Column": 8
-        },
-        {
-            ...TerrainTypes.blueHQ,
-            "Row": 5,
-            "Column": 13
         },
         {
             ...TerrainTypes.roadVertical,

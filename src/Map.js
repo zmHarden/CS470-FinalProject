@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment} from 'react';
 import {Box, Grid} from '@mui/material';
 import {BLOCK_SIZE} from "./constants";
 import MapRender from "./MapRender";
@@ -18,7 +18,7 @@ const Map = (props) => {
                 <Grid container columns={width}>
                     {
                         mapArray.map((row, rowIdx) => row.map((col, colIdx) =>
-                            <Grid onClick={() => onClickCallback(rowIdx,colIdx)} key={colIdx}>
+                            <Grid onClick={(event) => onClickCallback(rowIdx,colIdx,event)} key={colIdx}>
                             <MapRender
                                 key={colIdx}
                                 terrain={mapArray[rowIdx][colIdx].img}

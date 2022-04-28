@@ -1,6 +1,6 @@
 import './App.css';
 import React, {Fragment, useEffect, useRef, useState} from "react";
-import {Box, Button, Popover, Typography} from "@mui/material";
+import {Box, Popover, Typography} from "@mui/material";
 import TopMessage from "./TopMessage";
 import Map from "./Map";
 import MapEdit from "./mapEdit"; //Definitions on what tiles differ from the generic all-plains map
@@ -104,7 +104,7 @@ function App(props) {
         console.log(`moveConfirmation: ${moveConfirmation}`)
         console.log(`isFiring: ${isFiring}`)
 
-        if(mapArray[x][y].owner === turn && unitArray[x][y].type === "noUnit" && !movingUnit && !moveConfirmation && !isFiring){
+        if(mapArray[x][y].owner === turn && mapArray[x][y].building === "factory" && unitArray[x][y].type === "noUnit" && !movingUnit && !moveConfirmation && !isFiring){
             setMouseEvent(event);
             //console.log("x, y: " + x + ", " + y)
             setClickedPosition([x, y] );
@@ -362,15 +362,15 @@ function App(props) {
 
                 if(tempMapArray[unitMove.x][unitMove.y].building === "factory")
                 {
-                    tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.redFactory;
+                    tempMapArray[unitMove.x][unitMove.y] = {...TerrainTypes.redFactory};
                 }
                 else if(tempMapArray[unitMove.x][unitMove.y].building === "city")
                 {
-                    tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.redCity;
+                    tempMapArray[unitMove.x][unitMove.y] = {...TerrainTypes.redCity};
                 }
                 else if(tempMapArray[unitMove.x][unitMove.y].building === "HQ")
                 {
-                    tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.redHQ;
+                    tempMapArray[unitMove.x][unitMove.y] = {...TerrainTypes.redHQ};
                     setVictory("Red")
                 }
             }
@@ -381,15 +381,15 @@ function App(props) {
 
                 if(tempMapArray[unitMove.x][unitMove.y].building === "factory")
                 {
-                    tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.blueFactory;
+                    tempMapArray[unitMove.x][unitMove.y] = {...TerrainTypes.blueFactory};
                 }
                 else if(tempMapArray[unitMove.x][unitMove.y].building === "city")
                 {
-                    tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.blueCity;
+                    tempMapArray[unitMove.x][unitMove.y] = {...TerrainTypes.blueCity};
                 }
                 else if(tempMapArray[unitMove.x][unitMove.y].building === "HQ")
                 {
-                    tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.blueHQ;
+                    tempMapArray[unitMove.x][unitMove.y] = {...TerrainTypes.blueHQ};
                     setVictory("Blue")
                 }
 
@@ -527,6 +527,11 @@ function App(props) {
                 </button>
             </Box>
         </Fragment>
+    let buttonsMenu =
+        <BottomButtons
+            newTurn={newTurn} confirmMove={confirmMove} cancelMove={cancelMove} fireAndMove={fireAndMove} captureAndMove={captureAndMove}
+            disableButtons={disableButtons} isFiring={isFiring} movingUnit={movingUnit} canFire={canFire} canCapture={canCapture}
+        />
 
     if(victory === "")
     {

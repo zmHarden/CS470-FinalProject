@@ -15,6 +15,13 @@ export default function Main() {
     const [user1, setUser1] = useState(undefined);
     const [user2, setUser2] = useState(undefined);
 
+    // uncomment to skip login page
+    // return (
+    //     <Fragment>
+    //         <App user1={user1} user2={user2} logoutAction={logout(setUser1, setUser2)}/>
+    //     </Fragment>
+    // )
+
     return (
         <Fragment>
             {

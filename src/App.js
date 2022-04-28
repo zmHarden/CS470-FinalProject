@@ -356,10 +356,9 @@ function App(props) {
         {
             if(turn === "Red")
             {
-                if(tempMapArray[unitMove.x][unitMove.y].owner === "Blue")
-                {
-                    bluePlayer.properties--;
-                }
+
+                if(tempMapArray[unitMove.x][unitMove.y].owner === "Blue") bluePlayer.properties--;
+                redPlayer.properties++;
 
                 if(tempMapArray[unitMove.x][unitMove.y].building === "factory")
                 {
@@ -374,14 +373,11 @@ function App(props) {
                     tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.redHQ;
                     setVictory("Red")
                 }
-                redPlayer.properties++;
             }
             else
             {
-                if(tempMapArray[unitMove.x][unitMove.y].owner === "Red")
-                {
-                    redPlayer.properties--;
-                }
+                if(tempMapArray[unitMove.x][unitMove.y].owner === "Red") redPlayer.properties--;
+                bluePlayer.properties++;
 
                 if(tempMapArray[unitMove.x][unitMove.y].building === "factory")
                 {
@@ -396,7 +392,7 @@ function App(props) {
                     tempMapArray[unitMove.x][unitMove.y] = TerrainTypes.blueHQ;
                     setVictory("Blue")
                 }
-                bluePlayer.properties++;
+
             }
         }
         setMapArray(tempMapArray);
@@ -412,8 +408,6 @@ function App(props) {
         if(turn === "Red")
         {
             setTurn("Blue");
-            //const newBluePlayer = {...bluePlayer, funds: bluePlayer.funds + bluePlayer.properties * 1000};
-            //setBluePlayer(newBluePlayer);
             setCurPlayer(bluePlayer);
             bluePlayer.funds = updateFunds("Blue", "New Turn");
 
@@ -431,8 +425,6 @@ function App(props) {
         else
         {
             setTurn("Red");
-            //const newRedPlayer = {...redPlayer, funds: redPlayer.funds + redPlayer.properties * 1000};
-            //setRedPlayer(newRedPlayer);
             setCurPlayer(redPlayer);
             redPlayer.funds = updateFunds("Red", "New Turn");
 

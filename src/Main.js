@@ -24,7 +24,7 @@ export default function Main() {
     // )
 
     return (
-        <Fragment>
+        <Fragment >
             {
                 user1 !== undefined && user2 !== undefined ? (
                     <App user1={user1} user2={user2} logoutAction={logout(setUser1, setUser2)}/>

@@ -10,6 +10,8 @@ import TerrainTypes from "./TerrainTypes";
 import UnitTypes from "./UnitTypes";
 import pathing from './pathing.js'
 import noUnit from "./images/units/noUnit.png";
+import redVictory from "./images/misc/redVictory.png";
+import blueVictory from "./images/misc/blueVictory.png";
 
 let unitOrigin = {x: 0, y: 0}
 let unitMove = {x: 0, y: 0}
@@ -21,6 +23,7 @@ const bluePlayer = {funds: 0, properties: 2, units: 0};
 
 function App(props) {
 
+    document.body.style = 'background: #debe95;';
     const mapNum = 0; //We'll import this later from the map selection screen.
 
     const [victory, setVictory] = useState("");
@@ -264,7 +267,7 @@ function App(props) {
                     unitArray[unitMove.x][unitMove.y].health/100);
                 setCanFire(true)
             }
-            if(unitMove.x < MapSize[0]-1 && unitArray[unitMove.x+1][unitMove.y].type !== "noUnit" && unitArray[unitMove.x+1][unitMove.y].owner !== turn)
+            if(unitMove.x < height-1 && unitArray[unitMove.x+1][unitMove.y].type !== "noUnit" && unitArray[unitMove.x+1][unitMove.y].owner !== turn)
             {
                 tempDam[1] =
                     Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x+1][unitMove.y].type] *
@@ -280,7 +283,7 @@ function App(props) {
                     unitArray[unitMove.x][unitMove.y].health/100);
                 setCanFire(true)
             }
-            if(unitMove.y < MapSize[1]-1 && unitArray[unitMove.x][unitMove.y+1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y+1].owner !== turn)
+            if(unitMove.y < width-1 && unitArray[unitMove.x][unitMove.y+1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y+1].owner !== turn)
             {
                 tempDam[3] =
                     Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[unitMove.x][unitMove.y+1].type] *
@@ -314,6 +317,7 @@ function App(props) {
     }
     const cancelMove = () => {
         setDisableButtons(true);
+        setCanCapture(false);
         setCanFire(false);
         let arrayTemp = unitArray[unitMove.x][unitMove.y]
         // unitArray[unitOrigin.x][unitOrigin.y] = unitArray[unitMove.x][unitMove.y];
@@ -330,7 +334,7 @@ function App(props) {
         {
             tempUnitArray[unitMove.x-1][unitMove.y].damage = calcDam[0]
         }
-        if(unitMove.x < MapSize[0]-1 && unitArray[unitMove.x+1][unitMove.y].type !== "noUnit" && unitArray[unitMove.x+1][unitMove.y].owner !== turn)
+        if(unitMove.x < height-1 && unitArray[unitMove.x+1][unitMove.y].type !== "noUnit" && unitArray[unitMove.x+1][unitMove.y].owner !== turn)
         {
             tempUnitArray[unitMove.x+1][unitMove.y].damage = calcDam[1]
         }
@@ -338,7 +342,7 @@ function App(props) {
         {
             tempUnitArray[unitMove.x][unitMove.y-1].damage = calcDam[2]
         }
-        if(unitMove.y < MapSize[1]-1 && unitArray[unitMove.x][unitMove.y+1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y+1].owner !== turn)
+        if(unitMove.y < width-1 && unitArray[unitMove.x][unitMove.y+1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y+1].owner !== turn)
         {
             tempUnitArray[unitMove.x][unitMove.y+1].damage = calcDam[3]
         }
@@ -501,7 +505,7 @@ function App(props) {
 
     let factoryMenu =
         <Fragment>
-            <Box margin='auto'
+            <Box className="backgroundDiv" margin='auto'
                 sx={{
                     display: "flex",
                     flexDirection: "column",
@@ -509,21 +513,56 @@ function App(props) {
                 }}>
                 <button
                     disabled={(curPlayer.funds < 1000)}
-                    style={{cursor: ((curPlayer.funds >= 1000) ? 'pointer' : '')}}
+                    style={{cursor: ((curPlayer.funds >= 1000) ? 'pointer' : ''), width: 120}}
                     onClick={() => popupPurchase("soldier", clickedPosition[0], clickedPosition[1])}
                 >
                     Infantry: 1000
                 </button>
+                {/*
+                <button
+                    disabled={(curPlayer.funds < 3000)}
+                    style={{cursor: ((curPlayer.funds >= 3000) ? 'pointer' : ''), width: 120}}
+                    onClick={() => popupPurchase("mech", clickedPosition[0], clickedPosition[1])}
+                >
+                    RPG Infantry: 3000
+                </button>
+                */}
+                {/*
+                <button
+                    disabled={(curPlayer.funds < 4000)}
+                    style={{cursor: ((curPlayer.funds >= 4000) ? 'pointer' : ''), width: 120}}
+                    onClick={() => popupPurchase("recon", clickedPosition[0], clickedPosition[1])}
+                >
+                    Recon: 4000
+                </button>
+                */}
                 <button
                     disabled={(curPlayer.funds < 7000)}
-                    style={{cursor: ((curPlayer.funds >= 7000) ? 'pointer' : '')}}
+                    style={{cursor: ((curPlayer.funds >= 7000) ? 'pointer' : ''), width: 120}}
                     onClick={() => popupPurchase("tank", clickedPosition[0], clickedPosition[1])}
                 >
                     Tank: 7000
                 </button>
+
+                {/*<button
+                    disabled={(curPlayer.funds < 6000)}
+                    style={{cursor: ((curPlayer.funds >= 6000) ? 'pointer' : ''), width: 120}}
+                    onClick={() => popupPurchase("artillery", clickedPosition[0], clickedPosition[1])}
+                >
+                    Artillery: 6000
+                </button>
+                */}
+                {/*
+                <button
+                    disabled={(curPlayer.funds < 12000)}
+                    style={{cursor: ((curPlayer.funds >= 12000) ? 'pointer' : ''), width: 120}}
+                    onClick={() => popupPurchase("mTank", clickedPosition[0], clickedPosition[1])}
+                >
+                    Med Tank: 12000
+                </button>*/}
                 <button
                     disabled={false}
-                    style={{cursor: ('pointer')}}
+                    style={{cursor: ('pointer'), width: 120}}
                     onClick={closePopupMenu}
                 >
                     Cancel
@@ -536,19 +575,32 @@ function App(props) {
             disableButtons={disableButtons} isFiring={isFiring} movingUnit={movingUnit} canFire={canFire} canCapture={canCapture}
         />
 
+    const [victoryImage, setVictoryImage] = useState(noUnit);
+    useEffect(() => {
+        if(victory==="Red")
+        {
+            setVictoryImage(redVictory);
+        }
+        else if(victory==="Blue")
+        {
+            setVictoryImage(blueVictory);
+        }
+    }, [victory]);
+
+
     if(victory === "")
     {
         return (
-            <div className="backgroundDiv">
+            <div >
                 <Fragment>
                     <Box margin='auto'
                          sx={{
-                             height: 640,
-                             width: 1024,
                              display: "flex",
                              flexDirection: "column",
                              alignItems: "center",
                          }}
+                         height="100%"
+                         width="100%"
                     >
                         <TopMessage whosTurn={turn} redPlayer={redPlayer} bluePlayer={bluePlayer}/>
                         <Box sx={{border: 3}}>
@@ -584,25 +636,29 @@ function App(props) {
     else
     {
             return(
-                <Fragment>
-                    <Box margin='auto'
-                         sx={{
-                             display: "flex",
-                             flexDirection: "column",
-                             alignItems: "center",
-                         }}
-                    >
-                        <Typography> {victory} Victory! </Typography>
-                        <Button
-                            disabled={false}
-                            variant="outlined"
-                            size="medium"
-                            onClick={props.logoutAction}
-                        >
-                            Logout
-                        </Button>
-                    </Box>
-                </Fragment>
+                    <Fragment >
+                        <br/>
+                        <Typography className="playerText" align="center" variant='h3' margin='auto' sx={{ border: 3, borderColor: 'black', borderRadius: '4px', backgroundColor: victory }}>
+                            {victory} Victory!
+                        </Typography>
+                        <br/>
+
+                        <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+                            <Box margin='auto' sx={{border: 3, borderColor: victory}}>
+                                <img src={victoryImage} alt={"Victory Celebration"} />
+                            </Box>
+
+                            <br/>
+                            <Button
+                                disabled={false}
+                                variant="outlined"
+                                size="medium"
+                                onClick={props.logoutAction}
+                            >
+                                Logout
+                            </Button>
+                        </Box>
+                    </Fragment>
             )
     }
 

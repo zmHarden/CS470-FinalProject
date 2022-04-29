@@ -240,7 +240,16 @@ const MapEdit = () => {
     ]
 }
 
-const mapSize = [[10,16], [20, 32]]
+const mapSize = [
+    [10,16],
+    [20, 32]
+]
+
+const startStats = [
+    [{funds: 2000, properties: 2, units: 0}, {funds: 0, properties: 2, units: 0}],
+    [{funds: 2000, properties: 2, units: 0}, {funds: 0, properties: 2, units: 0}]
+]
 
 export default MapEdit;
 export let MapSize = mapSize;
+export let PlayerDefaults = startStats;

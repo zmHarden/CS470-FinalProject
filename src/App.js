@@ -1,6 +1,6 @@
 import './App.css';
 import React, {Fragment, useEffect, useRef, useState} from "react";
-import {Box, Popover, Typography} from "@mui/material";
+import {Box, Button, Popover, Typography} from "@mui/material";
 import TopMessage from "./TopMessage";
 import Map from "./Map";
 import MapEdit from "./mapEdit"; //Definitions on what tiles differ from the generic all-plains map
@@ -21,6 +21,8 @@ const bluePlayer = {funds: 0, properties: 2, units: 0};
 
 function App(props) {
 
+    const mapNum = 0; //We'll import this later from the map selection screen.
+
     const [victory, setVictory] = useState("");
     const [turn, setTurn] = useState("Red");
     const [curPlayer, setCurPlayer] = useState(redPlayer);
@@ -37,8 +39,8 @@ function App(props) {
     const [day, setDay] = useState(1)
 
     const mapArrayProto = [];
-    const height = MapSize[0]
-    const width = MapSize[1]
+    const height = MapSize[mapNum][0]
+    const width = MapSize[mapNum][1]
 
     for(let i = 0; i < height; i++){
         let tempArray = [];
@@ -47,7 +49,8 @@ function App(props) {
         }
         mapArrayProto.push(tempArray);
     }
-    const mapEdit = [...MapEdit()];
+    const holder = [...MapEdit()];
+    const mapEdit = [...holder[mapNum]];
 
     while(mapEdit.length > 0){
         let bloc = mapEdit.shift();
@@ -69,10 +72,10 @@ function App(props) {
     }
 
     const unitArrayProto = [];
-    for(let i = 0; i < MapSize[0]; i++)
+    for(let i = 0; i < height; i++)
     {
         let tempArray = [];
-        for(let j = 0; j < MapSize[1]; j++)
+        for(let j = 0; j < width; j++)
         {
             tempArray.push(getBlankUnit());
         }
@@ -122,7 +125,7 @@ function App(props) {
             {
                 let tempUnitArray = unitArray.slice();
                 let tempCalcDam = calcDam.slice();
-                tempUnitArray[x][y].health = tempUnitArray[x][y].health-tempUnitArray[x][y].damage
+                tempUnitArray[x][y].health = tempUnitArray[x][y].health-( tempUnitArray[x][y].damage )
 
                 if(calcDam[0] !== -1)
                 {
@@ -204,7 +207,7 @@ function App(props) {
             //console.log(unitArray[x][y].owner === turn)
             if(!unitArray[x][y].exhausted && unitArray[x][y].owner === turn && !isFiring){
                 setMovingUnit(true);
-                moveB = pathing(unitArray, mapArray, x, y)
+                moveB = pathing(unitArray, mapArray, x, y, height, width)
                 console.log("------------------------------")
                 for(let i in moveB){
                     let curR = moveB[i].row;
@@ -333,7 +336,7 @@ function App(props) {
         }
         if(unitMove.y >= 1 && unitArray[unitMove.x][unitMove.y-1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y-1].owner !== turn)
         {
-            tempUnitArray[unitMove.x][unitMove.y-1].damage = [calcDam[2]]
+            tempUnitArray[unitMove.x][unitMove.y-1].damage = calcDam[2]
         }
         if(unitMove.y < MapSize[1]-1 && unitArray[unitMove.x][unitMove.y+1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y+1].owner !== turn)
         {
@@ -536,44 +539,46 @@ function App(props) {
     if(victory === "")
     {
         return (
-            <Fragment>
-                <Box margin='auto'
-                     sx={{
-                         height: 640,
-                         width: 1024,
-                         display: "flex",
-                         flexDirection: "column",
-                         alignItems: "center",
-                     }}
-                >
-                    <TopMessage whosTurn={turn} redPlayer={redPlayer} bluePlayer={bluePlayer}/>
-                    <Box >
-                        <Popover
-                            id={id}
-                            open={open}
-                            anchorReference="anchorPosition"
-                            anchorPosition={{ top: popPosition[1], left: popPosition[0] }}
-                            anchorOrigin={{
-                                vertical: 'center',
-                                horizontal: 'left',
-                            }}
-                            transformOrigin={{
-                                vertical: 'center',
-                                horizontal: 'left',
-                            }}
-                        >
-                            {popup}
-                        </Popover>
-                        <Map MAP_HEIGHT={height} MAP_WIDTH={width} unitsArray={unitArray} onClickCallback={mapClick} mapArray={mapArray}/>
-                    </Box>
-                    ㅤ{/* <-- Blank Character for spacing/formatting */}
-                    <BottomButtons
-                        newTurn={newTurn} confirmMove={confirmMove} cancelMove={cancelMove} fireAndMove={fireAndMove} captureAndMove={captureAndMove}
-                        disableButtons={disableButtons} isFiring={isFiring} movingUnit={movingUnit} canFire={canFire} canCapture={canCapture}
-                    />
+            <div className="backgroundDiv">
+                <Fragment>
+                    <Box margin='auto'
+                         sx={{
+                             height: 640,
+                             width: 1024,
+                             display: "flex",
+                             flexDirection: "column",
+                             alignItems: "center",
+                         }}
+                    >
+                        <TopMessage whosTurn={turn} redPlayer={redPlayer} bluePlayer={bluePlayer}/>
+                        <Box sx={{border: 3}}>
+                            <Popover
+                                id={id}
+                                open={open}
+                                anchorReference="anchorPosition"
+                                anchorPosition={{ top: popPosition[1], left: popPosition[0] }}
+                                anchorOrigin={{
+                                    vertical: 'center',
+                                    horizontal: 'left',
+                                }}
+                                transformOrigin={{
+                                    vertical: 'center',
+                                    horizontal: 'left',
+                                }}
+                            >
+                                {popup}
+                            </Popover>
+                            <Map MAP_HEIGHT={height} MAP_WIDTH={width} unitsArray={unitArray} onClickCallback={mapClick} mapArray={mapArray}/>
+                        </Box>
+                        <br/>
+                        <BottomButtons
+                            newTurn={newTurn} confirmMove={confirmMove} cancelMove={cancelMove} fireAndMove={fireAndMove} captureAndMove={captureAndMove}
+                            disableButtons={disableButtons} isFiring={isFiring} movingUnit={movingUnit} canFire={canFire} canCapture={canCapture}
+                        />
 
-                </Box>
-            </Fragment>
+                    </Box>
+                </Fragment>
+            </div>
         )
     }
     else
@@ -588,6 +593,14 @@ function App(props) {
                          }}
                     >
                         <Typography> {victory} Victory! </Typography>
+                        <Button
+                            disabled={false}
+                            variant="outlined"
+                            size="medium"
+                            onClick={props.logoutAction}
+                        >
+                            Logout
+                        </Button>
                     </Box>
                 </Fragment>
             )

@@ -14,6 +14,7 @@ export default function Main() {
 
     const [user1, setUser1] = useState(undefined);
     const [user2, setUser2] = useState(undefined);
+    const [map, setMap] = useState(-1);
 
     // uncomment to skip login page
     // return (

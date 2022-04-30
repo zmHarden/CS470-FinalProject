@@ -2,6 +2,7 @@ import './App.css';
 import React, {Fragment, useEffect, useRef, useState} from "react";
 import {Box, Button, Popover, Typography} from "@mui/material";
 import TopMessage from "./TopMessage";
+import PlayerBox from "./PlayerBox";
 import Map from "./Map";
 import MapEdit from "./mapEdit"; //Definitions on what tiles differ from the generic all-plains map
 import {MapSize} from "./mapEdit"; //Size of map used
@@ -23,7 +24,7 @@ const bluePlayer = {funds: 0, properties: 2, units: 0};
 
 function App(props) {
 
-    document.body.style = 'background: #debe95;';
+    //document.body.style = 'background: #debe95;';
     const mapNum = 0; //We'll import this later from the map selection screen.
 
     const [victory, setVictory] = useState("");
@@ -593,17 +594,18 @@ function App(props) {
         return (
             <div >
                 <Fragment>
-                    <Box margin='auto'
+                    <Box className="backgroundPattern"
+                         margin='auto'
                          sx={{
                              display: "flex",
                              flexDirection: "column",
                              alignItems: "center",
                          }}
-                         height="100%"
-                         width="100%"
+                         height="100vh"
+                         width="100vw"
                     >
-                        <TopMessage whosTurn={turn} redPlayer={redPlayer} bluePlayer={bluePlayer}/>
-                        <Box sx={{border: 3}}>
+                        <TopMessage whosTurn={turn} day={day} redPlayer={redPlayer} bluePlayer={bluePlayer}/>
+                        <Box>
                             <Popover
                                 id={id}
                                 open={open}
@@ -620,7 +622,15 @@ function App(props) {
                             >
                                 {popup}
                             </Popover>
-                            <Map MAP_HEIGHT={height} MAP_WIDTH={width} unitsArray={unitArray} onClickCallback={mapClick} mapArray={mapArray}/>
+                            <Box sx={{display: "flex", flexDirection: "row", spaceBetween: "10"}}>
+                                <PlayerBox player={'Red'} redPlayer={redPlayer} bluePlayer={bluePlayer}/>
+                                <Map MAP_HEIGHT={height}
+                                     MAP_WIDTH={width}
+                                     unitsArray={unitArray}
+                                     onClickCallback={mapClick}
+                                     mapArray={mapArray}/>
+                                <PlayerBox player={'Blue'} redPlayer={redPlayer} bluePlayer={bluePlayer}/>
+                            </Box>
                         </Box>
                         <br/>
                         <BottomButtons

@@ -18,7 +18,7 @@ const Map = (props) => {
 
     return (
         <Fragment>
-                <Box overflow={scrollBars} sx={{width: 16 * BLOCK_SIZE, height: 10 * BLOCK_SIZE}}>
+                <Box overflow={scrollBars} sx={{border: 2, width: 16 * BLOCK_SIZE, height: 10 * BLOCK_SIZE}}>
                     <Grid sx={{width: width * BLOCK_SIZE, height: height * BLOCK_SIZE}} container columns={width}>
                         {
                             mapArray.map((row, rowIdx) => row.map((col, colIdx) =>

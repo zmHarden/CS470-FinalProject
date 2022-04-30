@@ -1,13 +1,10 @@
 import React, {Fragment} from 'react';
 import Typography from '@mui/material/Typography';
-import Grid from "@mui/material/Grid";
 import './App.css';
 
 
 const TopMessage = (props) => {
     const whosTurn = props.whosTurn;
-    //const player1 = props.redPlayer;
-    //const player2 = props.bluePlayer;
 
     if(whosTurn === 'Red') {
         return (

@@ -1,14 +1,8 @@
 import React, {useState, useEffect, Fragment} from 'react';
-//import API from './API_Interface/API_Interface';
-import {TextField, Button, Box, Divider, Grid, Typography} from '@mui/material'
-import logo from './images/misc/logo2.png'
-
-// import FormControl from '@mui/material/FormControl';
-// import TextField from '@mui/material/TextField';
-// import Button from '@mui/material/Button';
-// import Box from '@mui/material/Box';
-// import Divider from '@mui/material/Divider';
-
+//import API from './API_Interface';
+import {TextField, Button, Box, Divider, Grid, Typography} from '@mui/material';
+import logo from './images/misc/logo.png';
+import './App.css';
 
 export default function Login(props) {
     const [userInput1, setUserInput1] = useState('');
@@ -90,15 +84,17 @@ export default function Login(props) {
             return (
                 <Fragment>
                     <Button
-                        color="success"
-                        variant="outlined"
+                        variant="contained"
                         size="medium"
                         onClick={() => {setVerifyUser1(true)}}
+                        sx={{mx: 2, mt: 1, backgroundColor: '#ff9296',
+                            "&:hover": { backgroundColor: '#ff9296' }}}
                     >Login</Button>
                     <Button
                         disabled={true}
-                        variant="outlined"
+                        variant="contained"
                         size="medium"
+                        sx={{mx: 2, mt: 1, backgroundColor: '#444444'}}
                     >Guest</Button>
                 </Fragment>
             );
@@ -107,14 +103,16 @@ export default function Login(props) {
                 <Fragment>
                     <Button
                         disabled={true}
-                        variant="outlined"
+                        variant="contained"
                         size="medium"
                         onClick={() => {setVerifyUser1(true)}}
+                        sx={{mx: 2, mt: 1, backgroundColor: '#444444'}}
                     >Login</Button>
                     <Button
-                        color="success"
-                        variant="outlined"
+                        variant="contained"
                         size="medium"
+                        sx={{mx: 2, mt: 1, backgroundColor: '#ff9296',
+                            "&:hover": { backgroundColor: '#ff9296' }}}
                     >Guest</Button>
                 </Fragment>
             );
@@ -122,14 +120,18 @@ export default function Login(props) {
             return (
                 <Fragment>
                     <Button
-                        variant="outlined"
+                        variant="contained"
                         size="medium"
                         onClick={() => {setVerifyUser1(true)}}
+                        sx={{mx: 2, mt: 1, backgroundColor: '#444444',
+                            "&:hover": { backgroundColor: '#898989' }}}
                     >Login</Button>
                     <Button
-                        variant="outlined"
+                        variant="contained"
                         size="medium"
                         onClick={() => {setGuestLogin1(true)}}
+                        sx={{mx: 2, mt: 1, backgroundColor: '#444444',
+                            "&:hover": { backgroundColor: '#898989' }}}
                     >Guest</Button>
                 </Fragment>
             );
@@ -141,15 +143,17 @@ export default function Login(props) {
             return (
                 <Fragment>
                     <Button
-                        color="success"
-                        variant="outlined"
+                        variant="contained"
                         size="medium"
                         onClick={() => {setVerifyUser2(true)}}
+                        sx={{mx: 2, mt: 1, backgroundColor: '#60cfff',
+                            "&:hover": { backgroundColor: '#60cfff' }}}
                     >Login</Button>
                     <Button
                         disabled={true}
-                        variant="outlined"
+                        variant="contained"
                         size="medium"
+                        sx={{mx: 2, mt: 1, backgroundColor: '#444444'}}
                     >Guest</Button>
                 </Fragment>
             );
@@ -158,14 +162,16 @@ export default function Login(props) {
                 <Fragment>
                     <Button
                         disabled={true}
-                        variant="outlined"
+                        variant="contained"
                         size="medium"
                         onClick={() => {setVerifyUser2(true)}}
+                        sx={{mx: 2, mt: 1, backgroundColor: '#444444'}}
                     >Login</Button>
                     <Button
-                        color="success"
-                        variant="outlined"
+                        variant="contained"
                         size="medium"
+                        sx={{mx: 2, mt: 1, backgroundColor: '#60cfff',
+                            "&:hover": { backgroundColor: '#60cfff' }}}
                     >Guest</Button>
                 </Fragment>
             );
@@ -173,14 +179,18 @@ export default function Login(props) {
             return (
                 <Fragment>
                     <Button
-                        variant="outlined"
+                        variant="contained"
                         size="medium"
                         onClick={() => {setVerifyUser2(true)}}
+                        sx={{mx: 2, mt: 1, backgroundColor: '#444444',
+                            "&:hover": { backgroundColor: '#898989' }}}
                     >Login</Button>
                     <Button
-                        variant="outlined"
+                        variant="contained"
                         size="medium"
                         onClick={() => {setGuestLogin2(true)}}
+                        sx={{mx: 2, mt: 1, backgroundColor: '#444444',
+                            "&:hover": { backgroundColor: '#898989' }}}
                     >Guest</Button>
                 </Fragment>
             );
@@ -199,25 +209,23 @@ export default function Login(props) {
                 props.setUser1('User1');
                 setAuthSuccess1(true);
 
-                /*
-                const api = new API();
+                /*const api = new API();
                 async function getUser1Info() {
-                    console.log('in getUserInfo');
-                    api.getUserInfo(userInput)
+                    console.log('in getUser1Info');
+                    api.getUserInfo(userInput1, pwInput1)
                         .then(userInfo => {
                             console.log(`api returns user info and it is: ${JSON.stringify(userInfo)}`);
                             const user = userInfo.user;
                             if (userInfo.status === "OK") {
-                                setUser(user);
+                                props.setUser1(user);
                             } else {
-                                setVerifyUser(false);
-                                setAuthFailed(true);
+                                setVerifyUser1(false);
+                                setAuthFailed1(true);
                             }
                         });
                 }
 
-                getUser1Info();
-                */
+                getUser1Info();*/
             } else {
                 setVerifyUser1(false);
                 setAuthFailed1(true);
@@ -230,25 +238,23 @@ export default function Login(props) {
                 props.setUser2('User2');
                 setAuthSuccess2(true);
 
-                /*
-                const api = new API();
+                /*const api = new API();
                 async function getUser2Info() {
-                    console.log('in getUserInfo');
-                    api.getUserInfo(userInput)
+                    console.log('in getUser2Info');
+                    api.getUserInfo(userInput2, pwInput2)
                         .then(userInfo => {
                             console.log(`api returns user info and it is: ${JSON.stringify(userInfo)}`);
                             const user = userInfo.user;
                             if (userInfo.status === "OK") {
-                                setUser(user);
+                                props.setUser2(user);
                             } else {
-                                setVerifyUser(false);
-                                setAuthFailed(true);
+                                setVerifyUser2(false);
+                                setAuthFailed2(true);
                             }
                         });
                 }
 
-                getUser2Info();
-                */
+                getUser2Info();*/
             } else {
                 setVerifyUser2(false);
                 setAuthFailed2(true);
@@ -260,20 +266,42 @@ export default function Login(props) {
 
 
     return (
-        <Fragment>
-            <Box sx={{display:'flex', flexDirection: 'column', alignItems:'center'}}>
-                <img src={logo} alt={"logo"}/>
+        <Fragment >
+            <Box className="backgroundPattern"
+                 height="100vh"
+                 width="100vw"
+                 sx={{display:'flex',
+                     flexDirection: 'column',
+                     alignItems:'center',
+                 }}>
+                <Box sx={{my: 5}}>
+                    <img src={logo} alt={"logo"}/>
+                </Box>
                 <Grid container columns={2} justifyContent="center">
-                    <Box sx={{mx:5, mt:5}}>
-                        <Typography>Player 1</Typography>
+                    <Box sx={{width: 400, height: 400,
+                        border:2, borderRadius: '4px',
+                        backgroundColor: '#b81e23', mx:5, mt:5}}>
+                        <Typography align="center" className="playerText" sx={{fontSize: 35, mt: 1}}>
+                            Player 1
+                        </Typography>
                         <Box display="flex" justifyContent="center" alignItems="center" width="100%" mt={2}>
 
                             <TextField
+                                variant="filled"
                                 error={authFailed1}
                                 label="Username"
                                 placeholder=""
                                 value={userInput1}
                                 onChange={handleInputChange1}
+                                sx={{my: 1,
+                                    width: 250,
+                                    backgroundColor: 'white',
+                                    borderRadius: '4px',
+                                    "& .MuiOutlinedInput-root.Mui-focused": {
+                                        "& > fieldset": {
+                                            borderColor: "#e600ff"
+                                        }
+                                    }}}
                             />
                             <Divider />
                         </Box>
@@ -281,12 +309,17 @@ export default function Login(props) {
                         <Box display="flex" justifyContent="center" alignItems="center" width="100%" mt={2}>
 
                             <TextField
+                                variant="filled"
                                 error={authFailed1}
                                 label="Password"
                                 type="password"
                                 placeholder=""
                                 value={pwInput1}
                                 onChange={handlePWChange1}
+                                sx={{my: 1,
+                                    width: 250,
+                                    backgroundColor: 'white',
+                                    borderRadius: '4px',}}
                             />
                             <Divider />
                         </Box>
@@ -296,16 +329,25 @@ export default function Login(props) {
                         </Box>
                     </Box>
 
-                    <Box sx={{mx:5, mt:5}}>
-                        <Typography>Player 2</Typography>
+                    <Box sx={{width: 400, height: 400,
+                        border:2, borderRadius: '4px',
+                        backgroundColor: '#006692', mx:5, mt:5}}>
+                        <Typography align="center" className="playerText" sx={{fontSize: 35, mt: 1}}>
+                            Player 2
+                        </Typography>
                         <Box display="flex" justifyContent="center" alignItems="center" width="100%" mt={2}>
 
                             <TextField
+                                variant="filled"
                                 error={authFailed2}
                                 label="Username"
                                 placeholder=""
                                 value={userInput2}
                                 onChange={handleInputChange2}
+                                sx={{my: 1,
+                                    width: 250,
+                                    backgroundColor: 'white',
+                                    borderRadius: '4px',}}
                             />
                             <Divider />
                         </Box>
@@ -313,12 +355,17 @@ export default function Login(props) {
                         <Box display="flex" justifyContent="center" alignItems="center" width="100%" mt={2}>
 
                             <TextField
+                                variant="filled"
                                 error={authFailed2}
                                 label="Password"
                                 type="password"
                                 placeholder=""
                                 value={pwInput2}
                                 onChange={handlePWChange2}
+                                sx={{my: 1,
+                                    width: 250,
+                                    backgroundColor: 'white',
+                                    borderRadius: '4px',}}
                             />
                             <Divider />
                         </Box>
@@ -330,6 +377,5 @@ export default function Login(props) {
                 </Grid>
             </Box>
         </Fragment>
-
     );
 }

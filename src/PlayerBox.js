@@ -59,42 +59,6 @@ const PlayerBox = (props) => {
             </Box>
         );
     }
-    /*return (
-        <Fragment >
-
-            <Grid container justifyContent="center" sx={{  width: 1024}} direction="row" columns={1}>
-
-                <Grid container justifyItems="left"  sx={{ border: 0, borderColor: 'black', borderRadius: '4px', backgroundColor: '#b81e23', width: 510}} direction="column">
-                    <Grid item>
-                        <Typography align="center" className="playerText">
-                            Player 1 - Red:
-                        </Typography>
-                    </Grid>
-
-                    <Grid item>
-                        <Typography align="center" className="playerText">
-                            Funds: {player1.funds}, Properties: {player1.properties}
-                        </Typography>
-                    </Grid>
-                </Grid>
-
-                <Grid container justifyContent="center" sx={{ border: 0, borderColor: 'black', borderRadius: '4px', backgroundColor: '#006692', width: 510}} direction="column">
-                    <Grid item>
-                        <Typography align="center" className="playerText">
-                            Player 2 - Blue:
-                        </Typography>
-                    </Grid>
-                    <Grid item>
-                        <Typography align="center" className="playerText">
-                            Funds: {player2.funds}, Properties: {player2.properties}
-                        </Typography>
-                    </Grid>
-                </Grid>
-
-            </Grid>
-            <br/>
-        </Fragment>
-    )*/
 }
 
 export default PlayerBox;

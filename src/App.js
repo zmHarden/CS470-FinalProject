@@ -27,7 +27,7 @@ function App(props) {
     //document.body.style = 'background: #debe95;';
     const mapNum = 0; //We'll import this later from the map selection screen.
 
-    const [victory, setVictory] = useState("");
+    const [victory, setVictory] = useState("Red");
     const [turn, setTurn] = useState("Red");
     const [curPlayer, setCurPlayer] = useState(redPlayer);
     const [movingUnit, setMovingUnit] = useState(false);
@@ -647,26 +647,37 @@ function App(props) {
     {
             return(
                     <Fragment >
-                        <br/>
-                        <Typography className="playerText" align="center" variant='h3' margin='auto' sx={{ border: 3, borderColor: 'black', borderRadius: '4px', backgroundColor: victory }}>
-                            {victory} Victory!
-                        </Typography>
-                        <br/>
+                        <Box className="backgroundPattern"
+                             margin='auto'
+                             sx={{
+                                 display: "flex",
+                                 flexDirection: "column",
+                                 alignItems: "center",
+                             }}
+                             height="100vh"
+                             width="100vw"
+                        >
+                            <br/>
+                            <Typography className="playerText" align="center" variant='h3' margin='auto' sx={{ border: 3, borderColor: 'black', borderRadius: '4px', backgroundColor: victory }}>
+                                {victory} Victory!
+                            </Typography>
+                            <br/>
 
-                        <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-                            <Box margin='auto' sx={{border: 3, borderColor: victory}}>
-                                <img src={victoryImage} alt={"Victory Celebration"} />
+                            <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+                                <Box margin='auto' sx={{border: 3, borderColor: victory}}>
+                                    <img className="victoryScreen" src={victoryImage} alt={"Victory Celebration"} />
+                                </Box>
+                                <br/>
+                                <Button
+                                    disabled={false}
+                                    variant="outlined"
+                                    size="medium"
+                                    onClick={props.logoutAction}
+                                >
+                                    Logout
+                                </Button>
                             </Box>
 
-                            <br/>
-                            <Button
-                                disabled={false}
-                                variant="outlined"
-                                size="medium"
-                                onClick={props.logoutAction}
-                            >
-                                Logout
-                            </Button>
                         </Box>
                     </Fragment>
             )

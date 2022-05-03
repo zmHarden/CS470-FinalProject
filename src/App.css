@@ -124,3 +124,7 @@
   color: white;
   text-shadow: black 1px 1px 1px, black 1px -1px 1px, black -1px 1px 1px, black -1px -1px 1px;
 }
+
+.victoryScreen{
+  vertical-align: bottom;
+}

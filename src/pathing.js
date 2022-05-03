@@ -88,7 +88,7 @@ function recPath(curMoves, unitArray, mapArray, curColor, r, c, moveType, height
     // Any value > -1 is a valid movable spot
     let validity = curMoves - cost
 
-    if(validity > redundancyArray[r][c])
+    if(validity >= redundancyArray[r][c])
         redundancyArray[r][c] = validity
     else
         return

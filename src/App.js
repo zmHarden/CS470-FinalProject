@@ -27,7 +27,7 @@ function App(props) {
     //document.body.style = 'background: #debe95;';
     const mapNum = 0; //We'll import this later from the map selection screen.
 
-    const [victory, setVictory] = useState("Red");
+    const [victory, setVictory] = useState("");
     const [turn, setTurn] = useState("Red");
     const [curPlayer, setCurPlayer] = useState(redPlayer);
     const [movingUnit, setMovingUnit] = useState(false);
@@ -657,25 +657,32 @@ function App(props) {
                              height="100vh"
                              width="100vw"
                         >
-                            <br/>
-                            <Typography className="playerText" align="center" variant='h3' margin='auto' sx={{ border: 3, borderColor: 'black', borderRadius: '4px', backgroundColor: victory }}>
-                                {victory} Victory!
-                            </Typography>
-                            <br/>
-
-                            <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-                                <Box margin='auto' sx={{border: 3, borderColor: victory}}>
-                                    <img className="victoryScreen" src={victoryImage} alt={"Victory Celebration"} />
-                                </Box>
+                            <Box>
                                 <br/>
-                                <Button
-                                    disabled={false}
-                                    variant="outlined"
-                                    size="medium"
-                                    onClick={props.logoutAction}
-                                >
-                                    Logout
-                                </Button>
+                                <Typography className="playerText" align="center" variant='h3' margin='auto' width="100vw" sx={{  border: 3, borderColor: 'black', borderRadius: '4px', backgroundColor: victory }}>
+                                    {victory} Victory!
+                                </Typography>
+                                <br/>
+
+                                <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+                                    <Box margin='auto' sx={{border: 3, borderColor: victory}}>
+                                        <img className="victoryScreen" src={victoryImage} alt={"Victory Celebration"} />
+                                    </Box>
+                                    <br/>
+
+                                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", backgroundColor: victory.toString().toLowerCase()  }}>
+                                        <Button
+                                            sx={{backgroundColor: '#444444', m: 0.5}}
+                                            variant="contained"
+                                            size="medium"
+                                            onClick={props.logoutAction}
+                                        >
+                                            Logout
+                                        </Button>
+                                    </Box>
+                                    <br/>
+
+                                </Box>
                             </Box>
 
                         </Box>

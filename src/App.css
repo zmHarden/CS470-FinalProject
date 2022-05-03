@@ -70,7 +70,14 @@
 .unitImage {
   position: absolute;
   bottom: 4px;
-  left: 0px;
+  left: 0;
+}
+
+.unitImageExhausted {
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  -webkit-filter: grayscale(0.5);
 }
 
 .healthText {

@@ -34,6 +34,12 @@ const MapRender = (props) => {
         capturePercent = props.captureDamage + "ㅤ /200";
     }
 
+    let exhausted = "unitImage";
+    if(props.exhausted === true)
+    {
+        exhausted = "unitImageExhausted";
+    }
+
     return (
 
         <Fragment>
@@ -42,7 +48,7 @@ const MapRender = (props) => {
                     <img className="mapImage" src={terrainSrc} alt={"terrain"} />
                 </div>
                 <div className="noHighlight">
-                    <img className="unitImage" src={unitSrc} alt={"unit"} />
+                    <img className={exhausted}  src={unitSrc} alt={"unit"} />
                     <img className="unitImage" src={capturing} alt={"Capture Flag"} />
                     <img className="unitImage" src={isTarget} alt={"target reticule"} />
                     <div className="captureText">{capturePercent}</div>

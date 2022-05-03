@@ -31,6 +31,7 @@ const Map = (props) => {
                                         damage={unitArray[rowIdx][colIdx].damage}
                                         captureDamage={mapArray[rowIdx][colIdx].health}
                                         highlight={mapArray[rowIdx][colIdx].highlight}
+                                        exhausted={unitArray[rowIdx][colIdx].exhausted}
                                     />
                                 </Grid>
                             ))

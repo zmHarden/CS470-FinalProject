@@ -43,6 +43,7 @@ const BottomButton = (props) => {
             >
                 Capture
             </button>
+            <br/>
         </Fragment>
     )
 }

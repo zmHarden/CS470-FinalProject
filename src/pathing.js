@@ -13,8 +13,31 @@ After recursive functions return
 
 
 */
+
+import {MapSize} from "./mapEdit"; //Size of map used
+const mapNum = 0; //We'll import this later from the map selection screen.
+const height = MapSize[mapNum][0]
+const width = MapSize[mapNum][1]
+
+let redundancyArray = []
+
+function resetRedundancy(){
+    let tempRedundancy = []
+    for(let i = 0; i < height; i++){
+        let tempArray = [];
+        for(let j = 0; j < width; j++){
+            tempArray.push(0)
+        }
+        tempRedundancy.push(tempArray);
+    }
+    redundancyArray = tempRedundancy
+    return
+}
+
 // const posArray = [];
 function pathing(unitArray, mapArray, row, col, height, width){
+    resetRedundancy();
+    // console.log(`Redundancy Array ${redundancyArray}`)
     // for(let i = 0; i < MAP_HEIGHT; i++){
     //     let tempArray = [];
     //     for(let j = 0; j < MAP_WIDTH; j++){
@@ -47,6 +70,8 @@ function pathing(unitArray, mapArray, row, col, height, width){
 
 
 function recPath(curMoves, unitArray, mapArray, curColor, r, c, moveType, height, width){
+    console.log("Pathing Call")
+    // console.log(`Redundancy Array ${redundancyArray}`)
     let retArray = []
     let finArray = []
     // finArray.push({row: r, col: c})
@@ -62,6 +87,12 @@ function recPath(curMoves, unitArray, mapArray, curColor, r, c, moveType, height
 
     // Any value > -1 is a valid movable spot
     let validity = curMoves - cost
+
+    if(validity > redundancyArray[r][c])
+        redundancyArray[r][c] = validity
+    else
+        return
+
     if(validity > -1){
         // If validity === 0 this is as far as this path goes
         if(validity === 0)

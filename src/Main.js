@@ -1,6 +1,6 @@
 
 import React, { useState, Fragment } from 'react';
-import Login from './Login';
+import LoginPage from './Login/LoginPage';
 import App from './App';
 
 const logout = (setUser1, setUser2) => {
@@ -29,8 +29,8 @@ export default function Main() {
                 user1 !== undefined && user2 !== undefined ? (
                     <App user1={user1} user2={user2} logoutAction={logout(setUser1, setUser2)}/>
                 ) : (
-                    <Login user1={user1} setUser1={setUser1}
-                           user2={user2} setUser2={setUser2}
+                    <LoginPage user1={user1} setUser1={setUser1}
+                               user2={user2} setUser2={setUser2}
                     />
                 )
             }

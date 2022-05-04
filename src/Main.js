@@ -4,10 +4,11 @@ import LoginPage from './Login/LoginPage';
 import App from './App';
 import MapSelect from './MapSelect';
 
-const logout = (setUser1, setUser2) => {
+const logout = (setUser1, setUser2, setMap) => {
     return () => {
         setUser1(undefined);
         setUser2(undefined);
+        setMap(-1);
     }
 };
 
@@ -29,7 +30,7 @@ export default function Main() {
             {
                 user1 !== undefined && user2 !== undefined ? (
                     map > -1 ? 
-                        ( <App user1={user1} user2={user2} logoutAction={logout(setUser1, setUser2)}/> ) :
+                        ( <App user1={user1} user2={user2} mapNum={map} logoutAction={logout(setUser1, setUser2, setMap)}/> ) :
                         ( <MapSelect setMap={setMap}/>)
                 ) : (
                     <LoginPage user1={user1} setUser1={setUser1}

@@ -28,7 +28,7 @@ const UnitTypes = {
         damageVals: {}
     },
     redSoldier: {
-        img: redRecon,
+        img: redSoldier,
         type: "soldier",
         damage: -1,
         owner: "Red",
@@ -58,7 +58,7 @@ const UnitTypes = {
         },
     },
     blueSoldier: {
-        img: blueRecon,
+        img: blueSoldier,
         type: "soldier",
         damage: -1,
         owner: "Blue",

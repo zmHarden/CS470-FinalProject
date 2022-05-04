@@ -19,14 +19,12 @@ let unitMove = {x: 0, y: 0}
 let moveB = []
 let moveConfirmation = false;
 
-const redPlayer = {funds: 2000, properties: 2, units: 0};
-const bluePlayer = {funds: 0, properties: 2, units: 0};
-
 function App(props) {
 
-    //document.body.style = 'background: #debe95;';
-    const mapNum = 0; //We'll import this later from the map selection screen.
+    const mapNum = props.mapNum;
 
+    const [redPlayer, setRedPlayer] = useState({user: props.user1, funds: 2000, properties: 2, units: 0});
+    const [bluePlayer, setBluePlayer] = useState({user: props.user2, funds: 0, properties: 2, units: 0});
     const [victory, setVictory] = useState("");
     const [turn, setTurn] = useState("Red");
     const [curPlayer, setCurPlayer] = useState(redPlayer);

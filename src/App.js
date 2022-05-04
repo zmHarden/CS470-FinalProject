@@ -9,7 +9,7 @@ import {MapSize} from "./mapEdit"; //Size of map used
 import BottomButtons from "./BottomButtons";
 import TerrainTypes from "./TerrainTypes";
 import UnitTypes from "./UnitTypes";
-import pathing from './pathing.js'
+import {pathing, rangeFinder} from './pathing.js'
 import noUnit from "./images/units/noUnit.png";
 import redVictory from "./images/misc/redVictory.png";
 import blueVictory from "./images/misc/blueVictory.png";

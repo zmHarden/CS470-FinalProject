@@ -6,6 +6,9 @@ import blueTank from './images/units/tankBlue.png'
 import redMedTank from './images/units/medTankRed.png'
 import blueMedTank from './images/units/medTankBlue.png'
 
+import redRecon from './images/units/reconRed.png'
+import blueRecon from './images/units/reconBlue.png'
+
 import redSoldier from './images/units/soldierRed.png'
 import blueSoldier from './images/units/soldierBlue.png'
 
@@ -25,7 +28,7 @@ const UnitTypes = {
         damageVals: {}
     },
     redSoldier: {
-        img: redSoldier,
+        img: redRecon,
         type: "soldier",
         damage: -1,
         owner: "Red",
@@ -55,7 +58,7 @@ const UnitTypes = {
         },
     },
     blueSoldier: {
-        img: blueSoldier,
+        img: blueRecon,
         type: "soldier",
         damage: -1,
         owner: "Blue",

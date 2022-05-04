@@ -153,4 +153,87 @@ function recPath(curMoves, unitArray, mapArray, curColor, r, c, moveType, height
     return finArray
 }
 
-export default pathing;
+
+
+    let originRow = 0
+    let originCol = 0
+
+function rangeFinder(unitArray, row, col){
+    
+    console.log(`Distance Attack Called @ ${row} ${col}`);
+    
+    // Since the range is 2-3 and 1 is invalid
+    // We gotta keep track of the origin for check
+    originRow = row
+    originCol = col
+    
+    resetRedundancy();
+
+    // Don't want to attack our own units
+    let owner = unitArray[row][col].owner
+    
+    // return recAttack(unitArray, row, col, owner, 3);
+    let yaboi = recAttack(unitArray, row, col, owner, 3);
+    console.log(`Yaboi\n ${JSON.stringify(yaboi)}`)
+
+}
+
+function recAttack(unitArray, row, col, owner, mov){
+
+    let retArray = []
+    let finArray = []
+    console.log(`Placer, origin ${originRow}, ${originCol}`)
+    // Redundancy check, shouldn't ignore reruns and less efficient runs
+    if(redundancyArray[row][col] <= mov){
+        redundancyArray[row][col] = mov
+    }
+    else
+        return
+
+    // Last tiles check
+    if(mov === 0){ 
+        // Don't want to attack nothing/our own units
+        if(unitArray[row][col].type === "noUnit" || unitArray[row][col].owner === owner)
+            return
+        if(Math.abs(originRow - row) > 1 || Math.abs(originCol - col) > 1)
+            return {row: row, col: col}
+        return
+    }
+
+    // Regular tiles check
+    if(unitArray[row][col].type !== "noUnit" && unitArray[row][col].owner !== owner){
+        // Invalidates enemies @ range of 1
+        // Grid uses 4 square logic, i.e. can't move diagonally
+        // Thus range of 1 can only be if col and row are BOTH at a distance of 1
+        if(Math.abs(originRow - row) > 1 || Math.abs(originCol - col) > 1)
+            finArray.push({row: row, col: col})
+    }
+
+    // Down
+    if(row + 1 < height)
+        retArray = recAttack(unitArray, row + 1, col, owner, mov - 1)
+        if(retArray !== undefined){ finArray = finArray.concat(retArray) }
+        retArray = []
+
+    // Up
+    if(row - 1 > -1)
+        retArray = recAttack(unitArray, row - 1, col, owner, mov - 1)
+        if(retArray !== undefined){ finArray = finArray.concat(retArray) }
+        retArray = []
+
+    // Right
+    if(col + 1 < width)
+        retArray = recAttack(unitArray, row, col + 1, owner, mov - 1)
+        if(retArray !== undefined){ finArray = finArray.concat(retArray) }
+        retArray = []
+
+    // Left
+    if(col - 1 > -1)
+        retArray = recAttack(unitArray, row, col - 1, owner, mov - 1)
+        if(retArray !== undefined){ finArray = finArray.concat(retArray) }
+        retArray = []
+
+    return finArray
+}
+
+export {pathing, rangeFinder};

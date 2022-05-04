@@ -2,6 +2,7 @@
 import React, { useState, Fragment } from 'react';
 import LoginPage from './Login/LoginPage';
 import App from './App';
+import MapSelect from './MapSelect';
 
 const logout = (setUser1, setUser2) => {
     return () => {
@@ -27,7 +28,9 @@ export default function Main() {
         <Fragment >
             {
                 user1 !== undefined && user2 !== undefined ? (
-                    <App user1={user1} user2={user2} logoutAction={logout(setUser1, setUser2)}/>
+                    map > -1 ? 
+                        ( <App user1={user1} user2={user2} logoutAction={logout(setUser1, setUser2)}/> ) :
+                        ( <MapSelect setMap={setMap}/>)
                 ) : (
                     <LoginPage user1={user1} setUser1={setUser1}
                                user2={user2} setUser2={setUser2}

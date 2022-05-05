@@ -15,6 +15,9 @@ import blueSoldier from './images/units/soldierBlue.png'
 import redMech from './images/units/mechRed.png'
 import blueMech from './images/units/mechBlue.png'
 
+import redArtillery from './images/units/redArtillery.png'
+import blueArtillery from './images/units/blueArtillery.png'
+
 const UnitTypes = {
     noUnit: {
         img: noUnit,
@@ -117,6 +120,24 @@ const UnitTypes = {
             medTank: 55
         },
     },
+    redArtillery: {
+        img: redArtillery,
+        type: "artillery",
+        damage: -1,
+        owner: "Blue",
+        health: 100,
+        cost: 6000,
+        movementType: "treads",
+        movespeed: 4,
+        exhausted: true,
+        damageVals: {
+            soldier: 90,
+            mech: 85,
+            recon: 65,
+            tank: 55,
+            medTank: 40
+        },
+    },
     blueSoldier: {
         img: blueSoldier,
         type: "soldier",
@@ -205,6 +226,24 @@ const UnitTypes = {
             recon: 105,
             tank: 85,
             medTank: 55
+        },
+    },
+    blueArtillery: {
+        img: blueArtillery,
+        type: "artillery",
+        damage: -1,
+        owner: "Blue",
+        health: 100,
+        cost: 6000,
+        movementType: "treads",
+        movespeed: 4,
+        exhausted: true,
+        damageVals: {
+            soldier: 90,
+            mech: 85,
+            recon: 65,
+            tank: 55,
+            medTank: 40
         },
     },
 };

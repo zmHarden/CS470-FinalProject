@@ -85,6 +85,12 @@ function App(props) {
         else { bluePlayer.units++; return {...UnitTypes.blueMedTank}}
     }
 
+    let getArtillery = (owner) => {
+        // return owner === "Red" ? {...UnitTypes.redArtillery} : {...UnitTypes.blueArtillery}
+        if(owner === "Red") {redPlayer.units++; return {...UnitTypes.redArtillery}}
+        bluePlayer.units++; return {...UnitTypes.blueArtillery}
+    }
+
     const unitArrayProto = [];
     for(let i = 0; i < height; i++)
     {
@@ -115,6 +121,8 @@ function App(props) {
             newFunds = player.funds - 7000;
         } else if (transaction === "medTank"){
             newFunds = player.funds - 12000;
+        } else if (transaction === "artillery"){
+            newFunds = player.finds - 6000
         }
 
         return newFunds
@@ -502,6 +510,9 @@ function App(props) {
         else if (unit === "medTank") {
             tempUnitArray[x][y] = getMedTank(turn);
         }
+        else if (unit === "artillery") {
+            tempUnitArray[x][y] = getArtillery(turn);
+        }
 
         curPlayer.funds = updateFunds(turn, unit);
         setUnitArray(tempUnitArray);
@@ -577,6 +588,13 @@ function App(props) {
                     onClick={() => popupPurchase("tank", clickedPosition[0], clickedPosition[1])}
                 >
                     Tank: 7000
+                </button>
+                <button
+                    disabled={(curPlayer.funds < 6000)}
+                    style={{cursor: ((curPlayer.funds >= 6000) ? 'pointer' : ''), width: 135}}
+                    onClick={() => popupPurchase("tank", clickedPosition[0], clickedPosition[1])}
+                >
+                    Artillery: 6000
                 </button>
 
                 {/*<button

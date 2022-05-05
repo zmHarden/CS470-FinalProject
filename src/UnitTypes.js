@@ -124,7 +124,7 @@ const UnitTypes = {
         img: redArtillery,
         type: "artillery",
         damage: -1,
-        owner: "Blue",
+        owner: "Red",
         health: 100,
         cost: 6000,
         movementType: "treads",

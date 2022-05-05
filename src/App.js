@@ -122,7 +122,7 @@ function App(props) {
         } else if (transaction === "medTank"){
             newFunds = player.funds - 12000;
         } else if (transaction === "artillery"){
-            newFunds = player.finds - 6000
+            newFunds = player.funds - 6000
         }
 
         return newFunds
@@ -262,6 +262,16 @@ function App(props) {
 
             unitMove.x = x;
             unitMove.y = y;
+
+            console.log(`Went here`)
+            console.log(`UnitOrigin : ${unitOrigin.x}, ${unitOrigin.y}\n UnitMove: ${unitMove.x}, ${unitMove.y}`)
+            if(unitOrigin.x === unitMove.x && unitOrigin.y === unitMove.y){
+                console.log(`Got here ${unitArray[x][y].type}`)
+                if(unitArray[x][y].type === "artillery"){
+                    console.log(`Artillery Detected`)
+                }
+            }
+
             // }
             // else{
             //     hasMoved = false;
@@ -333,6 +343,11 @@ function App(props) {
             tempMapArray[unitOrigin.x][unitOrigin.y].health = 200;
             setMapArray(tempMapArray);
         }
+        // if(unitOrigin.x === unitMove.x && unitOrigin.y === unitMove.y){
+        //     if(unitArray[unitOrigin.x][unitOrigin.y].type === "artillery"){
+        //         console.log(`Artillery Detected.`)
+        //     }
+        // }
         setDisableButtons(true);
         setCanFire(false);
         setCanCapture(false);
@@ -589,10 +604,11 @@ function App(props) {
                 >
                     Tank: 7000
                 </button>
+
                 <button
                     disabled={(curPlayer.funds < 6000)}
                     style={{cursor: ((curPlayer.funds >= 6000) ? 'pointer' : ''), width: 135}}
-                    onClick={() => popupPurchase("tank", clickedPosition[0], clickedPosition[1])}
+                    onClick={() => popupPurchase("artillery", clickedPosition[0], clickedPosition[1])}
                 >
                     Artillery: 6000
                 </button>

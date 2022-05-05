@@ -30,7 +30,9 @@ const TerrainTypes = {
         health: 200,
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 2
         },
         movable: false,
         capturable: false,
@@ -46,7 +48,9 @@ const TerrainTypes = {
         owner: "Red",
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: true,
@@ -62,7 +66,9 @@ const TerrainTypes = {
         owner: "Blue",
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: true,
@@ -78,7 +84,9 @@ const TerrainTypes = {
         owner: "Red",
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: true,
@@ -94,7 +102,9 @@ const TerrainTypes = {
         owner: "Blue",
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: true,
@@ -110,7 +120,9 @@ const TerrainTypes = {
         owner: "",
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: true,
@@ -126,7 +138,9 @@ const TerrainTypes = {
         owner: "Red",
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: true,
@@ -142,7 +156,9 @@ const TerrainTypes = {
         owner: "Blue",
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: true,
@@ -158,7 +174,9 @@ const TerrainTypes = {
         owner: "",
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: true,
@@ -173,7 +191,9 @@ const TerrainTypes = {
         health: 200,
         moveCost: {
             foot: 1,
-            treads: 2
+            mech: 1,
+            treads: 2,
+            tires: 3
         },
         movable: false,
         capturable: false,
@@ -187,7 +207,9 @@ const TerrainTypes = {
         health: 200,
         moveCost: {
             foot: 2,
-            treads: 99
+            mech: 1,
+            treads: 99,
+            tires: 99,
         },
         movable: false,
         capturable: false,
@@ -201,7 +223,9 @@ const TerrainTypes = {
         health: 200,
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: false,
@@ -214,7 +238,9 @@ const TerrainTypes = {
         health: 200,
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: false,
@@ -227,7 +253,9 @@ const TerrainTypes = {
         health: 200,
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: false,
@@ -240,7 +268,9 @@ const TerrainTypes = {
         health: 200,
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: false,
@@ -253,7 +283,9 @@ const TerrainTypes = {
         health: 200,
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: false,
@@ -266,7 +298,9 @@ const TerrainTypes = {
         health: 200,
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: false,
@@ -279,7 +313,9 @@ const TerrainTypes = {
         health: 200,
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: false,
@@ -292,7 +328,9 @@ const TerrainTypes = {
         health: 200,
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: false,
@@ -305,7 +343,9 @@ const TerrainTypes = {
         health: 200,
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: false,
@@ -318,7 +358,9 @@ const TerrainTypes = {
         health: 200,
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: false,
@@ -331,7 +373,9 @@ const TerrainTypes = {
         health: 200,
         moveCost: {
             foot: 1,
-            treads: 1
+            mech: 1,
+            treads: 1,
+            tires: 1
         },
         movable: false,
         capturable: false,

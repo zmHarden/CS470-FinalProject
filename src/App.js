@@ -6,7 +6,7 @@ import PlayerBox from "./PlayerBox";
 import Map from "./Map";
 import MapEdit from "./mapEdit"; //Definitions on what tiles differ from the generic all-plains map
 import {MapSize} from "./mapEdit"; //Size of map used
-import BottomButtons from "./BottomButtons";
+import PopupButtons from "./PopupButtons";
 import TerrainTypes from "./TerrainTypes";
 import UnitTypes from "./UnitTypes";
 import {pathing, rangeFinder} from './pathing.js'
@@ -64,13 +64,25 @@ function App(props) {
     const [calcDam, setCalcDam] = useState(calcDamProto);
 
     let getBlankUnit = () => {return  {...UnitTypes.noUnit};}
+    let getSoldier = (owner) => {
+        if(owner === "Red") {redPlayer.units++; return {...UnitTypes.redSoldier}}
+        else { bluePlayer.units++; return {...UnitTypes.blueSoldier}}
+    }
+    let getMech = (owner) => {
+        if(owner === "Red") {redPlayer.units++; return {...UnitTypes.redMech}}
+        else { bluePlayer.units++; return {...UnitTypes.blueMech}}
+    }
+    let getRecon = (owner) => {
+        if(owner === "Red") {redPlayer.units++; return {...UnitTypes.redRecon}}
+        else { bluePlayer.units++; return {...UnitTypes.blueRecon}}
+    }
     let getTank = (owner) => {
         if(owner === "Red") {redPlayer.units++; return {...UnitTypes.redTank}}
         else {bluePlayer.units++; return {...UnitTypes.blueTank}}
     }
-    let getSoldier = (owner) => {
-        if(owner === "Red") {redPlayer.units++; return {...UnitTypes.redSoldier}}
-        else { bluePlayer.units++; return {...UnitTypes.blueSoldier}}
+    let getMedTank = (owner) => {
+        if(owner === "Red") {redPlayer.units++; return {...UnitTypes.redMedTank}}
+        else { bluePlayer.units++; return {...UnitTypes.blueMedTank}}
     }
 
     const unitArrayProto = [];
@@ -95,8 +107,14 @@ function App(props) {
             newFunds = player.funds + player.properties * 1000;
         } else if (transaction === "soldier"){
             newFunds = player.funds - 1000;
+        } else if (transaction === "mech"){
+            newFunds = player.funds - 3000;
+        } else if (transaction === "recon"){
+            newFunds = player.funds - 4000;
         } else if (transaction === "tank"){
             newFunds = player.funds - 7000;
+        } else if (transaction === "medTank"){
+            newFunds = player.funds - 12000;
         }
 
         return newFunds
@@ -108,12 +126,10 @@ function App(props) {
         console.log(`movingUnit: ${movingUnit}`)
         console.log(`moveConfirmation: ${moveConfirmation}`)
         console.log(`isFiring: ${isFiring}`)
+        setMouseEvent(event);
 
         if(mapArray[x][y].owner === turn && mapArray[x][y].building === "factory" && unitArray[x][y].type === "noUnit" && !movingUnit && !moveConfirmation && !isFiring){
-            setMouseEvent(event);
-            //console.log("x, y: " + x + ", " + y)
             setClickedPosition([x, y] );
-            //console.log("clickedPos: " + clickedPosition[0] + ", " + clickedPosition[1])
             return
         }
 
@@ -255,6 +271,7 @@ function App(props) {
             // if(hasMoved){
             moveConfirmation = true;
             setDisableButtons(false)
+            setClickedPosition([x, y] );
 
             let tempDam = calcDam.slice();
 
@@ -293,7 +310,7 @@ function App(props) {
 
             setCalcDam(tempDam);
 
-            if(mapArray[unitMove.x][unitMove.y].capturable === true && mapArray[unitMove.x][unitMove.y].owner !== turn && unitArray[unitMove.x][unitMove.y].movementType === "foot")
+            if(mapArray[unitMove.x][unitMove.y].capturable === true && mapArray[unitMove.x][unitMove.y].owner !== turn && ( unitArray[unitMove.x][unitMove.y].movementType === "foot" || unitArray[unitMove.x][unitMove.y].movementType === "mech") )
             {
                 setCanCapture(true);
             }
@@ -313,6 +330,7 @@ function App(props) {
         setCanCapture(false);
         unitArray[unitMove.x][unitMove.y].exhausted = true;
         moveConfirmation = false;
+        closePopupMenu();
     }
     const cancelMove = () => {
         setDisableButtons(true);
@@ -324,6 +342,7 @@ function App(props) {
         unitArray[unitOrigin.x][unitOrigin.y] = arrayTemp
         setUnitArray(unitArray.slice())
         moveConfirmation = false;
+        closePopupMenu();
     }
     const fireAndMove = () => {
 
@@ -469,10 +488,19 @@ function App(props) {
         console.log(x + ", " + y);
         let tempUnitArray = unitArray.slice();
 
-        if(unit === "tank") {
-            tempUnitArray[x][y] = getTank(turn);
-        } else if (unit === "soldier") {
+        if(unit === "soldier") {
             tempUnitArray[x][y] = getSoldier(turn);
+        } else if (unit === "mech") {
+            tempUnitArray[x][y] = getMech(turn);
+        }
+        else if (unit === "recon") {
+            tempUnitArray[x][y] = getRecon(turn);
+        }
+        else if (unit === "tank") {
+            tempUnitArray[x][y] = getTank(turn);
+        }
+        else if (unit === "medTank") {
+            tempUnitArray[x][y] = getMedTank(turn);
         }
 
         curPlayer.funds = updateFunds(turn, unit);
@@ -495,7 +523,15 @@ function App(props) {
     useEffect(() => {
         if(!firstRender)
         {
-            setPopup(factoryMenu);
+            if(disableButtons)
+            {
+                setPopup(factoryMenu);
+            }
+            else
+            {
+                setPopup(buttonsMenu);
+            }
+
             openPopupMenu(mouseEvent); //Popup menu start
         }
     }, [clickedPosition]);
@@ -512,32 +548,32 @@ function App(props) {
                 }}>
                 <button
                     disabled={(curPlayer.funds < 1000)}
-                    style={{cursor: ((curPlayer.funds >= 1000) ? 'pointer' : ''), width: 120}}
+                    style={{cursor: ((curPlayer.funds >= 1000) ? 'pointer' : ''), width: 135}}
                     onClick={() => popupPurchase("soldier", clickedPosition[0], clickedPosition[1])}
                 >
                     Infantry: 1000
                 </button>
-                {/*
+
                 <button
                     disabled={(curPlayer.funds < 3000)}
-                    style={{cursor: ((curPlayer.funds >= 3000) ? 'pointer' : ''), width: 120}}
+                    style={{cursor: ((curPlayer.funds >= 3000) ? 'pointer' : ''), width: 135}}
                     onClick={() => popupPurchase("mech", clickedPosition[0], clickedPosition[1])}
                 >
                     RPG Infantry: 3000
                 </button>
-                */}
-                {/*
+
+
                 <button
                     disabled={(curPlayer.funds < 4000)}
-                    style={{cursor: ((curPlayer.funds >= 4000) ? 'pointer' : ''), width: 120}}
+                    style={{cursor: ((curPlayer.funds >= 4000) ? 'pointer' : ''), width: 135}}
                     onClick={() => popupPurchase("recon", clickedPosition[0], clickedPosition[1])}
                 >
                     Recon: 4000
                 </button>
-                */}
+
                 <button
                     disabled={(curPlayer.funds < 7000)}
-                    style={{cursor: ((curPlayer.funds >= 7000) ? 'pointer' : ''), width: 120}}
+                    style={{cursor: ((curPlayer.funds >= 7000) ? 'pointer' : ''), width: 135}}
                     onClick={() => popupPurchase("tank", clickedPosition[0], clickedPosition[1])}
                 >
                     Tank: 7000
@@ -545,34 +581,37 @@ function App(props) {
 
                 {/*<button
                     disabled={(curPlayer.funds < 6000)}
-                    style={{cursor: ((curPlayer.funds >= 6000) ? 'pointer' : ''), width: 120}}
+                    style={{cursor: ((curPlayer.funds >= 6000) ? 'pointer' : ''), width: 135}}
                     onClick={() => popupPurchase("artillery", clickedPosition[0], clickedPosition[1])}
                 >
                     Artillery: 6000
                 </button>
                 */}
-                {/*
+
                 <button
                     disabled={(curPlayer.funds < 12000)}
-                    style={{cursor: ((curPlayer.funds >= 12000) ? 'pointer' : ''), width: 120}}
-                    onClick={() => popupPurchase("mTank", clickedPosition[0], clickedPosition[1])}
+                    style={{cursor: ((curPlayer.funds >= 12000) ? 'pointer' : ''), width: 135}}
+                    onClick={() => popupPurchase("medTank", clickedPosition[0], clickedPosition[1])}
                 >
                     Med Tank: 12000
-                </button>*/}
+                </button>
                 <button
                     disabled={false}
-                    style={{cursor: ('pointer'), width: 120}}
+                    style={{cursor: ('pointer'), width: 135}}
                     onClick={closePopupMenu}
                 >
                     Cancel
                 </button>
             </Box>
         </Fragment>
+
+
     let buttonsMenu =
-        <BottomButtons
+        <PopupButtons
             newTurn={newTurn} confirmMove={confirmMove} cancelMove={cancelMove} fireAndMove={fireAndMove} captureAndMove={captureAndMove}
             disableButtons={disableButtons} isFiring={isFiring} movingUnit={movingUnit} canFire={canFire} canCapture={canCapture}
         />
+
 
     const [victoryImage, setVictoryImage] = useState(noUnit);
     useEffect(() => {
@@ -631,10 +670,16 @@ function App(props) {
                             </Box>
                         </Box>
                         <br/>
-                        <BottomButtons
-                            newTurn={newTurn} confirmMove={confirmMove} cancelMove={cancelMove} fireAndMove={fireAndMove} captureAndMove={captureAndMove}
-                            disableButtons={disableButtons} isFiring={isFiring} movingUnit={movingUnit} canFire={canFire} canCapture={canCapture}
-                        />
+                        <Box height="400" >
+                            <button
+                                disabled={!(disableButtons) || isFiring || movingUnit}
+                                style={{cursor: (disableButtons === true ? 'pointer' : '')}}
+                                onClick={newTurn}
+                            >
+                                End Turn
+                            </button>
+                        </Box>
+                        <br/><br/><br/><br/><br/><br/>
 
                     </Box>
                 </Fragment>

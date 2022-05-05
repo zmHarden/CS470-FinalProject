@@ -39,7 +39,46 @@ const UnitTypes = {
         exhausted: true,
         damageVals: {
             soldier: 55,
-            tank: 5
+            mech: 45,
+            recon: 12,
+            tank: 5,
+            medTank: 1
+        },
+    },
+    redMech: {
+        img: redMech,
+        type: "mech",
+        damage: -1,
+        owner: "Red",
+        health: 100,
+        cost: 3000,
+        movementType: "mech",
+        movespeed: 2,
+        exhausted: true,
+        damageVals: {
+            soldier: 65,
+            mech: 55,
+            recon: 85,
+            tank: 55,
+            medTank: 15
+        },
+    },
+    redRecon: {
+        img: redRecon,
+        type: "recon",
+        damage: -1,
+        owner: "Red",
+        health: 100,
+        cost: 4000,
+        movementType: "tires",
+        movespeed: 8,
+        exhausted: true,
+        damageVals: {
+            soldier: 70,
+            mech: 65,
+            recon: 35,
+            tank: 6,
+            medTank: 1
         },
     },
     redTank: {
@@ -54,7 +93,28 @@ const UnitTypes = {
         exhausted: true,
         damageVals: {
             soldier: 75,
-            tank: 55
+            mech: 70,
+            recon: 85,
+            tank: 55,
+            medTank: 15
+        },
+    },
+    redMedTank: {
+        img: redMedTank,
+        type: "medTank",
+        damage: -1,
+        owner: "Red",
+        health: 100,
+        cost: 12000,
+        movementType: "treads",
+        movespeed: 5,
+        exhausted: true,
+        damageVals: {
+            soldier: 105,
+            mech: 95,
+            recon: 105,
+            tank: 85,
+            medTank: 55
         },
     },
     blueSoldier: {
@@ -69,7 +129,46 @@ const UnitTypes = {
         exhausted: true,
         damageVals: {
             soldier: 55,
-            tank: 5
+            mech: 45,
+            recon: 12,
+            tank: 5,
+            medTank: 1
+        },
+    },
+    blueMech: {
+        img: blueMech,
+        type: "mech",
+        damage: -1,
+        owner: "Blue",
+        health: 100,
+        cost: 3000,
+        movementType: "mech",
+        movespeed: 2,
+        exhausted: true,
+        damageVals: {
+            soldier: 65,
+            mech: 55,
+            recon: 85,
+            tank: 55,
+            medTank: 15
+        },
+    },
+    blueRecon: {
+        img: blueRecon,
+        type: "recon",
+        damage: -1,
+        owner: "Blue",
+        health: 100,
+        cost: 4000,
+        movementType: "tires",
+        movespeed: 8,
+        exhausted: true,
+        damageVals: {
+            soldier: 70,
+            mech: 65,
+            recon: 35,
+            tank: 6,
+            medTank: 1
         },
     },
     blueTank: {
@@ -84,7 +183,28 @@ const UnitTypes = {
         exhausted: true,
         damageVals: {
             soldier: 75,
-            tank: 55
+            mech: 70,
+            recon: 85,
+            tank: 55,
+            medTank: 15
+        },
+    },
+    blueMedTank: {
+        img: blueMedTank,
+        type: "medTank",
+        damage: -1,
+        owner: "Blue",
+        health: 100,
+        cost: 12000,
+        movementType: "treads",
+        movespeed: 5,
+        exhausted: true,
+        damageVals: {
+            soldier: 105,
+            mech: 95,
+            recon: 105,
+            tank: 85,
+            medTank: 55
         },
     },
 };

@@ -15,8 +15,8 @@ import blueSoldier from './images/units/soldierBlue.png'
 import redMech from './images/units/mechRed.png'
 import blueMech from './images/units/mechBlue.png'
 
-import redArtillery from './images/units/redArtillery.png'
-import blueArtillery from './images/units/blueArtillery.png'
+import redArtillery from './images/units/artileryRed.png'
+import blueArtillery from './images/units/artileryBlue.png'
 
 const UnitTypes = {
     noUnit: {

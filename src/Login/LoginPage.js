@@ -25,10 +25,12 @@ export default function LoginPage(props) {
                     {
                         createAccount1 ? (
                             <CreateAccountBox player={"Red"}
+                                              user1={props.user1}
                                               setUser1={props.setUser1}
                                               setCreateAccount1={setCreateAccount1}/>
                         ) : (
                             <LoginBox player={"Red"}
+                                      user1={props.user1}
                                       setUser1={props.setUser1}
                                       setCreateAccount1={setCreateAccount1}/>
                         )
@@ -36,10 +38,12 @@ export default function LoginPage(props) {
                     {
                         createAccount2 ? (
                             <CreateAccountBox player={"Blue"}
+                                              user2={props.user2}
                                               setUser2={props.setUser2}
                                               setCreateAccount2={setCreateAccount2}/>
                         ) : (
                             <LoginBox player={"Blue"}
+                                      user2={props.user2}
                                       setUser2={props.setUser2}
                                       setCreateAccount2={setCreateAccount2}/>
                         )

@@ -9,6 +9,7 @@ import {MapSize} from "./mapEdit"; //Size of map used
 import PopupButtons from "./PopupButtons";
 import TerrainTypes from "./TerrainTypes";
 import UnitTypes from "./UnitTypes";
+import API from "./API_Interface";
 import {pathing, rangeFinder} from './pathing.js'
 import noUnit from "./images/units/noUnit.png";
 import redVictory from "./images/misc/redVictory.png";
@@ -705,7 +706,7 @@ function App(props) {
                             </Box>
                         </Box>
                         <br/>
-                        <Box height="400" >
+                        <Box height="400" sx={{mb:5}} >
                             <button
                                 disabled={!(disableButtons) || isFiring || movingUnit}
                                 style={{cursor: (disableButtons === true ? 'pointer' : '')}}
@@ -714,7 +715,6 @@ function App(props) {
                                 End Turn
                             </button>
                         </Box>
-                        <br/><br/><br/><br/><br/><br/>
 
                     </Box>
                 </Fragment>
@@ -723,6 +723,16 @@ function App(props) {
     }
     else
     {
+        const api = new API();
+        async function updateStats(username) {
+            console.log('in updateStats');
+            // dummy stats to test the function
+            api.updateStats(5, 3, 14, 20, 12, 3000, username)
+                .then(console.log('stats updated'));
+        }
+        if(redPlayer.user !== 'Guest') updateStats(redPlayer.user.Username);
+        if(bluePlayer.user !== 'Guest') updateStats(bluePlayer.user.Username);
+
             return(
                     <Fragment >
                         <Box className="backgroundPattern"

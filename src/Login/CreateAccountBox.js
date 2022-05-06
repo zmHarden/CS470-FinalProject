@@ -1,8 +1,7 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import {Box, Button, Divider, TextField, Typography} from "@mui/material";
-//import API from "../API_Interface";
+import API from "../API_Interface";
 import '../App.css';
-
 
 const CreateAccountBox = (props) => {
     const [userInput1, setUserInput1] = useState('');
@@ -203,14 +202,14 @@ const CreateAccountBox = (props) => {
         console.log('in useEffect');
 
         if(verifyUser1) {
-            if (userInput1.length > 0 || pwInput1.length > 0 || confirmPWInput1.length > 0) {
-                props.setUser1('User1');
-                setAuthSuccess1(true);
+            if (userInput1.length > 0 && pwInput1.length > 0 && confirmPWInput1 === pwInput1) {
+                //props.setUser1('User1');
+                //setAuthSuccess1(true);
 
-                /*const api = new API();
-                async function getUser1Info() {
-                    console.log('in getUser1Info');
-                    api.getUserInfo(userInput1, pwInput1)
+                const api = new API();
+                async function createAccount1() {
+                    console.log('in createAccount1');
+                    api.createAccount(userInput1, pwInput1)
                         .then(userInfo => {
                             console.log(`api returns user info and it is: ${JSON.stringify(userInfo)}`);
                             const user = userInfo.user;
@@ -224,7 +223,7 @@ const CreateAccountBox = (props) => {
                         });
                 }
 
-                getUser1Info();*/
+                createAccount1();
             } else {
                 setVerifyUser1(false);
                 setAuthFailed1(true);
@@ -233,14 +232,14 @@ const CreateAccountBox = (props) => {
         }
 
         if(verifyUser2) {
-            if (userInput2.length > 0 || pwInput2.length > 0 || confirmPWInput2.length > 0) {
-                props.setUser2('User2');
-                setAuthSuccess2(true);
+            if (userInput2.length > 0 && pwInput2.length > 0 && confirmPWInput2 === pwInput2) {
+                //props.setUser2('User2');
+                //setAuthSuccess2(true);
 
-                /*const api = new API();
-                async function getUser2Info() {
-                    console.log('in getUser2Info');
-                    api.getUserInfo(userInput2, pwInput2)
+                const api = new API();
+                async function createAccount2() {
+                    console.log('in createAccount2');
+                    api.createAccount(userInput2, pwInput2)
                         .then(userInfo => {
                             console.log(`api returns user info and it is: ${JSON.stringify(userInfo)}`);
                             const user = userInfo.user;
@@ -254,7 +253,7 @@ const CreateAccountBox = (props) => {
                         });
                 }
 
-                getUser2Info();*/
+                createAccount2();
             } else {
                 setVerifyUser2(false);
                 setAuthFailed2(true);
@@ -278,6 +277,7 @@ const CreateAccountBox = (props) => {
 
                         <TextField
                             variant="filled"
+                            disabled={props.user1 !== undefined}
                             error={authFailed1}
                             label="Username"
                             placeholder=""
@@ -295,6 +295,7 @@ const CreateAccountBox = (props) => {
 
                         <TextField
                             variant="filled"
+                            disabled={props.user1 !== undefined}
                             error={authFailed1}
                             label="Password"
                             type="password"
@@ -313,6 +314,7 @@ const CreateAccountBox = (props) => {
 
                         <TextField
                             variant="filled"
+                            disabled={props.user1 !== undefined}
                             error={authFailed1}
                             label="Confirm Password"
                             type="password"
@@ -346,6 +348,7 @@ const CreateAccountBox = (props) => {
 
                         <TextField
                             variant="filled"
+                            disabled={props.user2 !== undefined}
                             error={authFailed2}
                             label="Username"
                             placeholder=""
@@ -363,6 +366,7 @@ const CreateAccountBox = (props) => {
 
                         <TextField
                             variant="filled"
+                            disabled={props.user2 !== undefined}
                             error={authFailed2}
                             label="Password"
                             type="password"
@@ -381,6 +385,7 @@ const CreateAccountBox = (props) => {
 
                         <TextField
                             variant="filled"
+                            disabled={props.user2 !== undefined}
                             error={authFailed2}
                             label="Confirm Password"
                             type="password"

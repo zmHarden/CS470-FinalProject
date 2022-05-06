@@ -1,8 +1,7 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import {Box, Button, Divider, TextField, Typography} from "@mui/material";
-//import API from "../API_Interface";
+import API from "../API_Interface";
 import '../App.css';
-
 
 const LoginBox = (props) => {
     const [userInput1, setUserInput1] = useState('');
@@ -265,11 +264,11 @@ const LoginBox = (props) => {
         if(guestLogin2) props.setUser2('Guest');
 
         if(verifyUser1) {
-            if (userInput1.length > 0 || pwInput1.length > 0) {
-                props.setUser1('User1');
-                setAuthSuccess1(true);
+            if (userInput1.length > 0 && pwInput1.length > 0) {
+                //props.setUser1('User1');
+                //setAuthSuccess1(true);
 
-                /*const api = new API();
+                const api = new API();
                 async function getUser1Info() {
                     console.log('in getUser1Info');
                     api.getUserInfo(userInput1, pwInput1)
@@ -286,7 +285,7 @@ const LoginBox = (props) => {
                         });
                 }
 
-                getUser1Info();*/
+                getUser1Info();
             } else {
                 setVerifyUser1(false);
                 setAuthFailed1(true);
@@ -295,11 +294,11 @@ const LoginBox = (props) => {
         }
 
         if(verifyUser2) {
-            if (userInput2.length > 0 || pwInput2.length > 0) {
-                props.setUser2('User2');
-                setAuthSuccess2(true);
+            if (userInput2.length > 0 && pwInput2.length > 0) {
+                //props.setUser2('User2');
+                //setAuthSuccess2(true);
 
-                /*const api = new API();
+                const api = new API();
                 async function getUser2Info() {
                     console.log('in getUser2Info');
                     api.getUserInfo(userInput2, pwInput2)
@@ -316,7 +315,7 @@ const LoginBox = (props) => {
                         });
                 }
 
-                getUser2Info();*/
+                getUser2Info();
             } else {
                 setVerifyUser2(false);
                 setAuthFailed2(true);
@@ -340,6 +339,7 @@ const LoginBox = (props) => {
 
                         <TextField
                             variant="filled"
+                            disabled={props.user1 !== undefined}
                             error={authFailed1}
                             label="Username"
                             placeholder=""
@@ -357,6 +357,7 @@ const LoginBox = (props) => {
 
                         <TextField
                             variant="filled"
+                            disabled={props.user1 !== undefined}
                             error={authFailed1}
                             label="Password"
                             type="password"
@@ -390,6 +391,7 @@ const LoginBox = (props) => {
 
                         <TextField
                             variant="filled"
+                            disabled={props.user2 !== undefined}
                             error={authFailed2}
                             label="Username"
                             placeholder=""
@@ -407,6 +409,7 @@ const LoginBox = (props) => {
 
                         <TextField
                             variant="filled"
+                            disabled={props.user2 !== undefined}
                             error={authFailed2}
                             label="Password"
                             type="password"

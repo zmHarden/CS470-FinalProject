@@ -387,7 +387,7 @@ function App(props) {
 
         let tempUnitArray = unitArray.slice();
 
-        if(unitMove.x === unitOrigin.x && unitMove.y === unitOrigin.y && unitArray[unitMove.x][unitMove.y].type === "artillery"){
+        if(unitMove.x === unitOrigin.x && unitMove.y === unitOrigin.y && unitArray[unitOrigin.x][unitOrigin.y].type === "artillery"){
             for(let j in distAttk){
                 unitArray[distAttk[j].row][distAttk[j].col].damage = ( 
                     Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[distAttk[j].row][distAttk[j].col].type] *

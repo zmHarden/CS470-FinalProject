@@ -25,8 +25,10 @@ function App(props) {
 
     const mapNum = props.mapNum;
 
-    const [redPlayer, setRedPlayer] = useState({user: props.user1, funds: 2000, properties: 2, units: 0});
-    const [bluePlayer, setBluePlayer] = useState({user: props.user2, funds: 0, properties: 2, units: 0});
+    const [redPlayer, setRedPlayer] = useState({user: props.user1, funds: 2000, properties: 2, units: 0,
+        stats: {gamesPlayed: 1, wins: 0, unitsDestroyed: 0, unitsLost: 0, propertiesCaptured: 0, damageDealt: 0}});
+    const [bluePlayer, setBluePlayer] = useState({user: props.user2, funds: 0, properties: 2, units: 0,
+        stats: {gamesPlayed: 1, wins: 0, unitsDestroyed: 0, unitsLost: 0, propertiesCaptured: 0, damageDealt: 0}});
     const [victory, setVictory] = useState("");
     const [turn, setTurn] = useState("Red");
     const [curPlayer, setCurPlayer] = useState(redPlayer);
@@ -155,6 +157,9 @@ function App(props) {
                 let tempCalcDam = calcDam.slice();
                 tempUnitArray[x][y].health = tempUnitArray[x][y].health-( tempUnitArray[x][y].damage )
 
+                if(turn === "Red") redPlayer.stats.damageDealt += tempUnitArray[x][y].damage
+                else bluePlayer.stats.damageDealt += tempUnitArray[x][y].damage
+
                 if(calcDam[0] !== -1)
                 {
                     tempUnitArray[unitMove.x-1][unitMove.y].damage = -1;
@@ -185,20 +190,27 @@ function App(props) {
                     if(turn === "Red")
                     {
                         bluePlayer.units--;
+                        redPlayer.stats.unitsDestroyed++;
+                        bluePlayer.stats.unitsLost++;
                         if(bluePlayer.units === 0) {setVictory("Red")/*Red Victory*/}
                     }
                     else
                     {
                         redPlayer.units--;
+                        redPlayer.stats.unitsLost++;
+                        bluePlayer.stats.unitsDestroyed++;
                         if(redPlayer.units === 0) {setVictory("Blue")/*Blue Victory*/}
                     }
                 }
                 else if (unitArray[unitOrigin.x][unitOrigin.y].type !== "artillery")
                 {
-                    tempUnitArray[unitMove.x][unitMove.y].health = tempUnitArray[unitMove.x][unitMove.y].health -
-                        Math.ceil(tempUnitArray[x][y].damageVals[tempUnitArray[unitMove.x][unitMove.y].type] *
+                    let damage = Math.ceil(tempUnitArray[x][y].damageVals[tempUnitArray[unitMove.x][unitMove.y].type] *
                         Math.max(0, ((10-mapArray[unitMove.x][unitMove.y].defense)/10)) *
                         tempUnitArray[x][y].health/100);
+                    tempUnitArray[unitMove.x][unitMove.y].health = tempUnitArray[unitMove.x][unitMove.y].health - damage;
+
+                    if(turn === "Red") bluePlayer.stats.damageDealt += damage
+                    else redPlayer.stats.damageDealt += damage
 
                     if (tempUnitArray[unitMove.x][unitMove.y].health <= 0)
                     {
@@ -206,11 +218,15 @@ function App(props) {
                         if(turn === "Red")
                         {
                             redPlayer.units--;
+                            redPlayer.stats.unitsLost++;
+                            bluePlayer.stats.unitsDestroyed++;
                             if(redPlayer.units === 0) {setVictory("Blue")/*Blue Victory*/}
                         }
                         else
                         {
                             bluePlayer.units--;
+                            redPlayer.stats.unitsDestroyed++;
+                            bluePlayer.stats.unitsLost++;
                             if(bluePlayer.units === 0) {setVictory("Red")/*Red Victory*/}
                         }
                     }
@@ -434,6 +450,7 @@ function App(props) {
 
                 if(tempMapArray[unitMove.x][unitMove.y].owner === "Blue") bluePlayer.properties--;
                 redPlayer.properties++;
+                redPlayer.stats.propertiesCaptured++;
 
                 if(tempMapArray[unitMove.x][unitMove.y].building === "factory")
                 {
@@ -453,6 +470,7 @@ function App(props) {
             {
                 if(tempMapArray[unitMove.x][unitMove.y].owner === "Red") redPlayer.properties--;
                 bluePlayer.properties++;
+                bluePlayer.stats.propertiesCaptured++;
 
                 if(tempMapArray[unitMove.x][unitMove.y].building === "factory")
                 {
@@ -749,15 +767,34 @@ function App(props) {
     }
     else
     {
+        if(victory === "Red") redPlayer.stats.wins = 1;
+        else bluePlayer.stats.wins = 1;
+
         const api = new API();
-        async function updateStats(username) {
+        async function updateStats(gamesPlayed, wins, unitsDestroyed, unitsLost, propertiesCaptured, damageDealt, username) {
             console.log('in updateStats');
             // dummy stats to test the function
-            api.updateStats(5, 3, 14, 20, 12, 3000, username)
+            api.updateStats(gamesPlayed, wins, unitsDestroyed, unitsLost, propertiesCaptured, damageDealt, username)
                 .then(console.log('stats updated'));
         }
-        if(redPlayer.user !== 'Guest') updateStats(redPlayer.user.Username);
-        if(bluePlayer.user !== 'Guest') updateStats(bluePlayer.user.Username);
+        if(redPlayer.user !== 'Guest') {
+            updateStats(redPlayer.user.GamesPlayed + redPlayer.stats.gamesPlayed,
+                redPlayer.user.Wins + redPlayer.stats.wins,
+                redPlayer.user.UnitsDestroyed + redPlayer.stats.unitsDestroyed,
+                redPlayer.user.UnitsLost + redPlayer.stats.unitsLost,
+                redPlayer.user.PropertiesCaptured + redPlayer.stats.propertiesCaptured,
+                redPlayer.user.DamageDealt + redPlayer.stats.damageDealt,
+                redPlayer.user.Username);
+        }
+        if(bluePlayer.user !== 'Guest') {
+            updateStats(bluePlayer.user.GamesPlayed + bluePlayer.stats.gamesPlayed,
+                bluePlayer.user.Wins + bluePlayer.stats.wins,
+                bluePlayer.user.UnitsDestroyed + bluePlayer.stats.unitsDestroyed,
+                bluePlayer.user.UnitsLost + bluePlayer.stats.unitsLost,
+                bluePlayer.user.PropertiesCaptured + bluePlayer.stats.propertiesCaptured,
+                bluePlayer.user.DamageDealt + bluePlayer.stats.damageDealt,
+                bluePlayer.user.Username);
+        }
 
             return(
                     <Fragment >

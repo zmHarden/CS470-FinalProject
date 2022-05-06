@@ -3,6 +3,12 @@ import {Box, Button, Divider, TextField, Typography} from "@mui/material";
 import API from "../API_Interface";
 import '../App.css';
 
+const CryptoJS = require('crypto-js');
+
+const encrypt = (password) => {
+    return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(password));
+};
+
 const LoginBox = (props) => {
     const [userInput1, setUserInput1] = useState('');
     const [pwInput1, setPWInput1] = useState('');
@@ -264,14 +270,15 @@ const LoginBox = (props) => {
         if(guestLogin2) props.setUser2('Guest');
 
         if(verifyUser1) {
-            if (userInput1.length > 0 && pwInput1.length > 0) {
+            if (userInput1.length > 0 && pwInput1.length > 0 &&
+                (props.user2 === undefined || props.user2 === 'Guest' || userInput1 !== props.user2.Username)) {
                 //props.setUser1('User1');
                 //setAuthSuccess1(true);
 
                 const api = new API();
                 async function getUser1Info() {
                     console.log('in getUser1Info');
-                    api.getUserInfo(userInput1, pwInput1)
+                    api.getUserInfo(userInput1, encrypt(pwInput1))
                         .then(userInfo => {
                             console.log(`api returns user info and it is: ${JSON.stringify(userInfo)}`);
                             const user = userInfo.user;
@@ -294,14 +301,15 @@ const LoginBox = (props) => {
         }
 
         if(verifyUser2) {
-            if (userInput2.length > 0 && pwInput2.length > 0) {
+            if (userInput2.length > 0 && pwInput2.length > 0 &&
+            (props.user1 === undefined || props.user1 === 'Guest' || userInput2 !== props.user1.Username)) {
                 //props.setUser2('User2');
                 //setAuthSuccess2(true);
 
                 const api = new API();
                 async function getUser2Info() {
                     console.log('in getUser2Info');
-                    api.getUserInfo(userInput2, pwInput2)
+                    api.getUserInfo(userInput2, encrypt(pwInput2))
                         .then(userInfo => {
                             console.log(`api returns user info and it is: ${JSON.stringify(userInfo)}`);
                             const user = userInfo.user;

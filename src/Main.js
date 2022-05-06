@@ -19,11 +19,11 @@ export default function Main() {
     const [map, setMap] = useState(-1);
 
     // uncomment to skip login page and map select
-    return (
-        <Fragment>
-            <App user1={"Guest"} user2={"Guest"} mapNum={0} logoutAction={logout(setUser1, setUser2)}/>
-        </Fragment>
-    )
+    // return (
+    //     <Fragment>
+    //         <App user1={"Guest"} user2={"Guest"} mapNum={0} logoutAction={logout(setUser1, setUser2)}/>
+    //     </Fragment>
+    // )
 
     return (
         <Fragment >

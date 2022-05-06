@@ -3,6 +3,12 @@ import {Box, Button, Divider, TextField, Typography} from "@mui/material";
 import API from "../API_Interface";
 import '../App.css';
 
+const CryptoJS = require('crypto-js');
+
+const encrypt = (password) => {
+    return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(password));
+};
+
 const CreateAccountBox = (props) => {
     const [userInput1, setUserInput1] = useState('');
     const [pwInput1, setPWInput1] = useState('');
@@ -209,7 +215,7 @@ const CreateAccountBox = (props) => {
                 const api = new API();
                 async function createAccount1() {
                     console.log('in createAccount1');
-                    api.createAccount(userInput1, pwInput1)
+                    api.createAccount(userInput1, encrypt(pwInput1))
                         .then(userInfo => {
                             console.log(`api returns user info and it is: ${JSON.stringify(userInfo)}`);
                             const user = userInfo.user;
@@ -239,7 +245,7 @@ const CreateAccountBox = (props) => {
                 const api = new API();
                 async function createAccount2() {
                     console.log('in createAccount2');
-                    api.createAccount(userInput2, pwInput2)
+                    api.createAccount(userInput2, encrypt(pwInput2))
                         .then(userInfo => {
                             console.log(`api returns user info and it is: ${JSON.stringify(userInfo)}`);
                             const user = userInfo.user;

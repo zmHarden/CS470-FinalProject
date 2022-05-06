@@ -387,7 +387,7 @@ function App(props) {
 
         let tempUnitArray = unitArray.slice();
 
-        if(unitMove.x === unitOrigin.x && unitMove.y === unitOrigin.y){
+        if(unitMove.x === unitOrigin.x && unitMove.y === unitOrigin.y && unitArray[unitMove.x][unitMove.y].type === "artillery"){
             for(let j in distAttk){
                 unitArray[distAttk[j].row][distAttk[j].col].damage = ( 
                     Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[distAttk[j].row][distAttk[j].col].type] *
@@ -396,21 +396,23 @@ function App(props) {
                 )
             }
         }
-        if(unitMove.x >= 1 && unitArray[unitMove.x-1][unitMove.y].type !== "noUnit" && unitArray[unitMove.x-1][unitMove.y].owner !== turn)
-        {
-            tempUnitArray[unitMove.x-1][unitMove.y].damage = calcDam[0]
-        }
-        if(unitMove.x < height-1 && unitArray[unitMove.x+1][unitMove.y].type !== "noUnit" && unitArray[unitMove.x+1][unitMove.y].owner !== turn)
-        {
-            tempUnitArray[unitMove.x+1][unitMove.y].damage = calcDam[1]
-        }
-        if(unitMove.y >= 1 && unitArray[unitMove.x][unitMove.y-1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y-1].owner !== turn)
-        {
-            tempUnitArray[unitMove.x][unitMove.y-1].damage = calcDam[2]
-        }
-        if(unitMove.y < width-1 && unitArray[unitMove.x][unitMove.y+1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y+1].owner !== turn)
-        {
-            tempUnitArray[unitMove.x][unitMove.y+1].damage = calcDam[3]
+        else{
+            if(unitMove.x >= 1 && unitArray[unitMove.x-1][unitMove.y].type !== "noUnit" && unitArray[unitMove.x-1][unitMove.y].owner !== turn)
+            {
+                tempUnitArray[unitMove.x-1][unitMove.y].damage = calcDam[0]
+            }
+            if(unitMove.x < height-1 && unitArray[unitMove.x+1][unitMove.y].type !== "noUnit" && unitArray[unitMove.x+1][unitMove.y].owner !== turn)
+            {
+                tempUnitArray[unitMove.x+1][unitMove.y].damage = calcDam[1]
+            }
+            if(unitMove.y >= 1 && unitArray[unitMove.x][unitMove.y-1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y-1].owner !== turn)
+            {
+                tempUnitArray[unitMove.x][unitMove.y-1].damage = calcDam[2]
+            }
+            if(unitMove.y < width-1 && unitArray[unitMove.x][unitMove.y+1].type !== "noUnit" && unitArray[unitMove.x][unitMove.y+1].owner !== turn)
+            {
+                tempUnitArray[unitMove.x][unitMove.y+1].damage = calcDam[3]
+            }
         }
 
         setUnitArray(tempUnitArray);

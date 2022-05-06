@@ -390,7 +390,7 @@ function App(props) {
         if(unitMove.x === unitOrigin.x && unitMove.y === unitOrigin.y){
             for(let j in distAttk){
                 unitArray[distAttk[j].row][distAttk[j].col].damage = ( 
-                    Math.ceil(unitArray[unitMove.x][unitMove.x].damageVals[unitArray[distAttk[j].row][distAttk[j].col].type] *
+                    Math.ceil(unitArray[unitMove.x][unitMove.y].damageVals[unitArray[distAttk[j].row][distAttk[j].col].type] *
                     Math.max(0, ((10 - mapArray[distAttk[j].row][distAttk[j].col].defense) / 10)) *
                     unitArray[unitMove.x][unitMove.y].health / 100)
                 )

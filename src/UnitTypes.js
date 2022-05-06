@@ -45,7 +45,8 @@ const UnitTypes = {
             mech: 45,
             recon: 12,
             tank: 5,
-            medTank: 1
+            medTank: 1, 
+            artillery: 15,
         },
     },
     redMech: {
@@ -63,7 +64,8 @@ const UnitTypes = {
             mech: 55,
             recon: 85,
             tank: 55,
-            medTank: 15
+            medTank: 15, 
+            artillery: 65,
         },
     },
     redRecon: {
@@ -81,7 +83,8 @@ const UnitTypes = {
             mech: 65,
             recon: 35,
             tank: 6,
-            medTank: 1
+            medTank: 1,
+            artillery: 27
         },
     },
     redTank: {
@@ -99,7 +102,8 @@ const UnitTypes = {
             mech: 70,
             recon: 85,
             tank: 55,
-            medTank: 15
+            medTank: 15,
+            artillery: 70,
         },
     },
     redMedTank: {
@@ -117,7 +121,8 @@ const UnitTypes = {
             mech: 95,
             recon: 105,
             tank: 85,
-            medTank: 55
+            medTank: 55,
+            artillery: 90,
         },
     },
     redArtillery: {
@@ -135,7 +140,8 @@ const UnitTypes = {
             mech: 85,
             recon: 65,
             tank: 55,
-            medTank: 40
+            medTank: 40,
+            artillery: 65,
         },
     },
     blueSoldier: {
@@ -153,7 +159,8 @@ const UnitTypes = {
             mech: 45,
             recon: 12,
             tank: 5,
-            medTank: 1
+            medTank: 1, 
+            artillery: 15,
         },
     },
     blueMech: {
@@ -171,7 +178,8 @@ const UnitTypes = {
             mech: 55,
             recon: 85,
             tank: 55,
-            medTank: 15
+            medTank: 15,
+            artillery: 65,
         },
     },
     blueRecon: {
@@ -189,7 +197,8 @@ const UnitTypes = {
             mech: 65,
             recon: 35,
             tank: 6,
-            medTank: 1
+            medTank: 1,
+            artillery: 27
         },
     },
     blueTank: {
@@ -207,7 +216,8 @@ const UnitTypes = {
             mech: 70,
             recon: 85,
             tank: 55,
-            medTank: 15
+            medTank: 15,
+            artillery: 70,
         },
     },
     blueMedTank: {
@@ -225,7 +235,8 @@ const UnitTypes = {
             mech: 95,
             recon: 105,
             tank: 85,
-            medTank: 55
+            medTank: 55,
+            artillery: 90,
         },
     },
     blueArtillery: {
@@ -243,7 +254,8 @@ const UnitTypes = {
             mech: 85,
             recon: 65,
             tank: 55,
-            medTank: 40
+            medTank: 40,
+            artillery: 65,
         },
     },
 };

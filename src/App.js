@@ -526,6 +526,7 @@ function App(props) {
             tempUnitArray[x][y] = getMedTank(turn);
         }
         else if (unit === "artillery") {
+            console.log(`turn ${turn}`)
             tempUnitArray[x][y] = getArtillery(turn);
         }
 

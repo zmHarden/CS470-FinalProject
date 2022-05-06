@@ -15,13 +15,14 @@ After recursive functions return
 */
 
 import {MapSize} from "./mapEdit"; //Size of map used
-const mapNum = 0; //We'll import this later from the map selection screen.
-const height = MapSize[mapNum][0]
-const width = MapSize[mapNum][1]
+// const mapNum = 0; //We'll import this later from the map selection screen.
+// let height
+// let width
 
 let redundancyArray = []
 
-function resetRedundancy(){
+function resetRedundancy(height, width){
+    // console.log(`Redundancy HW check - ${height}, ${width}`)
     let tempRedundancy = []
     for(let i = 0; i < height; i++){
         let tempArray = [];
@@ -36,7 +37,10 @@ function resetRedundancy(){
 
 // const posArray = [];
 function pathing(unitArray, mapArray, row, col, height, width){
-    resetRedundancy();
+    console.log(`HW Cheque -> H${unitArray.length}, W${unitArray[0].length}`)
+    height = unitArray.length
+    width = unitArray[0].length 
+    resetRedundancy(height, width);
     // console.log(`Redundancy Array ${redundancyArray}`)
     // for(let i = 0; i < MAP_HEIGHT; i++){
     //     let tempArray = [];
@@ -87,7 +91,7 @@ function recPath(curMoves, unitArray, mapArray, curColor, r, c, moveType, height
 
     // Any value > -1 is a valid movable spot
     let validity = curMoves - cost
-
+    // console.log(`redundancyArray ${redundancyArray}`)
     if(validity >= redundancyArray[r][c])
         redundancyArray[r][c] = validity
     else
@@ -158,31 +162,36 @@ function recPath(curMoves, unitArray, mapArray, curColor, r, c, moveType, height
     let originRow = 0
     let originCol = 0
 
-function rangeFinder(unitArray, row, col){
+function rangeFinder(unitArray, row, col, height, width){
     
     console.log(`Distance Attack Called @ ${row} ${col}`);
+    console.log(`HW Cheque -> H${unitArray.length}, W${unitArray[0].length}`)
+    // height = unitArray.length
+    // width = unitArray[0].length 
     
     // Since the range is 2-3 and 1 is invalid
     // We gotta keep track of the origin for check
     originRow = row
     originCol = col
     
-    resetRedundancy();
+    resetRedundancy(height, width);
 
     // Don't want to attack our own units
     let owner = unitArray[row][col].owner
     
     // return recAttack(unitArray, row, col, owner, 3);
-    let yaboi = recAttack(unitArray, row, col, owner, 3);
-    console.log(`Yaboi\n ${JSON.stringify(yaboi)}`)
-
+    // console.log(`Yaboi\n ${JSON.stringify(yaboi)}`)
+    return recAttack(unitArray, row, col, owner, 3, height, width);
 }
 
-function recAttack(unitArray, row, col, owner, mov){
+function recAttack(unitArray, row, col, owner, mov, height, width){
 
     let retArray = []
     let finArray = []
     console.log(`Placer, origin ${originRow}, ${originCol}`)
+    if(row === 6 && col === 5){
+        console.log("Touched``````````````````````````````````````````````````")
+    }
     // Redundancy check, shouldn't ignore reruns and less efficient runs
     if(redundancyArray[row][col] <= mov){
         redundancyArray[row][col] = mov
@@ -195,7 +204,7 @@ function recAttack(unitArray, row, col, owner, mov){
         // Don't want to attack nothing/our own units
         if(unitArray[row][col].type === "noUnit" || unitArray[row][col].owner === owner)
             return
-        if(Math.abs(originRow - row) > 1 || Math.abs(originCol - col) > 1)
+        if(Math.abs(originRow - row) > 1 || Math.abs(originCol - col) > 1 || (Math.abs(originRow - row) === 1 && Math.abs(originCol - col) === 1))
             return {row: row, col: col}
         return
     }
@@ -205,31 +214,31 @@ function recAttack(unitArray, row, col, owner, mov){
         // Invalidates enemies @ range of 1
         // Grid uses 4 square logic, i.e. can't move diagonally
         // Thus range of 1 can only be if col and row are BOTH at a distance of 1
-        if(Math.abs(originRow - row) > 1 || Math.abs(originCol - col) > 1)
+        if(Math.abs(originRow - row) > 1 || Math.abs(originCol - col) > 1 || (Math.abs(originRow - row) === 1 && Math.abs(originCol - col) === 1))
             finArray.push({row: row, col: col})
     }
 
     // Down
     if(row + 1 < height)
-        retArray = recAttack(unitArray, row + 1, col, owner, mov - 1)
+        retArray = recAttack(unitArray, row + 1, col, owner, mov - 1, height, width)
         if(retArray !== undefined){ finArray = finArray.concat(retArray) }
         retArray = []
 
     // Up
     if(row - 1 > -1)
-        retArray = recAttack(unitArray, row - 1, col, owner, mov - 1)
+        retArray = recAttack(unitArray, row - 1, col, owner, mov - 1, height, width)
         if(retArray !== undefined){ finArray = finArray.concat(retArray) }
         retArray = []
 
     // Right
     if(col + 1 < width)
-        retArray = recAttack(unitArray, row, col + 1, owner, mov - 1)
+        retArray = recAttack(unitArray, row, col + 1, owner, mov - 1, height, width)
         if(retArray !== undefined){ finArray = finArray.concat(retArray) }
         retArray = []
 
     // Left
     if(col - 1 > -1)
-        retArray = recAttack(unitArray, row, col - 1, owner, mov - 1)
+        retArray = recAttack(unitArray, row, col - 1, owner, mov - 1, height, width)
         if(retArray !== undefined){ finArray = finArray.concat(retArray) }
         retArray = []
 

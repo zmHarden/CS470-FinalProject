@@ -3,6 +3,7 @@ import React, {Fragment, useEffect, useRef, useState} from "react";
 import {Box, Button, Popover, Typography} from "@mui/material";
 import TopMessage from "./TopMessage";
 import PlayerBox from "./PlayerBox";
+import StatBox from "./StatBox";
 import Map from "./Map";
 import MapEdit from "./mapEdit"; //Definitions on what tiles differ from the generic all-plains map
 import {MapSize} from "./mapEdit"; //Size of map used
@@ -773,7 +774,6 @@ function App(props) {
         const api = new API();
         async function updateStats(gamesPlayed, wins, unitsDestroyed, unitsLost, propertiesCaptured, damageDealt, username) {
             console.log('in updateStats');
-            // dummy stats to test the function
             api.updateStats(gamesPlayed, wins, unitsDestroyed, unitsLost, propertiesCaptured, damageDealt, username)
                 .then(console.log('stats updated'));
         }
@@ -809,21 +809,34 @@ function App(props) {
                              width="100vw"
                         >
                             <Box>
-                                <br/>
-                                <Typography className="playerText" align="center" variant='h3' margin='auto' width="100vw" sx={{  border: 3, borderColor: 'black', borderRadius: '4px', backgroundColor: victory }}>
-                                    {victory} Victory!
-                                </Typography>
-                                <br/>
+                                <Box className={victory} width="99vw" sx={{mt: 5, border: 2, borderRadius: '4px'}}>
+                                    <Typography className="playerText" align="center" variant='h3' margin='auto'>
+                                        {victory} Victory!
+                                    </Typography>
+                                </Box>
 
                                 <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-                                    <Box margin='auto' sx={{border: 3, borderColor: victory}}>
-                                        <img className="victoryScreen" src={victoryImage} alt={"Victory Celebration"} />
+                                    <Box sx={{display: "flex", flexDirection: "row",}}>
+                                        <StatBox color="Red" player={redPlayer} total={false}/>
+                                        <Box sx={{mt: 5, mx: 10, border: 2}}>
+                                            <img className="victoryScreen" src={victoryImage} alt={"Victory Celebration"} />
+                                        </Box>
+                                        <StatBox color="Blue" player={bluePlayer} total={false}/>
                                     </Box>
-                                    <br/>
 
-                                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", backgroundColor: victory.toString().toLowerCase()  }}>
+                                    <Box className={victory} sx={{width: 160, height: 110, mt: 5, border: 2, borderRadius: '4px',
+                                        display: "flex", flexDirection: "column", alignItems: "center"}}>
                                         <Button
-                                            sx={{backgroundColor: '#444444', m: 0.5}}
+                                            sx={{mt: 1.5, backgroundColor: '#444444', "&:hover": { backgroundColor: '#898989' }}}
+                                            variant="contained"
+                                            size="medium"
+                                            onClick={props.replayAction}
+                                        >
+                                            Play Again
+                                        </Button>
+
+                                        <Button
+                                            sx={{mt: 1.5, backgroundColor: '#444444', "&:hover": { backgroundColor: '#898989' }}}
                                             variant="contained"
                                             size="medium"
                                             onClick={props.logoutAction}
@@ -831,11 +844,8 @@ function App(props) {
                                             Logout
                                         </Button>
                                     </Box>
-                                    <br/>
-
                                 </Box>
                             </Box>
-
                         </Box>
                     </Fragment>
             )

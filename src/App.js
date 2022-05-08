@@ -7,6 +7,7 @@ import StatBox from "./StatBox";
 import Map from "./Map";
 import MapEdit from "./mapEdit"; //Definitions on what tiles differ from the generic all-plains map
 import {MapSize} from "./mapEdit"; //Size of map used
+import {PlayerDefaults} from "./mapEdit";
 import PopupButtons from "./PopupButtons";
 import TerrainTypes from "./TerrainTypes";
 import UnitTypes from "./UnitTypes";
@@ -25,10 +26,11 @@ let moveConfirmation = false;
 function App(props) {
 
     const mapNum = props.mapNum;
+    const startStats = PlayerDefaults[mapNum];
 
-    const [redPlayer, setRedPlayer] = useState({user: props.user1, funds: 2000, properties: 2, units: 0,
+    const [redPlayer, setRedPlayer] = useState({user: props.user1, funds: startStats[0].funds, properties: startStats[0].properties, units: 0,
         stats: {gamesPlayed: 1, wins: 0, unitsDestroyed: 0, unitsLost: 0, propertiesCaptured: 0, damageDealt: 0}});
-    const [bluePlayer, setBluePlayer] = useState({user: props.user2, funds: 0, properties: 2, units: 0,
+    const [bluePlayer, setBluePlayer] = useState({user: props.user2, funds: 0, properties: startStats[1].properties, units: 0,
         stats: {gamesPlayed: 1, wins: 0, unitsDestroyed: 0, unitsLost: 0, propertiesCaptured: 0, damageDealt: 0}});
     const [victory, setVictory] = useState("");
     const [turn, setTurn] = useState("Red");

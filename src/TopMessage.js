@@ -1,34 +1,19 @@
 import React, {Fragment} from 'react';
-import Typography from '@mui/material/Typography';
+import {Typography, Box} from '@mui/material';
 import './App.css';
 
 
 const TopMessage = (props) => {
-    const whosTurn = props.whosTurn;
 
-    if(whosTurn === 'Red') {
-        return (
-            <Fragment>
-                <br/>
-                <Typography className="playerText" variant='h3' margin='auto'
-                            sx={{border: 2, borderColor: 'black', borderRadius: '4px', backgroundColor: '#b81e23', fontSize: 60}}>
+    return (
+        <Fragment>
+            <Box className={props.whosTurn} sx={{my: 5, border: 2, borderRadius: '4px'}}>
+                <Typography className="playerText" variant='h3' margin='auto' sx={{fontSize: 60}}>
                     Day {props.day}
                 </Typography>
-                <br/>
-            </Fragment>
-        )
-    }else{
-        return (
-            <Fragment>
-                <br/>
-                <Typography className="playerText" variant='h3' margin='auto'
-                            sx={{border: 2, borderColor: 'black', borderRadius: '4px', backgroundColor: '#006692', fontSize: 60}}>
-                    Day {props.day}
-                </Typography>
-                <br/>
-            </Fragment>
-        )
-    }
+            </Box>
+        </Fragment>
+    )
 }
 
 export default TopMessage;

@@ -519,6 +519,10 @@ function App(props) {
                     if(tempUnitArray[i][j].owner === "Blue")
                     {
                         tempUnitArray[i][j].exhausted = false;
+                        if(mapArray[i][j].owner === "Blue"){
+                            if(tempUnitArray[i][j].health < 80) tempUnitArray[i][j].health += 20
+                            else tempUnitArray[i][j].health = 100
+                        }
                     }
                 }
             }
@@ -536,6 +540,10 @@ function App(props) {
                     if(tempUnitArray[i][j].owner === "Red")
                     {
                         tempUnitArray[i][j].exhausted = false;
+                        if(mapArray[i][j].owner === "Red"){
+                            if(tempUnitArray[i][j].health < 80) tempUnitArray[i][j].health += 20
+                            else tempUnitArray[i][j].health = 100
+                        }
                     }
                 }
             }

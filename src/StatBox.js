@@ -7,6 +7,8 @@ const StatBox = (props) => {
     const stats = props.stats;
     const username = props.username;
     const total = props.total;
+    let winRate = 0;
+    if(stats.GamesPlayed > 0) winRate = stats.Wins / stats.GamesPlayed
 
     return (
         <Fragment>
@@ -27,7 +29,7 @@ const StatBox = (props) => {
 
                     {total && <Grid item>
                         <Typography align="center" className="playerText" sx={{fontSize: 20}}>
-                            Win Rate: {(stats.Wins / stats.GamesPlayed).toPrecision(3)}
+                            Win Rate: {(winRate).toPrecision(3)}
                         </Typography>
                     </Grid>}
 

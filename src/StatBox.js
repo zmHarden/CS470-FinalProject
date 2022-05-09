@@ -4,14 +4,9 @@ import './App.css';
 
 const StatBox = (props) => {
     const color = props.color;
-    const player = props.player;
+    const stats = props.stats;
+    const username = props.username;
     const total = props.total;
-
-    let username;
-    if (player.user === "Guest"){
-        if(color === "Red") username = "Player 1"
-        else username = "Player 2"
-    } else username = player.user.Username
 
     return (
         <Fragment>
@@ -26,37 +21,37 @@ const StatBox = (props) => {
 
                     {total && <Grid item>
                         <Typography align="center" className="playerText" sx={{fontSize: 20}}>
-                            Games Played: {player.stats.gamesPlayed}
+                            Games Played: {stats.GamesPlayed}
                         </Typography>
                     </Grid>}
 
                     {total && <Grid item>
                         <Typography align="center" className="playerText" sx={{fontSize: 20}}>
-                            Win Rate: {player.stats.wins / player.stats.gamesPlayed}
+                            Win Rate: {(stats.Wins / stats.GamesPlayed).toPrecision(3)}
                         </Typography>
                     </Grid>}
 
                     <Grid item>
                         <Typography align="center" className="playerText" sx={{fontSize: 20}}>
-                            Units Destroyed: {player.stats.unitsDestroyed}
+                            Units Destroyed: {stats.UnitsDestroyed}
                         </Typography>
                     </Grid>
 
                     <Grid item>
                         <Typography align="center" className="playerText" sx={{fontSize: 20}}>
-                            Units Lost: {player.stats.unitsLost}
+                            Units Lost: {stats.UnitsLost}
                         </Typography>
                     </Grid>
 
                     <Grid item>
                         <Typography align="center" className="playerText" sx={{fontSize: 20}}>
-                            Properties Captured: {player.stats.propertiesCaptured}
+                            Properties Captured: {stats.PropertiesCaptured}
                         </Typography>
                     </Grid>
 
                     <Grid item>
                         <Typography align="center" className="playerText" sx={{fontSize: 20}}>
-                            Damage Dealt: {player.stats.damageDealt}
+                            Damage Dealt: {stats.DamageDealt}
                         </Typography>
                     </Grid>
 

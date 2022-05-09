@@ -37,7 +37,7 @@ export default function Main() {
                 user1 !== undefined && user2 !== undefined ? (
                     map > -1 ? 
                         ( <App user1={user1} user2={user2} mapNum={map} replayAction={replay(setMap)} logoutAction={logout(setUser1, setUser2, setMap)}/> ) :
-                        ( <MapSelect setMap={setMap}/>)
+                        ( <MapSelect setMap={setMap} user1={user1} user2={user2}/>)
                 ) : (
                     <LoginPage user1={user1} setUser1={setUser1}
                                user2={user2} setUser2={setUser2}

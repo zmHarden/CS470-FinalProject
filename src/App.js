@@ -29,9 +29,9 @@ function App(props) {
     const startStats = PlayerDefaults[mapNum];
 
     const [redPlayer, setRedPlayer] = useState({user: props.user1, funds: startStats[0].funds, properties: startStats[0].properties, units: 0,
-        stats: {gamesPlayed: 1, wins: 0, unitsDestroyed: 0, unitsLost: 0, propertiesCaptured: 0, damageDealt: 0}});
+        stats: {GamesPlayed: 0, Wins: 0, UnitsDestroyed: 0, UnitsLost: 0, PropertiesCaptured: 0, DamageDealt: 0}});
     const [bluePlayer, setBluePlayer] = useState({user: props.user2, funds: 0, properties: startStats[1].properties, units: 0,
-        stats: {gamesPlayed: 1, wins: 0, unitsDestroyed: 0, unitsLost: 0, propertiesCaptured: 0, damageDealt: 0}});
+        stats: {GamesPlayed: 0, Wins: 0, UnitsDestroyed: 0, UnitsLost: 0, PropertiesCaptured: 0, DamageDealt: 0}});
     const [victory, setVictory] = useState("");
     const [turn, setTurn] = useState("Red");
     const [curPlayer, setCurPlayer] = useState(redPlayer);
@@ -50,6 +50,11 @@ function App(props) {
     const mapArrayProto = [];
     const height = MapSize[mapNum][0]
     const width = MapSize[mapNum][1]
+
+    let redUsername = 'Player 1';
+    if(redPlayer.user !== 'Guest') redUsername = redPlayer.user.Username;
+    let blueUsername = 'Player 2';
+    if(bluePlayer.user !== 'Guest') blueUsername = bluePlayer.user.Username;
 
     for(let i = 0; i < height; i++){
         let tempArray = [];
@@ -160,8 +165,8 @@ function App(props) {
                 let tempCalcDam = calcDam.slice();
                 tempUnitArray[x][y].health = tempUnitArray[x][y].health-( tempUnitArray[x][y].damage )
 
-                if(turn === "Red") redPlayer.stats.damageDealt += tempUnitArray[x][y].damage
-                else bluePlayer.stats.damageDealt += tempUnitArray[x][y].damage
+                if(turn === "Red") redPlayer.stats.DamageDealt += tempUnitArray[x][y].damage
+                else bluePlayer.stats.DamageDealt += tempUnitArray[x][y].damage
 
                 if(calcDam[0] !== -1)
                 {
@@ -193,15 +198,15 @@ function App(props) {
                     if(turn === "Red")
                     {
                         bluePlayer.units--;
-                        redPlayer.stats.unitsDestroyed++;
-                        bluePlayer.stats.unitsLost++;
+                        redPlayer.stats.UnitsDestroyed++;
+                        bluePlayer.stats.UnitsLost++;
                         if(bluePlayer.units === 0) {setVictory("Red")/*Red Victory*/}
                     }
                     else
                     {
                         redPlayer.units--;
-                        redPlayer.stats.unitsLost++;
-                        bluePlayer.stats.unitsDestroyed++;
+                        redPlayer.stats.UnitsLost++;
+                        bluePlayer.stats.UnitsDestroyed++;
                         if(redPlayer.units === 0) {setVictory("Blue")/*Blue Victory*/}
                     }
                 }
@@ -212,8 +217,8 @@ function App(props) {
                         tempUnitArray[x][y].health/100);
                     tempUnitArray[unitMove.x][unitMove.y].health = tempUnitArray[unitMove.x][unitMove.y].health - damage;
 
-                    if(turn === "Red") bluePlayer.stats.damageDealt += damage
-                    else redPlayer.stats.damageDealt += damage
+                    if(turn === "Red") bluePlayer.stats.DamageDealt += damage
+                    else redPlayer.stats.DamageDealt += damage
 
                     if (tempUnitArray[unitMove.x][unitMove.y].health <= 0)
                     {
@@ -221,15 +226,15 @@ function App(props) {
                         if(turn === "Red")
                         {
                             redPlayer.units--;
-                            redPlayer.stats.unitsLost++;
-                            bluePlayer.stats.unitsDestroyed++;
+                            redPlayer.stats.UnitsLost++;
+                            bluePlayer.stats.UnitsDestroyed++;
                             if(redPlayer.units === 0) {setVictory("Blue")/*Blue Victory*/}
                         }
                         else
                         {
                             bluePlayer.units--;
-                            redPlayer.stats.unitsDestroyed++;
-                            bluePlayer.stats.unitsLost++;
+                            redPlayer.stats.UnitsDestroyed++;
+                            bluePlayer.stats.UnitsLost++;
                             if(bluePlayer.units === 0) {setVictory("Red")/*Red Victory*/}
                         }
                     }
@@ -453,7 +458,7 @@ function App(props) {
 
                 if(tempMapArray[unitMove.x][unitMove.y].owner === "Blue") bluePlayer.properties--;
                 redPlayer.properties++;
-                redPlayer.stats.propertiesCaptured++;
+                redPlayer.stats.PropertiesCaptured++;
 
                 if(tempMapArray[unitMove.x][unitMove.y].building === "factory")
                 {
@@ -473,7 +478,7 @@ function App(props) {
             {
                 if(tempMapArray[unitMove.x][unitMove.y].owner === "Red") redPlayer.properties--;
                 bluePlayer.properties++;
-                bluePlayer.stats.propertiesCaptured++;
+                bluePlayer.stats.PropertiesCaptured++;
 
                 if(tempMapArray[unitMove.x][unitMove.y].building === "factory")
                 {
@@ -698,13 +703,36 @@ function App(props) {
 
     const [victoryImage, setVictoryImage] = useState(noUnit);
     useEffect(() => {
+        console.log(`in victory useEffect`)
         if(victory==="Red")
         {
             setVictoryImage(redVictory);
+            redPlayer.stats.Wins = 1;
+            redPlayer.stats.GamesPlayed = 1;
+            bluePlayer.stats.GamesPlayed = 1;
         }
         else if(victory==="Blue")
         {
             setVictoryImage(blueVictory);
+            bluePlayer.stats.Wins = 1;
+            redPlayer.stats.GamesPlayed = 1;
+            bluePlayer.stats.GamesPlayed = 1;
+        }
+        if(redPlayer.user !== 'Guest') {
+            redPlayer.user.GamesPlayed += redPlayer.stats.GamesPlayed;
+            redPlayer.user.Wins += redPlayer.stats.Wins;
+            redPlayer.user.UnitsDestroyed += redPlayer.stats.UnitsDestroyed;
+            redPlayer.user.UnitsLost += redPlayer.stats.UnitsLost;
+            redPlayer.user.PropertiesCaptured += redPlayer.stats.PropertiesCaptured;
+            redPlayer.user.DamageDealt += redPlayer.stats.DamageDealt;
+        }
+        if(bluePlayer.user !== 'Guest') {
+            bluePlayer.user.GamesPlayed += bluePlayer.stats.GamesPlayed;
+            bluePlayer.user.Wins += bluePlayer.stats.Wins;
+            bluePlayer.user.UnitsDestroyed += bluePlayer.stats.UnitsDestroyed;
+            bluePlayer.user.UnitsLost += bluePlayer.stats.UnitsLost;
+            bluePlayer.user.PropertiesCaptured += bluePlayer.stats.PropertiesCaptured;
+            bluePlayer.user.DamageDealt += bluePlayer.stats.DamageDealt;
         }
     }, [victory]);
 
@@ -743,13 +771,13 @@ function App(props) {
                                 {popup}
                             </Popover>
                             <Box sx={{display: "flex", flexDirection: "row", spaceBetween: "10"}}>
-                                <PlayerBox player={'Red'} redPlayer={redPlayer} bluePlayer={bluePlayer}/>
+                                <PlayerBox color={'Red'} player={redPlayer} username={redUsername}/>
                                 <Map MAP_HEIGHT={height}
                                      MAP_WIDTH={width}
                                      unitsArray={unitArray}
                                      onClickCallback={mapClick}
                                      mapArray={mapArray}/>
-                                <PlayerBox player={'Blue'} redPlayer={redPlayer} bluePlayer={bluePlayer}/>
+                                <PlayerBox color={'Blue'} player={bluePlayer} username={blueUsername}/>
                             </Box>
                         </Box>
                         <br/>
@@ -770,9 +798,7 @@ function App(props) {
     }
     else
     {
-        if(victory === "Red") redPlayer.stats.wins = 1;
-        else bluePlayer.stats.wins = 1;
-
+        //console.log(`game over`)
         const api = new API();
         async function updateStats(gamesPlayed, wins, unitsDestroyed, unitsLost, propertiesCaptured, damageDealt, username) {
             console.log('in updateStats');
@@ -780,21 +806,21 @@ function App(props) {
                 .then(console.log('stats updated'));
         }
         if(redPlayer.user !== 'Guest') {
-            updateStats(redPlayer.user.GamesPlayed + redPlayer.stats.gamesPlayed,
-                redPlayer.user.Wins + redPlayer.stats.wins,
-                redPlayer.user.UnitsDestroyed + redPlayer.stats.unitsDestroyed,
-                redPlayer.user.UnitsLost + redPlayer.stats.unitsLost,
-                redPlayer.user.PropertiesCaptured + redPlayer.stats.propertiesCaptured,
-                redPlayer.user.DamageDealt + redPlayer.stats.damageDealt,
+            updateStats(redPlayer.user.GamesPlayed,
+                redPlayer.user.Wins,
+                redPlayer.user.UnitsDestroyed,
+                redPlayer.user.UnitsLost,
+                redPlayer.user.PropertiesCaptured,
+                redPlayer.user.DamageDealt,
                 redPlayer.user.Username);
         }
         if(bluePlayer.user !== 'Guest') {
-            updateStats(bluePlayer.user.GamesPlayed + bluePlayer.stats.gamesPlayed,
-                bluePlayer.user.Wins + bluePlayer.stats.wins,
-                bluePlayer.user.UnitsDestroyed + bluePlayer.stats.unitsDestroyed,
-                bluePlayer.user.UnitsLost + bluePlayer.stats.unitsLost,
-                bluePlayer.user.PropertiesCaptured + bluePlayer.stats.propertiesCaptured,
-                bluePlayer.user.DamageDealt + bluePlayer.stats.damageDealt,
+            updateStats(bluePlayer.user.GamesPlayed,
+                bluePlayer.user.Wins,
+                bluePlayer.user.UnitsDestroyed,
+                bluePlayer.user.UnitsLost,
+                bluePlayer.user.PropertiesCaptured,
+                bluePlayer.user.DamageDealt,
                 bluePlayer.user.Username);
         }
 
@@ -819,11 +845,11 @@ function App(props) {
 
                                 <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
                                     <Box sx={{display: "flex", flexDirection: "row",}}>
-                                        <StatBox color="Red" player={redPlayer} total={false}/>
+                                        <StatBox color="Red" stats={redPlayer.stats} username={redUsername} total={false}/>
                                         <Box sx={{mt: 5, mx: 10, border: 2}}>
                                             <img className="victoryScreen" src={victoryImage} alt={"Victory Celebration"} />
                                         </Box>
-                                        <StatBox color="Blue" player={bluePlayer} total={false}/>
+                                        <StatBox color="Blue" stats={bluePlayer.stats} username={blueUsername} total={false}/>
                                     </Box>
 
                                     <Box className={victory} sx={{width: 160, height: 110, mt: 5, border: 2, borderRadius: '4px',
